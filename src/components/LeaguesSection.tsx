@@ -1,23 +1,24 @@
-const leagues = [
-  { name: "BUNDESLIGA", flag: "🇩🇪" },
-  { name: "PREMIER LEAGUE", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
-  { name: "SERIE A", flag: "🇮🇹" },
-  { name: "LA LIGA", flag: "🇪🇸" },
+const communities = [
+  { name: "STUDENTS", emoji: "🎓" },
+  { name: "STARTUP FOUNDERS", emoji: "🚀" },
+  { name: "PROFESSIONALS", emoji: "💼" },
+  { name: "INVESTORS", emoji: "📈" },
+  { name: "BUSINESS OWNERS", emoji: "🏢" },
 ];
 
 const LeaguesSection = () => {
   return (
     <section className="px-6 md:px-12 py-12">
-      {leagues.map((league, i) => (
+      {communities.map((item, i) => (
         <div
           key={i}
           className="flex items-center justify-between py-4 border-b border-border group cursor-pointer hover:bg-secondary/50 transition-colors px-2"
         >
           <div className="flex items-center gap-3">
-            <h3 className="font-display text-lg md:text-2xl font-bold tracking-wide text-foreground">{league.name}</h3>
-            <span className="text-lg">{league.flag}</span>
+            <h3 className="font-display text-lg md:text-2xl font-bold tracking-wide text-foreground">{item.name}</h3>
+            <span className="text-lg">{item.emoji}</span>
           </div>
-          <span className="font-display text-xs tracking-widest text-muted-foreground group-hover:text-foreground transition-colors">VIEW MORE</span>
+          <span className="font-display text-xs tracking-widest text-muted-foreground group-hover:text-foreground transition-colors">EXPLORE</span>
         </div>
       ))}
     </section>
