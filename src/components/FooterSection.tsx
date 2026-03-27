@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import mentorImg from "@/assets/mentor.jpg";
+import { Link } from "react-router-dom";
 
 const FooterSection = () => {
   return (
@@ -7,13 +8,18 @@ const FooterSection = () => {
       {/* Top bar */}
       <div className="px-6 md:px-12 py-6 flex flex-col md:flex-row items-start md:items-center justify-between border-b border-primary-foreground/10">
         <nav className="flex gap-6" aria-label="Footer navigation">
-          {["HOME", "EVENTS", "COMMUNITY"].map((link) => (
-            <span
-              key={link}
+          {[
+            { label: "HOME", href: "/" },
+            { label: "EVENTS", href: "/#events" },
+            { label: "APPS", href: "/apps" },
+          ].map((link) => (
+            <Link
+              key={link.label}
+              to={link.href}
               className="font-display text-xs tracking-widest text-primary-foreground/70 cursor-pointer story-link"
             >
-              <span>{link}</span>
-            </span>
+              <span>{link.label}</span>
+            </Link>
           ))}
         </nav>
         <div className="flex items-center gap-4 mt-4 md:mt-0">
@@ -31,7 +37,7 @@ const FooterSection = () => {
               loading="lazy"
               width={512}
               height={640}
-              className="w-40 h-48 object-cover img-grayscale"
+              className="w-40 h-48 object-cover media"
             />
             <div className="absolute inset-0 bg-primary/30" />
             <div className="absolute bottom-3 left-3 right-3">
@@ -50,13 +56,10 @@ const FooterSection = () => {
       <div className="px-6 md:px-12 py-8">
         <div className="flex flex-col md:flex-row justify-between gap-6 mb-10">
           <div>
-            <h4 className="font-display text-lg font-bold text-primary-foreground">
-              NEXUS
-            </h4>
-            <p className="text-xs text-primary-foreground/50 font-body max-w-xs mt-2 leading-relaxed">
-              A community-driven platform connecting students, founders,
-              professionals, investors, and business owners through curated
-              events and meaningful connections.
+            <h4 className="font-display text-lg font-bold text-primary-foreground">RIGHT SIGNAL</h4>
+            <p className="text-xs text-primary-foreground/60 font-body max-w-xs mt-2 leading-relaxed">
+              A monochrome-first community connecting students, founders, operators, and investors
+              through curated programming and thoughtful digital products.
             </p>
           </div>
         </div>
@@ -69,16 +72,12 @@ const FooterSection = () => {
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
           className="font-display text-4xl md:text-6xl lg:text-7xl font-black text-primary-foreground leading-none tracking-tight"
         >
-          HELLO@NEXUS.COM
+          HELLO@RIGHTSIGNAL.COM
         </motion.h2>
 
         <div className="flex items-center justify-center gap-6 mt-8 text-primary-foreground/40">
-          <span className="font-display text-xs tracking-widest">
-            PRIVACY POLICY
-          </span>
-          <span className="font-display text-xs tracking-widest">
-            © 2025 COPYRIGHT
-          </span>
+          <span className="font-display text-xs tracking-widest">PRIVACY POLICY</span>
+          <span className="font-display text-xs tracking-widest">© 2026 RIGHT SIGNAL</span>
         </div>
       </div>
     </footer>

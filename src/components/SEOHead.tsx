@@ -4,73 +4,68 @@ const SEOHead = () => {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Nexus Community",
+    name: "Right Signal",
     description:
-      "A thriving community platform connecting students, startup founders, professionals, investors, and business owners through curated events.",
-    url: "https://nexus-community.com",
-    logo: "https://nexus-community.com/logo.png",
+      "Right Signal brings together founders, operators, investors, and students through curated events and a monochrome, mobile-first product experience.",
+    url: "https://rightsignal.app",
+    logo: "https://rightsignal.app/right-signal-logo.jpeg",
     sameAs: [
-      "https://twitter.com/nexuscommunity",
-      "https://linkedin.com/company/nexuscommunity",
-      "https://instagram.com/nexuscommunity",
+      "https://twitter.com/rightsignal",
+      "https://linkedin.com/company/rightsignal",
+      "https://instagram.com/rightsignal",
     ],
     event: {
       "@type": "Event",
-      name: "Founders Summit 2025",
-      startDate: "2025-06-15",
+      name: "Right Signal Founders Summit 2026",
+      startDate: "2026-06-15",
       location: {
         "@type": "Place",
-        name: "Nexus Hub",
+        name: "Right Signal Hub",
         address: "San Francisco, CA",
       },
       description:
-        "An exclusive gathering of 200+ founders, investors, and mentors.",
+        "An exclusive gathering of 200+ founders, investors, and mentors to amplify new signals.",
     },
   };
 
+  const logoUrl = "https://rightsignal.app/right-signal-logo.jpeg";
+
   return (
     <Helmet>
-      <title>Nexus Community — Where Ideas Connect | Events & Networking</title>
+      <title>Right Signal — Where Signals Align | Events & Apps</title>
       <meta
         name="description"
-        content="Join Nexus — the premier community for students, startup founders, professionals, investors, and business owners. Curated events, pitch nights, workshops & networking."
+        content="Join Right Signal — the community for students, founders, operators, and investors. Curated events, clean mobile apps, workshops, and networking in a black-and-white aesthetic."
       />
+      <meta name="author" content="Nasar ul zain Azran" />
       <meta
         name="keywords"
-        content="community, networking, startup events, founders, investors, professionals, pitch night, workshops, business networking"
+        content="Right Signal, community, networking, startup events, founders, investors, professionals, pitch night, workshops, mobile app, iOS, Android"
       />
-      <link rel="canonical" href="https://nexus-community.com" />
+      <link rel="canonical" href="https://rightsignal.app" />
 
       {/* Open Graph */}
       <meta property="og:type" content="website" />
-      <meta
-        property="og:title"
-        content="Nexus Community — Where Ideas Connect"
-      />
+      <meta property="og:title" content="Right Signal — Where Signals Align" />
       <meta
         property="og:description"
-        content="Join 12,000+ members connecting at curated events, workshops, and pitch nights."
+        content="Join 12,000+ members connecting at curated events, workshops, pitch nights, and our monochrome mobile experience."
       />
-      <meta property="og:url" content="https://nexus-community.com" />
-      <meta
-        property="og:image"
-        content="https://nexus-community.com/og-image.jpg"
-      />
+      <meta property="og:url" content="https://rightsignal.app" />
+      <meta property="og:image" content={logoUrl} />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta
-        name="twitter:title"
-        content="Nexus Community — Where Ideas Connect"
-      />
+      <meta name="twitter:title" content="Right Signal — Where Signals Align" />
       <meta
         name="twitter:description"
-        content="Join 12,000+ members connecting at curated events, workshops, and pitch nights."
+        content="Join 12,000+ members connecting at curated events, workshops, pitch nights, and our monochrome mobile experience."
       />
+      <meta name="twitter:image" content={logoUrl} />
 
       {/* Viewport */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <meta name="theme-color" content="#141414" />
+      <meta name="theme-color" content="#0f0f0f" />
 
       {/* JSON-LD */}
       <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>

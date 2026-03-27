@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 
 const communities = [
-  { name: "STUDENTS", emoji: "🎓" },
-  { name: "STARTUP FOUNDERS", emoji: "🚀" },
-  { name: "PROFESSIONALS", emoji: "💼" },
-  { name: "INVESTORS", emoji: "📈" },
-  { name: "BUSINESS OWNERS", emoji: "🏢" },
+  { name: "STUDENTS", icon: "*" },
+  { name: "CREATORS", icon: "*" },
+  { name: "FOUNDERS", icon: "*" },
+  { name: "INVESTORS", icon: "*" },
+   { name: "OPERATORS", icon: "*" },
+   { name: "PROFESSIONAL", icon: "*" },
 ];
 
 const container = {
@@ -31,6 +32,7 @@ const LeaguesSection = () => {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-80px" }}
+      id="community"
       className="px-6 md:px-12 py-12"
       aria-label="Community categories"
     >
@@ -38,7 +40,7 @@ const LeaguesSection = () => {
         <motion.div
           key={i}
           variants={item}
-          whileHover={{ x: 12, backgroundColor: "hsl(0 0% 94% / 0.5)" }}
+          whileHover={{ x: 12, backgroundColor: "hsl(0 0% 92% / 0.6)" }}
           transition={{ duration: 0.25 }}
           className="flex items-center justify-between py-4 border-b border-border cursor-pointer px-2"
         >
@@ -46,13 +48,13 @@ const LeaguesSection = () => {
             <h3 className="font-display text-lg md:text-2xl font-bold tracking-wide text-foreground">
               {c.name}
             </h3>
-            <span className="text-lg">{c.emoji}</span>
+            <span className="text-sm text-muted-foreground">{c.icon}</span>
           </div>
           <motion.span
             whileHover={{ letterSpacing: "0.2em" }}
             className="font-display text-xs tracking-widest text-muted-foreground"
           >
-            EXPLORE
+            ENGAGE
           </motion.span>
         </motion.div>
       ))}

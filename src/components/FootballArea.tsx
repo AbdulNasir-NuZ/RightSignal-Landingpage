@@ -31,16 +31,14 @@ const FootballArea = () => {
         <p className="font-display text-xs tracking-widest text-muted-foreground">
           MEET OUR
           <br />
-          COMMUNITY
+          SIGNAL
           <br />
           LEADERS
         </p>
         <h2 className="font-display text-5xl md:text-7xl font-black text-foreground">
           COMMUNITY HUB
         </h2>
-        <p className="font-display text-xs tracking-widest text-muted-foreground">
-          2024/2025
-        </p>
+        <p className="font-display text-xs tracking-widest text-muted-foreground">2026</p>
       </motion.div>
 
       {/* Cards grid */}
@@ -63,28 +61,18 @@ const FootballArea = () => {
               loading="lazy"
               width={512}
               height={512}
-              className="w-10 h-10 rounded-full object-cover img-grayscale"
+              className="w-10 h-10 rounded-full object-cover media"
             />
-            <span className="font-display text-lg font-bold text-foreground">
-              SARAH CHEN
-            </span>
+            <span className="font-display text-lg font-bold text-foreground">SARAH CHEN</span>
           </div>
           <div className="flex gap-4 mb-4">
             <div>
-              <span className="font-display text-3xl font-black text-foreground">
-                48
-              </span>
-              <span className="font-display text-xs text-muted-foreground ml-1">
-                INVESTMENTS
-              </span>
+              <span className="font-display text-3xl font-black text-foreground">48</span>
+              <span className="font-display text-xs text-muted-foreground ml-1">INVESTMENTS</span>
             </div>
             <div>
-              <span className="font-display text-3xl font-black text-foreground">
-                12
-              </span>
-              <span className="font-display text-xs text-muted-foreground ml-1">
-                EXITS
-              </span>
+              <span className="font-display text-3xl font-black text-foreground">12</span>
+              <span className="font-display text-xs text-muted-foreground ml-1">EXITS</span>
             </div>
           </div>
           <div className="mb-2">
@@ -124,7 +112,7 @@ const FootballArea = () => {
             loading="lazy"
             width={512}
             height={640}
-            className="w-full h-full object-cover img-grayscale min-h-[350px]"
+            className="w-full h-full object-cover media min-h-[350px]"
           />
           <div className="absolute inset-0 bg-primary/30" />
           <div className="absolute top-4 right-4 bg-primary-foreground/20 backdrop-blur-sm rounded-full p-2">
@@ -138,8 +126,8 @@ const FootballArea = () => {
               ARJUN PATEL
             </h3>
             <p className="text-xs text-primary-foreground/70 font-body mt-1">
-              Serial entrepreneur and YC alum. Built 3 startups from zero, now
-              mentoring the next generation of founders.
+              Serial entrepreneur and YC alum. Built 3 startups from zero, now mentoring the next
+              generation of founders.
             </p>
             <div className="flex gap-2 mt-3">
               <Instagram className="w-4 h-4 text-primary-foreground/70" />
@@ -161,18 +149,14 @@ const FootballArea = () => {
           className="bg-secondary rounded-xl p-5 flex flex-col items-center justify-center text-center"
         >
           <motion.div
-            animate={{ rotate: [0, 5, -5, 0] }}
+            animate={{ rotate: [0, 4, -4, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="w-24 h-24 mb-4 flex items-center justify-center"
+            className="w-24 h-24 mb-4 flex items-center justify-center border border-border rounded-full"
           >
-            <div className="font-display text-5xl">🌐</div>
+            <div className="font-display text-lg tracking-widest">GLOBAL</div>
           </motion.div>
-          <h3 className="font-display text-2xl font-bold text-foreground">
-            GLOBAL NETWORK
-          </h3>
-          <p className="font-display text-sm text-muted-foreground mt-1">
-            25+ CITIES
-          </p>
+          <h3 className="font-display text-2xl font-bold text-foreground">GLOBAL NETWORK</h3>
+          <p className="font-display text-sm text-muted-foreground mt-1">25+ CITIES</p>
         </motion.div>
       </div>
     </section>

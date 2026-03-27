@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,20 +6,20 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 5%;
-    --card: 0 0% 97%;
-    --card-foreground: 0 0% 5%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 5%;
-    --primary: 0 0% 8%;
+    --background: 0 0% 98%;
+    --foreground: 0 0% 7%;
+    --card: 0 0% 96%;
+    --card-foreground: 0 0% 7%;
+    --popover: 0 0% 98%;
+    --popover-foreground: 0 0% 7%;
+    --primary: 0 0% 9%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 94%;
-    --secondary-foreground: 0 0% 8%;
-    --muted: 0 0% 94%;
-    --muted-foreground: 0 0% 45%;
-    --accent: 0 0% 90%;
-    --accent-foreground: 0 0% 8%;
+    --secondary: 0 0% 90%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 0 0% 88%;
+    --muted-foreground: 0 0% 42%;
+    --accent: 0 0% 85%;
+    --accent-foreground: 0 0% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
     --border: 0 0% 88%;
@@ -35,8 +35,8 @@
     --sidebar-border: 0 0% 91%;
     --sidebar-ring: 0 0% 60%;
 
-    --font-display: 'Oswald', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Manrope', sans-serif;
   }
 }
 
@@ -57,12 +57,34 @@
 }
 
 @layer utilities {
+  .media,
   .img-grayscale {
     filter: grayscale(100%);
-    transition: filter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.4s ease, filter 0.4s ease;
+    transform-origin: center;
+    backface-visibility: hidden;
   }
+
+  .media:hover,
   .img-grayscale:hover {
     filter: grayscale(0%);
+    transform: scale(1.04);
+  }
+
+  video.media {
+    filter: grayscale(100%) brightness(0.82);
+  }
+
+  video.media:hover {
+    filter: grayscale(0%) brightness(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .media,
+    .img-grayscale {
+      transition: filter 0.2s ease;
+      transform: none !important;
+    }
   }
   .font-display {
     font-family: var(--font-display);

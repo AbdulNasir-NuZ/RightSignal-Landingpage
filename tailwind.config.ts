@@ -59,8 +59,8 @@ export default {
         },
       },
       fontFamily: {
-        display: ["Oswald", "sans-serif"],
-        body: ["Inter", "sans-serif"],
+        display: ["Space Grotesk", "sans-serif"],
+        body: ["Manrope", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
