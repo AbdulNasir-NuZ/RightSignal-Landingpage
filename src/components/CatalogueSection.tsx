@@ -1,5 +1,5 @@
-import { motion, useMotionValue, animate } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, animate, useInView, useMotionValue } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import speakerImg from "@/assets/speaker-keynote.jpg";
 import eventPosterImg from "@/assets/event-poster.jpg";
 import signatureImg from "@/assets/signature.png";
@@ -34,18 +34,29 @@ const stats = [
   },
 ];
 
-const CountUp = ({ value, suffix = "", duration = 1.4 }: { value: number; suffix?: string; duration?: number }) => {
+const CountUp = ({
+  value,
+  suffix = "",
+  duration = 1.5,
+  start = false,
+}: {
+  value: number;
+  suffix?: string;
+  duration?: number;
+  start?: boolean;
+}) => {
   const motionValue = useMotionValue(0);
   const [display, setDisplay] = useState(0);
 
   useEffect(() => {
+    if (!start) return;
     const controls = animate(motionValue, value, {
       duration,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.16, 1, 0.3, 1], // ease-out-ish
       onUpdate: (latest) => setDisplay(Math.round(latest)),
     });
     return () => controls.stop();
-  }, [motionValue, value, duration]);
+  }, [motionValue, value, duration, start]);
 
   return (
     <motion.span>
@@ -56,6 +67,9 @@ const CountUp = ({ value, suffix = "", duration = 1.4 }: { value: number; suffix
 };
 
 const CatalogueSection = () => {
+  const statsRef = useRef<HTMLDivElement>(null);
+  const statsInView = useInView(statsRef, { once: true, amount: 0.3 });
+
   return (
     <section id="events" className="px-6 md:px-12 py-16" aria-label="Upcoming events catalogue">
       {/* Title */}
@@ -159,6 +173,7 @@ const CatalogueSection = () => {
         whileInView="visible"
         viewport={{ once: true, margin: "-40px" }}
         className="flex flex-col md:flex-row items-center justify-between mt-10 gap-6"
+        ref={statsRef}
       >
         {stats.map((s, i) => (
           <motion.div key={i} variants={fadeUp} custom={i * 0.15} className="text-center">
@@ -166,7 +181,7 @@ const CatalogueSection = () => {
               {s.label}
             </p>
             <p className="font-display text-3xl font-bold text-foreground mt-1">
-              <CountUp value={s.value} suffix={s.suffix} />
+              <CountUp value={s.value} suffix={s.suffix} start={statsInView} />
             </p>
             <p className="text-xs text-muted-foreground font-body">{s.sub}</p>
           </motion.div>
