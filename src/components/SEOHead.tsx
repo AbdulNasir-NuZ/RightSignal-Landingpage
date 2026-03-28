@@ -7,8 +7,8 @@ const SEOHead = () => {
     name: "Right Signal",
     description:
       "Right Signal brings together founders, operators, investors, and students through curated events and a monochrome, mobile-first product experience.",
-    url: "https://rightsignal.app",
-    logo: "https://rightsignal.app/right-signal-logo.jpeg",
+    url: "https://rightsignal.social",
+    logo: "https://rightsignal.social/right-signal-logo.jpeg",
     sameAs: [
       "https://twitter.com/rightsignal",
       "https://linkedin.com/company/rightsignal",
@@ -28,7 +28,7 @@ const SEOHead = () => {
     },
   };
 
-  const logoUrl = "https://rightsignal.app/right-signal-logo.jpeg";
+  const logoUrl = "https://rightsignal.social/right-signal-logo.jpeg";
 
   return (
     <Helmet>
@@ -42,7 +42,7 @@ const SEOHead = () => {
         name="keywords"
         content="Right Signal, community, networking, startup events, founders, investors, professionals, pitch night, workshops, mobile app, iOS, Android"
       />
-      <link rel="canonical" href="https://rightsignal.app" />
+      <link rel="canonical" href="https://rightsignal.social" />
 
       {/* Open Graph */}
       <meta property="og:type" content="website" />
@@ -51,7 +51,7 @@ const SEOHead = () => {
         property="og:description"
         content="Join 12,000+ members connecting at curated events, workshops, pitch nights, and our monochrome mobile experience."
       />
-      <meta property="og:url" content="https://rightsignal.app" />
+      <meta property="og:url" content="https://rightsignal.social" />
       <meta property="og:image" content={logoUrl} />
 
       {/* Twitter */}

@@ -28,7 +28,7 @@ const AppShowcase = () => {
           name="description"
           content="Explore the Right Signal iOS and Android apps. Black-and-white by default, full color on hover or tap, with smooth 0.4s transitions."
         />
-        <link rel="canonical" href="https://rightsignal.app/apps" />
+        <link rel="canonical" href="https://rightsignal.social/apps" />
       </Helmet>
 
       <main className="min-h-screen bg-background text-foreground">
@@ -71,7 +71,7 @@ const AppShowcase = () => {
                   VIEW ANDROID
                 </Link>
                 <a
-                  href="mailto:hello@rightsignal.com"
+                  href="mailto:hello@rightsignal.social"
                   className="font-display text-xs tracking-widest px-4 py-3 bg-foreground text-background rounded-lg hover:bg-foreground/90 transition-colors"
                 >
                   REQUEST ACCESS

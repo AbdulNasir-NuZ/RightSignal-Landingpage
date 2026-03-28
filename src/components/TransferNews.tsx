@@ -172,7 +172,7 @@ const TransferNews = () => {
           <motion.div
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.4 }}
-            className="relative flex-1 rounded-xl overflow-hidden cursor-pointer"
+            className="relative flex-1 rounded-xl overflow-hidden cursor-pointer group"
           >
             <img
               src={slide.hero.src}
@@ -180,7 +180,7 @@ const TransferNews = () => {
               loading="lazy"
               width={640}
               height={800}
-              className="w-full h-80 object-cover media"
+              className="w-full h-80 object-cover media transition duration-300 group-hover:filter-none group-hover:scale-[1.02]"
             />
             <div className="absolute inset-0 bg-primary/20" />
             <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-xs tracking-widest text-primary-foreground bg-primary/50 px-3 py-1.5 rounded">

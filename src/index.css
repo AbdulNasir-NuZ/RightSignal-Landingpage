@@ -71,12 +71,42 @@
     transform: scale(1.04);
   }
 
+  .media:focus-visible,
+  .media:active,
+  .img-grayscale:focus-visible,
+  .img-grayscale:active {
+    filter: grayscale(0%);
+    transform: scale(1.04);
+  }
+
   video.media {
     filter: grayscale(100%) brightness(0.82);
   }
 
   video.media:hover {
     filter: grayscale(0%) brightness(1);
+  }
+
+  video.media:focus-visible,
+  video.media:active {
+    filter: grayscale(0%) brightness(1);
+  }
+
+  @media (hover: none) {
+    .media,
+    .img-grayscale {
+      transition: filter 0.3s ease, transform 0.3s ease;
+    }
+
+    .media:active,
+    .img-grayscale:active {
+      filter: grayscale(0%);
+      transform: scale(1.02);
+    }
+
+    video.media:active {
+      filter: grayscale(0%) brightness(1);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

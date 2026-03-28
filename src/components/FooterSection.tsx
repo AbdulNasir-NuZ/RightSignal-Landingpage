@@ -72,7 +72,7 @@ const FooterSection = () => {
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
           className="font-display text-4xl md:text-6xl lg:text-7xl font-black text-primary-foreground leading-none tracking-tight"
         >
-          HELLO@RIGHTSIGNAL.COM
+          HELLO@RIGHTSIGNAL.SOCIAL
         </motion.h2>
 
         <div className="flex items-center justify-center gap-6 mt-8 text-primary-foreground/40">
