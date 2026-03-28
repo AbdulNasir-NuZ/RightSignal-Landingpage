@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, useMotionValue, animate } from "framer-motion";
+import { useEffect, useState } from "react";
 import speakerImg from "@/assets/speaker-keynote.jpg";
 import eventPosterImg from "@/assets/event-poster.jpg";
 import signatureImg from "@/assets/signature.png";
@@ -15,20 +16,44 @@ const fadeUp = {
 const stats = [
   {
     label: "PROGRAMS THIS QUARTER",
-    stat: "50+",
+    value: 50,
+    suffix: "+",
     sub: "workshops, pitch nights, deep dives",
   },
   {
     label: "MEMBERS",
-    stat: "12K",
+    value: 12000,
+    suffix: "",
     sub: "active across cities",
   },
   {
     label: "CONNECTIONS",
-    stat: "50K",
+    value: 50000,
+    suffix: "",
     sub: "intros & collaborations",
   },
 ];
+
+const CountUp = ({ value, suffix = "", duration = 1.4 }: { value: number; suffix?: string; duration?: number }) => {
+  const motionValue = useMotionValue(0);
+  const [display, setDisplay] = useState(0);
+
+  useEffect(() => {
+    const controls = animate(motionValue, value, {
+      duration,
+      ease: [0.22, 1, 0.36, 1],
+      onUpdate: (latest) => setDisplay(Math.round(latest)),
+    });
+    return () => controls.stop();
+  }, [motionValue, value, duration]);
+
+  return (
+    <motion.span>
+      {display.toLocaleString()}
+      {suffix}
+    </motion.span>
+  );
+};
 
 const CatalogueSection = () => {
   return (
@@ -140,7 +165,9 @@ const CatalogueSection = () => {
             <p className="font-display text-xs tracking-widest text-muted-foreground whitespace-pre-line">
               {s.label}
             </p>
-            <p className="font-display text-3xl font-bold text-foreground mt-1">{s.stat}</p>
+            <p className="font-display text-3xl font-bold text-foreground mt-1">
+              <CountUp value={s.value} suffix={s.suffix} />
+            </p>
             <p className="text-xs text-muted-foreground font-body">{s.sub}</p>
           </motion.div>
         ))}

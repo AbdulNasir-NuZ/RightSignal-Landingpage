@@ -15,7 +15,8 @@ const HeroSection = () => {
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
 
   return (
-    <section ref={ref} className="relative w-full h-[85vh] overflow-hidden">
+    <>
+      <section ref={ref} className="relative w-full h-[85vh] overflow-hidden">
       {/* Nav */}
       <motion.nav
         initial={{ y: -40, opacity: 0 }}
@@ -34,11 +35,11 @@ const HeroSection = () => {
           <span className="font-display text-sm tracking-wider text-primary-foreground">RIGHT SIGNAL</span>
         </div>
         <div className="flex items-center gap-6">
-          <Link to="/#events" className="font-display text-sm tracking-wider text-primary-foreground cursor-pointer story-link">
-            <span>EVENTS</span>
+          <Link to="/" className="font-display text-sm tracking-wider text-primary-foreground cursor-pointer story-link">
+            <span>HOME</span>
           </Link>
-          <Link to="/#community" className="font-display text-sm tracking-wider text-primary-foreground cursor-pointer story-link">
-            <span>COMMUNITY</span>
+          <Link to="/events" className="font-display text-sm tracking-wider text-primary-foreground cursor-pointer story-link">
+            <span>EVENTS</span>
           </Link>
           <Link to="/apps" className="font-display text-sm tracking-wider text-primary-foreground cursor-pointer story-link">
             <span>APPS</span>
@@ -46,6 +47,12 @@ const HeroSection = () => {
         </div>
         <span className="font-display text-sm tracking-wider text-primary-foreground">JOIN US 2026</span>
       </motion.nav>
+
+      <div className="absolute top-14 left-6 md:left-12 text-white">
+        <p className="font-display text-[10px] tracking-[0.28em] text-white">
+          RIGHT PEOPLE. RIGHT SIGNAL. RIGHT GROWTH.
+        </p>
+      </div>
 
       {/* Parallax hero image */}
       <motion.div style={{ y, scale }} className="absolute inset-0">
@@ -64,7 +71,7 @@ const HeroSection = () => {
       {/* Big title with stagger */}
       <motion.div
         style={{ opacity }}
-        className="absolute inset-0 flex items-center justify-center z-10"
+        className="absolute inset-0 flex flex-col items-center justify-center z-10"
       >
         <motion.h1
           initial={{ y: 60, opacity: 0, letterSpacing: "0.3em" }}
@@ -74,6 +81,14 @@ const HeroSection = () => {
         >
           RIGHT SIGNAL
         </motion.h1>
+        {/* <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-3 md:mt-4 text-white text-xs md:text-sm uppercase text-center leading-relaxed font-black"
+        >
+          RIGHT PEOPLE. RIGHT SIGNAL. RIGHT GROWTH.
+        </motion.p> */}
       </motion.div>
 
       {/* Bottom info */}
@@ -91,7 +106,13 @@ const HeroSection = () => {
           investors, and operators to connect, learn, and ship together.
         </p>
       </motion.div>
-    </section>
+      </section>
+      <div className="text-center py-6 bg-background">
+        <p className="font-display text-xs md:text-sm tracking-[0.28em] text-foreground font-black uppercase">
+          RIGHT PEOPLE. RIGHT SIGNAL. RIGHT GROWTH.
+        </p>
+      </div>
+    </>
   );
 };
 

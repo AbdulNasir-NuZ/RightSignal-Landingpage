@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import { Home } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import rightSignalLogo from "@/assets/right-signal-logo.jpeg";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -55,16 +57,28 @@ const Auth = () => {
 
   return (
     <main className="min-h-screen bg-background text-foreground flex items-center justify-center px-6 py-12">
+      <Link
+        to="/"
+        className="fixed top-6 left-6 w-10 h-10 rounded-md border border-border bg-secondary flex items-center justify-center hover:bg-secondary/70 transition"
+        aria-label="Back to Home"
+      >
+        <Home className="w-4 h-4" />
+      </Link>
       <div className="w-full max-w-md space-y-6">
         <div className="space-y-2 text-center">
+          <img
+            src={rightSignalLogo}
+            alt="Right Signal"
+            className="w-14 h-14 rounded-xl mx-auto mb-2"
+          />
           <p className="font-display text-xs tracking-[0.3em] text-muted-foreground">RIGHT SIGNAL</p>
           <h1 className="font-display text-4xl font-black">Join Community</h1>
-          <p className="text-sm text-muted-foreground">Authenticate to continue.</p>
+          <p className="text-sm text-muted-foreground">Sign in to continue.</p>
         </div>
 
         {error && (
           <Alert variant="destructive">
-            <AlertDescription>{error}</AlertDescription>
+            <AlertDescription className="text-red-600">{error}</AlertDescription>
           </Alert>
         )}
 
@@ -107,6 +121,9 @@ const Auth = () => {
         <Button variant="outline" className="w-full" onClick={handleGoogle}>
           Continue with Google
         </Button>
+        <div className="text-center text-xs text-muted-foreground">
+          Need help? <Link to="/events" className="underline">See events</Link> or <Link to="/" className="underline">Home</Link>
+        </div>
       </div>
     </main>
   );

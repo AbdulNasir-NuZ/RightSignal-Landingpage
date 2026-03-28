@@ -7,6 +7,7 @@ import Index from "./pages/Index.tsx";
 import AppShowcase from "./pages/AppShowcase.tsx";
 import Auth from "./pages/Auth.tsx";
 import JoinCommunity from "./pages/JoinCommunity.tsx";
+import Events from "./pages/Events.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/apps" element={<AppShowcase />} />
+          <Route path="/events" element={<Events />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/join" element={<JoinCommunity />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
