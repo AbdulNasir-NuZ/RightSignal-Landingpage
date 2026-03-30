@@ -16,6 +16,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -25,21 +26,52 @@ const Auth = () => {
     });
   }, [navigate]);
 
-  const handleEmailAuth = async (mode: "signIn" | "signUp") => {
+  const handleEmailAuth = async () => {
     if (!supabase) {
       setError("Supabase is not configured.");
       return;
     }
+    
+    if (!email || !password) {
+      setError("Please fill in both email and password.");
+      return;
+    }
+
     setLoading(true);
     setError(null);
-    const fn =
-      mode === "signIn"
-        ? supabase.auth.signInWithPassword({ email, password })
-        : supabase.auth.signUp({ email, password });
-    const { error: err } = await fn;
+    setSuccess(null);
+
+    // 1. Try to sign in first
+    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    
+    if (!signInError) {
+      setLoading(false);
+      navigate(redirectTo, { replace: true });
+      return;
+    }
+
+    // 2. If sign-in fails because user not found/invalid credentials, try to sign up
+    if (signInError.message.toLowerCase().includes("invalid login credentials")) {
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({ email, password });
+      
+      setLoading(false);
+      
+      if (signUpError) return setError(signUpError.message);
+
+      if (signUpData.user && !signUpData.session) {
+        setSuccess("Account created! Please check your email inbox to confirm.");
+        return;
+      }
+      
+      if (signUpData.session) {
+        navigate(redirectTo, { replace: true });
+        return;
+      }
+    }
+
+    // 3. Otherwise show the sign-in error (like unconfirmed email)
     setLoading(false);
-    if (err) return setError(err.message);
-    navigate(redirectTo, { replace: true });
+    setError(signInError.message);
   };
 
   const handleGoogle = async () => {
@@ -47,6 +79,8 @@ const Auth = () => {
       setError("Supabase is not configured.");
       return;
     }
+    setSuccess(null);
+    setError(null);
     const origin = window.location.origin;
     const { error: err } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -85,6 +119,12 @@ const Auth = () => {
           </Alert>
         )}
 
+        {success && (
+          <Alert className="border-green-600 bg-green-50">
+            <AlertDescription className="text-green-600">{success}</AlertDescription>
+          </Alert>
+        )}
+
         <div className="grid gap-3">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -102,14 +142,13 @@ const Auth = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <div className="flex gap-2">
-            <Button className="flex-1" disabled={loading} onClick={() => handleEmailAuth("signIn")}>
-              {loading ? "Signing in..." : "Login"}
-            </Button>
-            <Button variant="secondary" className="flex-1" disabled={loading} onClick={() => handleEmailAuth("signUp")}>
-              {loading ? "Signing up..." : "Sign Up"}
-            </Button>
-          </div>
+          <Button 
+            className="w-full text-xs font-display tracking-widest py-6" 
+            disabled={loading} 
+            onClick={() => handleEmailAuth()}
+          >
+            {loading ? "PROCESSING..." : "LOGIN / SIGN UP"}
+          </Button>
         </div>
 
         <div className="relative">

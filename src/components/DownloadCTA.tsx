@@ -1,8 +1,28 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { supabase } from "@/lib/supabaseClient";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import rightSignalLogo from "@/assets/right-signal-logo.jpeg";
 import { motion } from "framer-motion";
 
 const DownloadCTA = () => {
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    if (!supabase) return;
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
   return (
     <section className="px-6 md:px-12 py-16" aria-label="Download our application">
       <div className="bg-primary text-primary-foreground rounded-2xl p-8 md:p-12 flex flex-col md:flex-row gap-8 items-center justify-between overflow-hidden">
@@ -40,18 +60,55 @@ const DownloadCTA = () => {
           transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-col sm:flex-row gap-3"
         >
-          <Link
-            to="/apps#ios"
-            className="font-display text-xs tracking-widest px-5 py-3 rounded-lg border border-primary-foreground bg-primary-foreground text-primary hover:bg-primary-foreground/90 transition-colors"
-          >
-            DOWNLOAD ON iOS
-          </Link>
-          <Link
-            to="/apps#android"
-            className="font-display text-xs tracking-widest px-5 py-3 rounded-lg border border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 transition-colors"
-          >
-            GET IT ON ANDROID
-          </Link>
+          <TooltipProvider>
+            <Tooltip delayDuration={300}>
+              <TooltipTrigger asChild>
+                {session ? (
+                  <Link
+                    to="/join"
+                    className="font-display text-xs tracking-widest px-8 py-4 rounded-xl border-2 border-primary-foreground bg-primary-foreground text-primary hover:bg-primary-foreground/90 transition-all text-center min-w-[220px]"
+                  >
+                    DOWNLOAD ON iOS
+                  </Link>
+                ) : (
+                  <button
+                    className="font-display text-xs tracking-widest px-8 py-4 rounded-xl border-2 border-primary-foreground bg-primary-foreground/50 text-white/50 cursor-not-allowed transition-all text-center min-w-[220px]"
+                  >
+                    DOWNLOAD ON iOS
+                  </button>
+                )}
+              </TooltipTrigger>
+              {!session && (
+                <TooltipContent className="bg-primary-foreground text-primary border-none mb-2">
+                  <p className="font-display text-[10px] tracking-widest uppercase">Please sign in to download</p>
+                </TooltipContent>
+              )}
+            </Tooltip>
+
+            <Tooltip delayDuration={300}>
+              <TooltipTrigger asChild>
+                {session ? (
+                  <Link
+                    to="/join"
+                    className="font-display text-xs tracking-widest px-8 py-4 rounded-xl border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 transition-all text-center min-w-[220px]"
+                  >
+                    GET IT ON ANDROID
+                  </Link>
+                ) : (
+                  <button
+                    className="font-display text-xs tracking-widest px-8 py-4 rounded-xl border-2 border-primary-foreground text-primary-foreground/50 cursor-not-allowed transition-all text-center min-w-[220px]"
+                  >
+                    GET IT ON ANDROID
+                  </button>
+                )}
+              </TooltipTrigger>
+              {!session && (
+                <TooltipContent className="bg-primary-foreground text-primary border-none mb-2">
+                  <p className="font-display text-[10px] tracking-widest uppercase">Please sign in to download</p>
+                </TooltipContent>
+              )}
+            </Tooltip>
+          </TooltipProvider>
         </motion.div>
       </div>
     </section>
