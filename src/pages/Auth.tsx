@@ -21,9 +21,9 @@ const Auth = () => {
   useEffect(() => {
     if (!supabase) return;
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate(redirectTo, { replace: true });
+      if (data.session) navigate("/", { replace: true });
     });
-  }, [navigate, redirectTo]);
+  }, [navigate]);
 
   const handleEmailAuth = async (mode: "signIn" | "signUp") => {
     if (!supabase) {
@@ -50,7 +50,10 @@ const Auth = () => {
     const origin = window.location.origin;
     const { error: err } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${origin}${redirectTo}` },
+      options: { 
+        redirectTo: origin,
+        queryParams: { prompt: 'select_account' } 
+      },
     });
     if (err) setError(err.message);
   };

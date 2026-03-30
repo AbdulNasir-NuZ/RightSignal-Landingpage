@@ -1,11 +1,43 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { supabase } from "@/lib/supabaseClient";
 import heroImg from "@/assets/hero-community.jpg";
 import rightSignalLogo from "@/assets/right-signal-logo.jpeg";
 
 const HeroSection = () => {
   const ref = useRef<HTMLElement>(null);
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    if (!supabase) return;
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    if (!supabase) return;
+    await supabase.auth.signOut();
+    setSession(null);
+  };
+
+  const handleGoogle = async () => {
+    if (!supabase) return;
+    const origin = window.location.origin;
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { 
+        redirectTo: origin,
+        queryParams: { prompt: 'select_account' } 
+      },
+    });
+  };
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -45,7 +77,36 @@ const HeroSection = () => {
             <span>APPS</span>
           </Link>
         </div>
-        <span className="font-display text-sm tracking-wider text-primary-foreground">JOIN US 2026</span>
+          {session ? (
+            <div className="flex items-center gap-4">
+              <span className="font-display text-[10px] tracking-widest text-primary-foreground/60 hidden sm:block">
+                {session.user.email}
+              </span>
+              <div className="flex items-center gap-2">
+                <Link
+                  to="/"
+                  className="font-display text-xs tracking-widest px-4 py-2 rounded-full border border-primary-foreground/30 text-primary-foreground transition-colors"
+                >
+                  ACCOUNT
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="font-display text-[10px] tracking-widest text-primary-foreground/50 hover:text-primary-foreground transition-colors uppercase ml-2"
+                >
+                  Sign Out
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center gap-4">
+              <Link
+                to="/auth"
+                className="font-display text-xs tracking-widest px-4 py-2 rounded-full border border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 transition-colors"
+              >
+                SIGN IN
+              </Link>
+            </div>
+          )}
       </motion.nav>
 
       <div className="absolute top-14 left-6 md:left-12 text-white">

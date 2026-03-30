@@ -12,6 +12,7 @@ const FooterSection = () => {
             { label: "HOME", href: "/" },
             { label: "EVENTS", href: "/#events" },
             { label: "APPS", href: "/apps" },
+            { label: "SIGN IN", href: "/auth" },
           ].map((link) => (
             <Link
               key={link.label}
