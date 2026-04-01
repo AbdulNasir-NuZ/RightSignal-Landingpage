@@ -2,12 +2,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/lib/supabaseClient";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import heroImg from "@/assets/hero-community.jpg";
 import rightSignalLogo from "@/assets/right-signal-logo.jpeg";
 
@@ -107,9 +101,9 @@ const HeroSection = () => {
             <div className="flex items-center gap-4">
               <Link
                 to="/auth"
-                className="font-display text-xs tracking-widest px-4 py-2 rounded-full border border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 transition-colors"
+                className="font-display text-sm tracking-wider text-primary-foreground cursor-pointer story-link"
               >
-                SIGN IN
+                JOIN 2026
               </Link>
             </div>
           )}
@@ -168,34 +162,9 @@ const HeroSection = () => {
         <p className="font-display text-xs tracking-widest text-primary-foreground/80">
           WHERE SIGNALS ALIGN
         </p>
-        <div className="text-xs text-primary-foreground/70 font-body leading-relaxed max-w-xs text-right">
+        <div className="text-xs text-primary-foreground/70 font-body leading-relaxed max-w-xs text-left">
           A monochrome-first community for students, founders, professionals,
           investors, and operators to connect, learn, and ship together.
-          <TooltipProvider>
-            <Tooltip delayDuration={300}>
-              <TooltipTrigger asChild>
-                {session ? (
-                  <Link
-                    to="/join"
-                    className="mt-6 inline-block font-display text-xs tracking-widest px-10 py-4 rounded-full border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary transition-all duration-300"
-                  >
-                    DOWNLOAD APP
-                  </Link>
-                ) : (
-                  <button
-                    className="mt-6 inline-block font-display text-xs tracking-widest px-10 py-4 rounded-full border-2 border-primary-foreground text-primary-foreground/50 cursor-not-allowed transition-all duration-300"
-                  >
-                    DOWNLOAD APP
-                  </button>
-                )}
-              </TooltipTrigger>
-              {!session && (
-                <TooltipContent className="bg-foreground text-background border-none mb-2">
-                  <p className="font-display text-[10px] tracking-widest">PLEASE SIGN IN TO DOWNLOAD</p>
-                </TooltipContent>
-              )}
-            </Tooltip>
-          </TooltipProvider>
         </div>
       </motion.div>
       </section>
