@@ -1,14 +1,23 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useAnimationFrame, useMotionValue } from "framer-motion";
+import heroCommunity from "@/assets/hero-community.jpg";
+import workshop from "@/assets/workshop.jpg";
+import mentor from "@/assets/mentor.jpg";
+import speakerKeynote from "@/assets/speaker-keynote.jpg";
+import founderPortrait from "@/assets/founder-portrait.jpg";
+import investorPortrait from "@/assets/investor-portrait.jpg";
+import magazineCover from "@/assets/magazine-cover.jpg";
+import eventPoster from "@/assets/event-poster.jpg";
 
 const baseImages = [
-  "/team/1.png",
-  "/team/2.png",
-  "/team/4.png",
-  "/team/5.png",
-  "/team/6.png",
-  "/team/7.png",
-  "/team/8.png",
+  heroCommunity,
+  workshop,
+  mentor,
+  speakerKeynote,
+  founderPortrait,
+  investorPortrait,
+  magazineCover,
+  eventPoster,
 ].filter(Boolean);
 
 const TeamImageCarousel = () => {

@@ -1,7 +1,6 @@
 import { useMemo } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Home } from "lucide-react";
 import heroCommunity from "@/assets/hero-community.jpg";
 import eventPoster from "@/assets/event-poster.jpg";
 import transferImg from "@/assets/transfer.jpg";
@@ -56,13 +55,6 @@ const Events = () => {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <Link
-        to="/"
-        className="fixed top-6 left-6 w-10 h-10 rounded-md border border-border bg-secondary flex items-center justify-center hover:bg-secondary/70 transition"
-        aria-label="Back to Home"
-      >
-        <Home className="w-4 h-4" />
-      </Link>
       {/* Hero Banner */}
       <section className="relative h-[70vh] w-full overflow-hidden group">
         <img

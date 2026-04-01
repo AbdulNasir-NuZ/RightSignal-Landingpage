@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { Home } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -94,13 +93,6 @@ const Auth = () => {
 
   return (
     <main className="min-h-screen bg-background text-foreground flex items-center justify-center px-6 py-12">
-      <Link
-        to="/"
-        className="fixed top-6 left-6 w-10 h-10 rounded-md border border-border bg-secondary flex items-center justify-center hover:bg-secondary/70 transition"
-        aria-label="Back to Home"
-      >
-        <Home className="w-4 h-4" />
-      </Link>
       <div className="w-full max-w-md space-y-6">
         <div className="space-y-2 text-center">
           <img
