@@ -73,7 +73,7 @@ const FooterSection = () => {
           whileInView={{ opacity: 1, y: 0, letterSpacing: "-0.02em" }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black text-primary-foreground leading-tight tracking-tight break-words text-center md:text-left px-2"
+          className="font-display text-[clamp(1.4rem,6vw,3rem)] md:text-6xl lg:text-7xl font-black text-primary-foreground leading-tight tracking-tight whitespace-nowrap text-center md:text-left px-2 overflow-hidden"
         >
           HELLO@RIGHTSIGNAL.SOCIAL
         </motion.h2>

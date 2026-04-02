@@ -135,63 +135,77 @@ const HeroSection = () => {
       </motion.nav>
 
       {mobileOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="md:hidden fixed inset-0 z-30 pt-24 pb-10 px-6 bg-primary/95 backdrop-blur-sm border-b border-primary-foreground/10"
+        <div
+          className="md:hidden fixed inset-0 z-30 bg-black/50 backdrop-blur-sm"
+          onClick={() => setMobileOpen(false)}
         >
-          <div className="flex items-center justify-between mb-4">
-            {session ? (
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-primary-foreground text-primary font-display text-sm font-bold flex items-center justify-center border border-primary-foreground/40">
-                  {userInitial}
+          <motion.div
+            initial={{ x: "100%", opacity: 0 }}
+            animate={{ x: "0%", opacity: 1 }}
+            exit={{ x: "100%", opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute top-0 right-0 h-full w-[82vw] max-w-[320px] bg-primary text-primary-foreground shadow-2xl pt-20 pb-10 px-6 border-l border-primary-foreground/10"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-6">
+              {session ? (
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-sm bg-primary-foreground text-primary font-display text-sm font-bold flex items-center justify-center border border-primary-foreground/40">
+                    {userInitial}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-display text-[11px] tracking-widest text-primary-foreground/70">
+                      SIGNED IN
+                    </p>
+                    <p className="text-xs text-primary-foreground/90 truncate max-w-[180px]">
+                      {session.user.email}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-display text-[11px] tracking-widest text-primary-foreground/70">
-                    SIGNED IN
-                  </p>
-                  <p className="text-xs text-primary-foreground/90 truncate max-w-[180px]">
-                    {session.user.email}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <p className="font-display text-xs tracking-[0.28em] text-primary-foreground/70">
-                RIGHT SIGNAL
-              </p>
-            )}
-          </div>
-
-          <div className="flex flex-col gap-2 text-left max-w-sm">
-            {[
-              { label: "HOME", to: "/" },
-              { label: "EVENTS", to: "/events" },
-              { label: "APPS", to: "/apps" },
-              { label: session ? "ACCOUNT" : "JOIN 2026", to: session ? "/join" : "/auth" },
-            ].map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                onClick={() => setMobileOpen(false)}
-                className="font-display text-lg tracking-[0.24em] text-primary-foreground/95 py-3 px-1 border-b border-primary-foreground/10"
-              >
-                {link.label}
-              </Link>
-            ))}
-            {session ? (
+              ) : (
+                <p className="font-display text-xs tracking-[0.28em] text-primary-foreground/70">
+                  RIGHT SIGNAL
+                </p>
+              )}
               <button
-                onClick={() => {
-                  handleLogout();
-                  setMobileOpen(false);
-                }}
-                className="font-display text-xs tracking-widest text-primary-foreground/80 text-left py-2 px-1"
+                className="w-10 h-10 rounded-none border border-primary-foreground/40 flex items-center justify-center"
+                onClick={() => setMobileOpen(false)}
+                aria-label="Close menu"
               >
-                LOG OUT
+                <X className="w-5 h-5" />
               </button>
-            ) : null}
-          </div>
-        </motion.div>
+            </div>
+
+            <div className="flex flex-col gap-1 text-left">
+              {[
+                { label: "HOME", to: "/" },
+                { label: "EVENTS", to: "/events" },
+                { label: "APPS", to: "/apps" },
+                { label: session ? "ACCOUNT" : "JOIN 2026", to: session ? "/join" : "/auth" },
+              ].map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setMobileOpen(false)}
+                  className="font-display text-base tracking-[0.22em] text-primary-foreground/95 py-3 px-1 border-b border-primary-foreground/10"
+                >
+                  {link.label}
+                </Link>
+              ))}
+              {session ? (
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setMobileOpen(false);
+                  }}
+                  className="font-display text-[11px] tracking-widest text-primary-foreground/80 text-left py-3 px-1"
+                >
+                  LOG OUT
+                </button>
+              ) : null}
+            </div>
+          </motion.div>
+        </div>
       )}
 
       <div className="absolute top-16 left-4 right-4 md:left-12 md:right-auto text-white">
