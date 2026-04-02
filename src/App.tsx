@@ -9,6 +9,7 @@ import Auth from "./pages/Auth.tsx";
 import JoinCommunity from "./pages/JoinCommunity.tsx";
 import Events from "./pages/Events.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import InvestorProfile from "./pages/InvestorProfile.tsx";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/events" element={<Events />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/join" element={<JoinCommunity />} />
+          <Route path="/investors/:slug" element={<InvestorProfile />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

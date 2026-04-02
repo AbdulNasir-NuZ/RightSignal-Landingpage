@@ -5,6 +5,7 @@ import mentorImg from "@/assets/mentor.jpg";
 import speakerImg from "@/assets/speaker-keynote.jpg";
 import founderImg from "@/assets/founder-portrait.jpg";
 import { Eye, Instagram, Twitter, Linkedin } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const cardVariants = {
   hidden: { opacity: 0, y: 60, scale: 0.95 },
@@ -23,6 +24,7 @@ const cardVariants = {
 const investors = [
   {
     name: "SARAH CHEN",
+    slug: "sarah-chen",
     photo: investorImg,
     alt: "Sarah Chen, angel investor portrait",
     investments: 48,
@@ -31,6 +33,7 @@ const investors = [
   },
   {
     name: "JONAH REED",
+    slug: "jonah-reed",
     photo: mentorImg,
     alt: "Jonah Reed, climate tech investor portrait",
     investments: 36,
@@ -39,6 +42,7 @@ const investors = [
   },
   {
     name: "PRIYA MENON",
+    slug: "priya-menon",
     photo: speakerImg,
     alt: "Priya Menon, enterprise AI investor portrait",
     investments: 29,
@@ -47,6 +51,7 @@ const investors = [
   },
   {
     name: "LEILA KIM",
+    slug: "leila-kim",
     photo: investorImg,
     alt: "Leila Kim, consumer fintech investor portrait",
     investments: 41,
@@ -55,6 +60,7 @@ const investors = [
   },
   {
     name: "DANIEL ORTIZ",
+    slug: "daniel-ortiz",
     photo: mentorImg,
     alt: "Daniel Ortiz, deeptech investor portrait",
     investments: 33,
@@ -324,13 +330,16 @@ const Community = () => {
                             className="bg-foreground h-2 rounded-full"
                           />
                         </div>
-                      </div>
+                    </div>
 
-                      {isCenter && (
-                        <button className="mt-auto w-full bg-foreground text-background font-display text-xs tracking-widest py-2.5 rounded-lg hover:bg-foreground/90 transition-colors">
-                          VIEW PROFILE
-                        </button>
-                      )}
+                    {isCenter && (
+                      <Link
+                        to={`/investors/${investor.slug}`}
+                        className="mt-auto w-full bg-foreground text-background text-center font-display text-xs tracking-widest py-2.5 rounded-lg hover:bg-foreground/90 transition-colors"
+                      >
+                        VIEW PROFILE
+                      </Link>
+                    )}
                     </div>
                   </motion.div>
                 );
@@ -418,6 +427,14 @@ const Community = () => {
           >
             {isJoinLoading ? "DETECTING..." : "JOIN COMMUNITY"}
           </button>
+          <a
+            href="https://rightsignal.social"
+            target="_blank"
+            rel="noreferrer"
+            className="mt-2 w-full text-center font-display text-xs tracking-widest px-4 py-2.5 border border-foreground rounded-lg hover:bg-foreground hover:text-background transition-colors"
+          >
+            VIEW WEBSITE VERSION
+          </a>
 
           {showJoinModal && (
             <div className="absolute inset-0 bg-background/95 backdrop-blur-sm border border-border rounded-xl p-4 flex flex-col gap-3 justify-center">

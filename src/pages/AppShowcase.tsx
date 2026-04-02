@@ -57,18 +57,32 @@ const AppShowcase = () => {
                 Both platforms stay grayscale until you engage. Hover (web preview) or tap (device)
                 and the interface blooms into color with a smooth 0.4s ease and a subtle 1.04x lift.
               </p>
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  to="#ios"
+              <div className="flex flex-wrap gap-3 items-center">
+                <a
+                  href="https://rightsignal.social"
+                  target="_blank"
+                  rel="noreferrer"
                   className="font-display text-xs tracking-widest px-4 py-3 border border-foreground rounded-lg hover:bg-foreground hover:text-background transition-colors"
                 >
+                  VIEW WEBSITE VERSION
+                </a>
+                <Link
+                  to="#ios"
+                  className="relative font-display text-xs tracking-widest px-4 py-3 border border-foreground rounded-lg hover:bg-foreground hover:text-background transition-colors overflow-hidden"
+                >
                   VIEW iOS
+                  <span className="absolute right-2 top-1/2 -translate-y-1/2 origin-center rotate-[140deg] text-[9px] uppercase text-muted-foreground">
+                    coming soon
+                  </span>
                 </Link>
                 <Link
                   to="#android"
-                  className="font-display text-xs tracking-widest px-4 py-3 border border-foreground rounded-lg hover:bg-foreground hover:text-background transition-colors"
+                  className="relative font-display text-xs tracking-widest px-4 py-3 border border-foreground rounded-lg hover:bg-foreground hover:text-background transition-colors overflow-hidden"
                 >
                   VIEW ANDROID
+                  <span className="absolute right-2 top-1/2 -translate-y-1/2 origin-center rotate-[140deg] text-[9px] uppercase text-muted-foreground">
+                    coming soon
+                  </span>
                 </Link>
                 <a
                   href="mailto:hello@rightsignal.social"
