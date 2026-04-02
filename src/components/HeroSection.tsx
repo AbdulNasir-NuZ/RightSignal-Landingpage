@@ -109,7 +109,7 @@ const HeroSection = () => {
         )}
 
         <button
-          className="md:hidden inline-flex items-center justify-center w-11 h-11 rounded-full border border-primary-foreground/30 text-primary-foreground/90 backdrop-blur bg-black/30"
+          className="md:hidden inline-flex items-center justify-center w-11 h-11 rounded-none border border-primary-foreground/30 text-primary-foreground/90 backdrop-blur bg-black/30"
           aria-expanded={mobileOpen}
           aria-label="Toggle navigation"
           onClick={() => setMobileOpen((prev) => !prev)}
@@ -123,20 +123,20 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="md:hidden absolute top-0 inset-x-0 z-10 pt-20 pb-6 px-4 bg-primary/80 backdrop-blur border-b border-primary-foreground/10"
+          className="md:hidden fixed inset-0 z-30 pt-24 pb-10 px-6 bg-primary/95 backdrop-blur-sm border-b border-primary-foreground/10"
         >
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-2 text-left max-w-sm">
             {[
-              { label: "Home", to: "/" },
-              { label: "Events", to: "/events" },
-              { label: "Apps", to: "/apps" },
-              { label: "Join 2026", to: "/auth" },
+              { label: "HOME", to: "/" },
+              { label: "EVENTS", to: "/events" },
+              { label: "APPS", to: "/apps" },
+              { label: session ? "ACCOUNT" : "JOIN 2026", to: session ? "/" : "/auth" },
             ].map((link) => (
               <Link
                 key={link.to}
                 to={link.to}
                 onClick={() => setMobileOpen(false)}
-                className="font-display text-sm tracking-widest text-primary-foreground/90 py-2"
+                className="font-display text-lg tracking-[0.24em] text-primary-foreground/95 py-3 px-1 border-b border-primary-foreground/10"
               >
                 {link.label}
               </Link>
@@ -147,7 +147,7 @@ const HeroSection = () => {
                   handleLogout();
                   setMobileOpen(false);
                 }}
-                className="font-display text-xs tracking-widest text-primary-foreground/80 text-left py-2"
+                className="font-display text-xs tracking-widest text-primary-foreground/80 text-left py-2 px-1"
               >
                 Sign Out
               </button>
