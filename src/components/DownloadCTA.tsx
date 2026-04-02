@@ -41,14 +41,10 @@ const DownloadCTA = () => {
             className="w-16 h-16 rounded-xl media bg-primary-foreground/10 p-1"
           />
           <div>
-            <p className="font-display text-xs tracking-widest text-primary-foreground/60">
-              RIGHT SIGNAL
-            </p>
-            <h3 className="font-display text-3xl md:text-4xl font-black leading-tight">
-              Download our application
-            </h3>
+            <p className="font-display text-xs tracking-widest text-primary-foreground/60">RIGHT SIGNAL</p>
+            <h3 className="font-display text-3xl md:text-4xl font-black leading-tight">Community OS</h3>
             <p className="text-sm text-primary-foreground/70 font-body mt-2 max-w-md">
-              Black-and-white by default. Full color when you engage. Available on iOS and Android.
+              Built for founders and operators: calm, monochrome focus with signal-on-action moments. Available on iOS and Android.
             </p>
           </div>
         </motion.div>
