@@ -62,31 +62,35 @@ const AppShowcase = () => {
                   href="https://rightsignal.social"
                   target="_blank"
                   rel="noreferrer"
-                  className="font-display text-xs tracking-widest px-4 py-3 border border-foreground rounded-lg hover:bg-foreground hover:text-background transition-colors"
+                  className="w-48 text-center whitespace-nowrap font-display text-xs tracking-widest px-4 py-3 border border-foreground rounded-lg hover:bg-foreground hover:text-background transition-colors"
                 >
                   VIEW WEBSITE VERSION
                 </a>
-                <Link
-                  to="#ios"
-                  className="relative font-display text-xs tracking-widest px-4 py-3 border border-foreground rounded-lg hover:bg-foreground hover:text-background transition-colors overflow-hidden"
-                >
-                  VIEW iOS
-                  <span className="absolute right-2 top-1/2 -translate-y-1/2 origin-center rotate-[140deg] text-[9px] uppercase text-muted-foreground">
+                <div className="relative inline-flex">
+                  <Link
+                    to="#ios"
+                    className="w-48 text-center whitespace-nowrap font-display text-xs tracking-widest px-4 py-3 border border-foreground rounded-lg hover:bg-foreground hover:text-background transition-colors"
+                  >
+                    VIEW OS
+                  </Link>
+                  <span className="absolute -top-2 right-2 text-[10px] uppercase bg-foreground text-background px-2 py-0.5 rounded-full shadow-sm">
                     coming soon
                   </span>
-                </Link>
-                <Link
-                  to="#android"
-                  className="relative font-display text-xs tracking-widest px-4 py-3 border border-foreground rounded-lg hover:bg-foreground hover:text-background transition-colors overflow-hidden"
-                >
-                  VIEW ANDROID
-                  <span className="absolute right-2 top-1/2 -translate-y-1/2 origin-center rotate-[140deg] text-[9px] uppercase text-muted-foreground">
+                </div>
+                <div className="relative inline-flex">
+                  <Link
+                    to="#android"
+                    className="w-48 text-center whitespace-nowrap font-display text-xs tracking-widest px-4 py-3 border border-foreground rounded-lg hover:bg-foreground hover:text-background transition-colors"
+                  >
+                    VIEW ANDROID
+                  </Link>
+                  <span className="absolute -top-2 right-2 text-[10px] uppercase bg-foreground text-background px-2 py-0.5 rounded-full shadow-sm">
                     coming soon
                   </span>
-                </Link>
+                </div>
                 <a
                   href="mailto:hello@rightsignal.social"
-                  className="font-display text-xs tracking-widest px-4 py-3 bg-foreground text-background rounded-lg hover:bg-foreground/90 transition-colors"
+                  className="w-48 text-center whitespace-nowrap font-display text-xs tracking-widest px-4 py-3 bg-foreground text-background rounded-lg hover:bg-foreground/90 transition-colors"
                 >
                   REQUEST ACCESS
                 </a>
