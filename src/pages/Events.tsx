@@ -1,6 +1,7 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { supabase } from "@/lib/supabaseClient";
 import heroCommunity from "@/assets/hero-community.jpg";
 import eventPoster from "@/assets/event-poster.jpg";
 import workshopImg from "@/assets/workshop.jpg";
@@ -49,10 +50,28 @@ const events = [
 
 const Events = () => {
   const navigate = useNavigate();
+  const [session, setSession] = useState<any>(null);
   const featured = useMemo(() => events[0], []);
 
-  const handleRegister = () => {
-    navigate("/auth", { state: { redirectTo: "/join" } });
+  useEffect(() => {
+    if (!supabase) return;
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const gateToAuth = (redirectTo = "/events") => {
+    navigate("/auth", { state: { redirectTo } });
+  };
+
+  const handleRegister = (target = "/events") => {
+    if (!session) {
+      gateToAuth(target);
+      return;
+    }
+    navigate("/join");
   };
 
   const handleSubmitIdea = () => {
@@ -75,7 +94,7 @@ const Events = () => {
             Join events that turn ideas into startups — curated by Right Signal.
           </p>
           <button
-            onClick={handleRegister}
+            onClick={() => handleRegister("/events")}
             className="mt-4 px-6 py-3 bg-white text-black rounded-lg font-semibold hover:bg-white/90 transition"
           >
             Explore Events
@@ -97,7 +116,7 @@ const Events = () => {
             <h2 className="text-3xl font-bold">{featured.title}</h2>
             <p className="text-sm text-white/70">{featured.date}</p>
             <button
-              onClick={handleRegister}
+              onClick={() => handleRegister("/events")}
               className="mt-3 px-5 py-2 bg-white text-black rounded-lg text-sm hover:bg-white/90 transition"
             >
               Register Now
@@ -121,7 +140,7 @@ const Events = () => {
                 <h3 className="text-lg font-bold">{event.title}</h3>
                 <p className="text-xs text-white/70">{event.date}</p>
                 <button
-                  onClick={handleRegister}
+                  onClick={() => handleRegister(`/events#${event.id}`)}
                   className="mt-2 text-xs bg-white text-black px-3 py-1 rounded hover:bg-white/90 transition"
                 >
                   Join Event

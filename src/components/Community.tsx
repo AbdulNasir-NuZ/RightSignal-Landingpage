@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import investorImg from "@/assets/investor-portrait.jpg";
 import mentorImg from "@/assets/mentor.jpg";
 import speakerImg from "@/assets/speaker-keynote.jpg";
 import founderImg from "@/assets/founder-portrait.jpg";
 import { Eye, Instagram, Twitter, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
+import { supabase } from "@/lib/supabaseClient";
 
 const cardVariants = {
   hidden: { opacity: 0, y: 60, scale: 0.95 },
@@ -155,12 +157,23 @@ const getUserContinent = async (): Promise<ContinentKey | null> => {
 };
 
 const Community = () => {
+  const navigate = useNavigate();
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const [storyIndex, setStoryIndex] = useState(0);
   const [isJoinLoading, setIsJoinLoading] = useState(false);
   const [detectedContinent, setDetectedContinent] = useState<ContinentKey | null>(null);
   const [showJoinModal, setShowJoinModal] = useState(false);
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    if (!supabase) return;
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     if (paused) return;
@@ -189,6 +202,10 @@ const Community = () => {
   const currentStory = founderStories[storyIndex];
 
   const handleJoinCommunity = async () => {
+    if (!session) {
+      navigate("/auth", { state: { redirectTo: "/join" } });
+      return;
+    }
     setIsJoinLoading(true);
     try {
       const cached = (localStorage.getItem("region") as ContinentKey | null) ?? null;

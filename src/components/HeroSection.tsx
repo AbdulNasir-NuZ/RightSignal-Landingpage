@@ -10,6 +10,7 @@ const HeroSection = () => {
   const ref = useRef<HTMLElement>(null);
   const [session, setSession] = useState<any>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
 
   useEffect(() => {
     if (!supabase) return;
@@ -40,6 +41,8 @@ const HeroSection = () => {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+
+  const userInitial = session?.user?.email?.[0]?.toUpperCase() ?? "R";
 
   return (
     <>
@@ -78,24 +81,37 @@ const HeroSection = () => {
         </div>
 
         {session ? (
-          <div className="hidden md:flex items-center gap-4">
-            <span className="font-display text-[10px] tracking-widest text-primary-foreground/60">
-              {session.user.email}
-            </span>
-            <div className="flex items-center gap-2">
-              <Link
-                to="/"
-                className="font-display text-xs tracking-widest px-4 py-2 rounded-full border border-primary-foreground/30 text-primary-foreground transition-colors"
-              >
-                ACCOUNT
-              </Link>
-              <button
-                onClick={handleLogout}
-                className="font-display text-[10px] tracking-widest text-primary-foreground/60 hover:text-primary-foreground transition-colors uppercase ml-1"
-              >
-                Sign Out
-              </button>
-            </div>
+          <div className="hidden md:flex items-center gap-3 relative">
+            <button
+              onClick={() => setProfileOpen((prev) => !prev)}
+              className="w-10 h-10 rounded-full bg-primary-foreground text-primary font-display text-sm font-bold flex items-center justify-center border border-primary-foreground/40"
+              aria-label="Open profile menu"
+            >
+              {userInitial}
+            </button>
+            {profileOpen && (
+              <div className="absolute right-0 top-12 w-44 rounded-lg bg-background border border-border shadow-lg p-2 flex flex-col gap-1">
+                <span className="text-[11px] text-muted-foreground px-2 truncate">
+                  {session.user.email}
+                </span>
+                <Link
+                  to="/join"
+                  className="font-display text-xs tracking-widest px-2 py-2 rounded-md hover:bg-muted text-foreground text-left"
+                  onClick={() => setProfileOpen(false)}
+                >
+                  ACCOUNT
+                </Link>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setProfileOpen(false);
+                  }}
+                  className="font-display text-[11px] tracking-widest px-2 py-2 rounded-md hover:bg-muted text-left text-muted-foreground"
+                >
+                  LOG OUT
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <div className="hidden md:flex items-center gap-4">
@@ -125,12 +141,34 @@ const HeroSection = () => {
           exit={{ opacity: 0, y: -20 }}
           className="md:hidden fixed inset-0 z-30 pt-24 pb-10 px-6 bg-primary/95 backdrop-blur-sm border-b border-primary-foreground/10"
         >
+          <div className="flex items-center justify-between mb-4">
+            {session ? (
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-full bg-primary-foreground text-primary font-display text-sm font-bold flex items-center justify-center border border-primary-foreground/40">
+                  {userInitial}
+                </div>
+                <div>
+                  <p className="font-display text-[11px] tracking-widest text-primary-foreground/70">
+                    SIGNED IN
+                  </p>
+                  <p className="text-xs text-primary-foreground/90 truncate max-w-[180px]">
+                    {session.user.email}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <p className="font-display text-xs tracking-[0.28em] text-primary-foreground/70">
+                RIGHT SIGNAL
+              </p>
+            )}
+          </div>
+
           <div className="flex flex-col gap-2 text-left max-w-sm">
             {[
               { label: "HOME", to: "/" },
               { label: "EVENTS", to: "/events" },
               { label: "APPS", to: "/apps" },
-              { label: session ? "ACCOUNT" : "JOIN 2026", to: session ? "/" : "/auth" },
+              { label: session ? "ACCOUNT" : "JOIN 2026", to: session ? "/join" : "/auth" },
             ].map((link) => (
               <Link
                 key={link.to}
@@ -149,7 +187,7 @@ const HeroSection = () => {
                 }}
                 className="font-display text-xs tracking-widest text-primary-foreground/80 text-left py-2 px-1"
               >
-                Sign Out
+                LOG OUT
               </button>
             ) : null}
           </div>

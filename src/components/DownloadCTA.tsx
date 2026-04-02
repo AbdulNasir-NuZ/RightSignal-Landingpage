@@ -67,11 +67,13 @@ const DownloadCTA = () => {
                     DOWNLOAD ON iOS
                   </Link>
                 ) : (
-                  <button
-                    className="font-display text-xs tracking-widest px-8 py-4 rounded-xl border-2 border-primary-foreground bg-primary-foreground/50 text-white/50 cursor-not-allowed transition-all text-center min-w-[220px]"
+                  <Link
+                    to="/auth"
+                    state={{ redirectTo: "/join" }}
+                    className="font-display text-xs tracking-widest px-8 py-4 rounded-xl border-2 border-primary-foreground bg-primary-foreground/50 text-white/80 transition-all text-center min-w-[220px]"
                   >
-                    DOWNLOAD ON iOS
-                  </button>
+                    LOGIN TO DOWNLOAD
+                  </Link>
                 )}
               </TooltipTrigger>
               {!session && (
@@ -91,11 +93,13 @@ const DownloadCTA = () => {
                     GET IT ON ANDROID
                   </Link>
                 ) : (
-                  <button
-                    className="font-display text-xs tracking-widest px-8 py-4 rounded-xl border-2 border-primary-foreground text-primary-foreground/50 cursor-not-allowed transition-all text-center min-w-[220px]"
+                  <Link
+                    to="/auth"
+                    state={{ redirectTo: "/join" }}
+                    className="font-display text-xs tracking-widest px-8 py-4 rounded-xl border-2 border-primary-foreground text-primary-foreground/70 transition-all text-center min-w-[220px]"
                   >
-                    GET IT ON ANDROID
-                  </button>
+                    LOGIN TO DOWNLOAD
+                  </Link>
                 )}
               </TooltipTrigger>
               {!session && (
