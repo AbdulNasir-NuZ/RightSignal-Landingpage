@@ -67,7 +67,7 @@ const TeamImageCarousel = () => {
 
         <motion.div
           ref={trackRef}
-          className="flex gap-6 py-10 will-change-transform select-none"
+          className="flex gap-4 sm:gap-6 py-10 will-change-transform select-none"
           style={{ x }}
           drag="x"
           dragConstraints={dragBounds}
@@ -87,7 +87,7 @@ const TeamImageCarousel = () => {
   {/* Animated border */}
   <div className="absolute inset-0 rounded-xl border border-black opacity-60 group-hover/card:opacity-100 transition-opacity duration-300" />
 
-  <div className="overflow-hidden rounded-xl bg-foreground/[0.035] aspect-[3/4] w-[260px] md:w-[300px] lg:w-[340px]">
+  <div className="overflow-hidden rounded-xl bg-foreground/[0.035] aspect-[3/4] w-[180px] sm:w-[220px] md:w-[300px] lg:w-[340px]">
     <img
       src={src}
       alt="Right Signal community"

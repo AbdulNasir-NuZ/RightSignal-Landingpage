@@ -31,7 +31,7 @@ const DownloadCTA = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="flex items-center gap-4"
+          className="flex items-center gap-4 text-center md:text-left"
         >
           <img
             src={rightSignalLogo}

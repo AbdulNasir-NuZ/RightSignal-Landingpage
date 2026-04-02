@@ -7,7 +7,7 @@ const FooterSection = () => {
     <footer className="bg-primary text-primary-foreground" role="contentinfo">
       {/* Top bar */}
       <div className="px-6 md:px-12 py-6 flex flex-col md:flex-row items-start md:items-center justify-between border-b border-primary-foreground/10">
-        <nav className="flex gap-6" aria-label="Footer navigation">
+        <nav className="flex flex-wrap gap-4 sm:gap-6" aria-label="Footer navigation">
           {[
             { label: "HOME", href: "/" },
             { label: "EVENTS", href: "/#events" },

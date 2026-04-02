@@ -77,12 +77,12 @@ const CatalogueSection = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-60px" }}
-        className="flex flex-col md:flex-row md:items-end justify-between mb-12"
+        className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12"
       >
         <motion.h2
           variants={fadeUp}
           custom={0}
-          className="font-display text-5xl md:text-7xl font-black text-foreground leading-none"
+          className="font-display text-4xl sm:text-5xl md:text-7xl font-black text-foreground leading-none"
         >
           DISCOVER THE SIGNAL
           <br />

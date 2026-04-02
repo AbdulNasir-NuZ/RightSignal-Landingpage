@@ -154,7 +154,7 @@ const TransferNews = () => {
         </div>
 
         {/* Content */}
-        <div className="flex items-start justify-between mb-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 mb-4">
           <p className="font-display text-xs tracking-widest text-muted-foreground">{slide.leftTag}</p>
           <p className="font-display text-xs tracking-widest text-muted-foreground">{slide.rightTag}</p>
         </div>
@@ -182,7 +182,7 @@ const TransferNews = () => {
                 loading="lazy"
                 width={640}
                 height={800}
-                className="w-full h-80 object-cover media transition duration-300 group-hover:filter-none group-hover:scale-[1.02]"
+                className="w-full h-64 sm:h-80 object-cover media transition duration-300 group-hover:filter-none group-hover:scale-[1.02]"
               />
               <div className="absolute inset-0 bg-primary/20" />
               <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-xs tracking-widest text-primary-foreground bg-primary/50 px-3 py-1.5 rounded">

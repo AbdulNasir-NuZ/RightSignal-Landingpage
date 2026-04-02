@@ -220,16 +220,16 @@ const Community = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="flex items-center justify-between mb-8"
+        className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0 mb-8"
       >
-        <p className="font-display text-xs tracking-widest text-muted-foreground">
+        <p className="font-display text-xs tracking-widest text-muted-foreground text-left sm:text-right">
           MEET OUR
           <br />
           SIGNAL
           <br />
           LEADERS
         </p>
-        <h2 className="font-display text-5xl md:text-7xl font-black text-foreground">
+        <h2 className="font-display text-4xl sm:text-5xl md:text-7xl font-black text-foreground leading-tight">
           COMMUNITY HUB
         </h2>
         <p className="font-display text-xs tracking-widest text-muted-foreground">2026</p>
