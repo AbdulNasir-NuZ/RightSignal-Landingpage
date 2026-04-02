@@ -113,6 +113,9 @@ export default {
         enter: "fade-in 0.3s ease-out, scale-in 0.2s ease-out",
         exit: "fade-out 0.3s ease-out, scale-out 0.2s ease-out",
       },
+      transitionTimingFunction: {
+        "soft-out": "cubic-bezier(0.22, 1, 0.36, 1)",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import heroCommunity from "@/assets/hero-community.jpg";
 import eventPoster from "@/assets/event-poster.jpg";
-import transferImg from "@/assets/transfer.jpg";
 import workshopImg from "@/assets/workshop.jpg";
 import speakerImg from "@/assets/speaker-keynote.jpg";
+import mentorImg from "@/assets/mentor.jpg";
+import founderPortrait from "@/assets/founder-portrait.jpg";
+import transferImg from "@/assets/transfer.jpg";
 
 const events = [
   {
@@ -60,7 +62,7 @@ const Events = () => {
         <img
           src={heroCommunity}
           alt="Build. Connect. Launch."
-          className="w-full h-full object-cover grayscale brightness-75 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105"
+          className="w-full h-full object-cover grayscale brightness-75 transition-all duration-700 ease-soft-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-all duration-500" />
         <div className="absolute bottom-10 left-10 text-white max-w-xl space-y-3">

@@ -91,7 +91,7 @@ const TeamImageCarousel = () => {
     <img
       src={src}
       alt="Right Signal community"
-      className="h-full w-full object-contain grayscale transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover/card:grayscale-0 group-hover/card:scale-[1.03]"
+      className="h-full w-full object-contain grayscale transition-all duration-500 ease-soft-out group-hover/card:grayscale-0 group-hover/card:scale-[1.03]"
     />
   </div>
 </div>

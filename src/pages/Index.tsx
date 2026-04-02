@@ -3,7 +3,7 @@ import SEOHead from "@/components/SEOHead";
 import HeroSection from "@/components/HeroSection";
 import LeaguesSection from "@/components/LeaguesSection";
 import CatalogueSection from "@/components/CatalogueSection";
-import FootballArea from "@/components/FootballArea";
+import Community from "@/components/Community";
 import TransferNews from "@/components/TransferNews";
 import DownloadCTA from "@/components/DownloadCTA";
 import FooterSection from "@/components/FooterSection";
@@ -16,7 +16,7 @@ const Index = () => {
         <HeroSection />
         <LeaguesSection />
         <CatalogueSection />
-        <FootballArea />
+        <Community />
         <TransferNews />
         <DownloadCTA />
         <FooterSection />
