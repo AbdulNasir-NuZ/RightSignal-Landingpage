@@ -11,6 +11,7 @@ import Events from "./pages/Events.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import InvestorProfile from "./pages/InvestorProfile.tsx";
 import MentorSpotlight from "./pages/MentorSpotlight.tsx";
+import StartupSandbox from "./pages/StartupSandbox.tsx";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/join" element={<JoinCommunity />} />
           <Route path="/investors/:slug" element={<InvestorProfile />} />
           <Route path="/mentor-spotlight" element={<MentorSpotlight />} />
+          <Route path="/startup-sandbox" element={<StartupSandbox />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
