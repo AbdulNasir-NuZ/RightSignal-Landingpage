@@ -102,7 +102,7 @@ const MentorSpotlight = () => {
                   <img
                     src={featured.photo}
                     alt={featured.name}
-                    className="w-16 h-16 rounded-xl object-cover media"
+                className="w-16 h-16 rounded-xl object-cover media hover:grayscale-0 transition"
                   />
                   <div>
                     <h3 className="font-display text-xl font-bold">{featured.name}</h3>
@@ -128,7 +128,7 @@ const MentorSpotlight = () => {
                     <img
                       src={mentor.photo}
                       alt={mentor.name}
-                      className="w-12 h-12 rounded-lg object-cover media"
+                    className="w-12 h-12 rounded-lg object-cover media hover:grayscale-0 transition"
                     />
                     <div>
                       <p className="font-display text-lg font-bold">{mentor.name}</p>

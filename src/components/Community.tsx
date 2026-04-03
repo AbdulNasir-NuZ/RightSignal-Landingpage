@@ -415,16 +415,16 @@ const Community = () => {
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 className="h-full w-full group relative overflow-hidden"
               >
-                <motion.img
-                  whileHover={{ scale: 1.03 }}
-                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  src={currentStory.photo}
-                  alt={currentStory.name}
-                  loading="lazy"
-                  width={512}
-                  height={640}
-                  className="w-full h-full object-cover media transition duration-300 group-hover:filter-none group-hover:scale-[1.03]"
-                />
+              <motion.img
+                whileHover={{ scale: 1.03 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                src={currentStory.photo}
+                alt={currentStory.name}
+                loading="lazy"
+                width={512}
+                height={640}
+                className="w-full h-full object-cover media transition duration-300 group-hover:grayscale-0 group-hover:scale-[1.03]"
+              />
                 <div className="absolute inset-0 bg-primary/30 pointer-events-none" />
           <div className="absolute top-4 right-4 bg-primary-foreground/20 backdrop-blur-sm rounded-full p-2 pointer-events-none">
             <Eye className="w-4 h-4 text-primary-foreground" />
@@ -484,12 +484,6 @@ const Community = () => {
         transition={{ duration: 0.3 }}
         className="relative bg-secondary rounded-xl p-5 flex flex-col items-center justify-center text-center overflow-hidden"
       >
-        {showViewOverlay && (
-          <div className="absolute inset-0 bg-background/90 backdrop-blur-sm z-20 flex flex-col items-center justify-center gap-2 px-4">
-            <p className="font-display text-sm tracking-widest text-muted-foreground text-center">App is under construction.</p>
-            <p className="text-xs text-muted-foreground text-center">Redirecting to the repository…</p>
-          </div>
-        )}
         <motion.div
           animate={{ rotate: [0, 4, -4, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
