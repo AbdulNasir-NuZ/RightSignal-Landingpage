@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import investorImg from "@/assets/investor-portrait.jpg";
 import mentorImg from "@/assets/mentor.jpg";
 import speakerImg from "@/assets/speaker-keynote.jpg";
 import founderImg from "@/assets/founder-portrait.jpg";
 import { Eye, Instagram, Twitter, Linkedin } from "lucide-react";
-import { Link } from "react-router-dom";
 import { supabase } from "@/lib/supabaseClient";
 
 const cardVariants = {
@@ -136,24 +135,43 @@ const continentLinks = {
 
 type ContinentKey = keyof typeof continentLinks;
 
+const continentCodeMap: Record<string, ContinentKey> = {
+  AS: "Asia",
+  EU: "Europe",
+  AF: "Africa",
+  NA: "NorthAmerica",
+  SA: "SouthAmerica",
+  OC: "Australia",
+};
+
+const localeMap: Record<string, ContinentKey> = {
+  zh: "Asia",
+  ja: "Asia",
+  ko: "Asia",
+  hi: "Asia",
+  ar: "Asia",
+  en: "NorthAmerica",
+  fr: "Europe",
+  de: "Europe",
+  es: "Europe",
+  pt: "SouthAmerica",
+};
+
 const getUserContinent = async (): Promise<ContinentKey | null> => {
   try {
     const res = await fetch("https://ipapi.co/json/");
     const data = await res.json();
-
-    const map: Record<string, ContinentKey> = {
-      AS: "Asia",
-      EU: "Europe",
-      AF: "Africa",
-      NA: "NorthAmerica",
-      SA: "SouthAmerica",
-      OC: "Australia",
-    };
-
-    return map[data.continent_code] ?? null;
+    const detected = continentCodeMap[data.continent_code];
+    if (detected) return detected;
   } catch (error) {
-    return null;
+    // ignore
   }
+
+  // Fallback: browser locale
+  const lang = navigator.language?.slice(0, 2);
+  if (lang && localeMap[lang]) return localeMap[lang];
+
+  return null;
 };
 
 const Community = () => {
@@ -164,6 +182,7 @@ const Community = () => {
   const [isJoinLoading, setIsJoinLoading] = useState(false);
   const [detectedContinent, setDetectedContinent] = useState<ContinentKey | null>(null);
   const [showJoinModal, setShowJoinModal] = useState(false);
+  const [showViewOverlay, setShowViewOverlay] = useState(false);
   const [session, setSession] = useState<any>(null);
 
   useEffect(() => {
@@ -202,20 +221,33 @@ const Community = () => {
   const currentStory = founderStories[storyIndex];
 
   const handleJoinCommunity = async () => {
+    if (!supabase) return;
+
+    // 1) Not signed in: send to Auth (email or Google), then to onboarding form
     if (!session) {
-      navigate("/auth", { state: { redirectTo: "/join" } });
+      navigate("/auth", { state: { redirectTo: "/join", requireManager: true, from: "community-card" } });
       return;
     }
+
     setIsJoinLoading(true);
     try {
+      // 2) Check onboarding completion (community_members)
+      const { data: member } = await supabase
+        .from("community_members")
+        .select("id")
+        .eq("user_id", session.user.id)
+        .maybeSingle();
+
+      if (!member) {
+        navigate("/join", { state: { from: "community-card", requireManager: true } });
+        return;
+      }
+
+      // 3) Already onboarded: detect region and send to group
       const cached = (localStorage.getItem("region") as ContinentKey | null) ?? null;
       const continent = cached || (await getUserContinent());
 
-      if (continent && continentLinks[continent]) {
-        setDetectedContinent(continent);
-      } else {
-        setDetectedContinent(null);
-      }
+      setDetectedContinent(continent);
       setShowJoinModal(true);
     } finally {
       setIsJoinLoading(false);
@@ -375,45 +407,69 @@ const Community = () => {
           className="relative rounded-xl overflow-hidden group min-h-[350px]"
         >
           <AnimatePresence mode="wait">
-            <motion.div
-              key={currentStory.name}
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="h-full w-full"
-            >
-              <motion.img
-                whileHover={{ scale: 1.03 }}
+              <motion.div
+                key={currentStory.name}
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                src={currentStory.photo}
-                alt={currentStory.name}
-                loading="lazy"
-                width={512}
-                height={640}
-                className="w-full h-full object-cover media transition duration-300 group-hover:filter-none group-hover:scale-[1.01]"
-              />
-              <div className="absolute inset-0 bg-primary/30" />
-              <div className="absolute top-4 right-4 bg-primary-foreground/20 backdrop-blur-sm rounded-full p-2">
-                <Eye className="w-4 h-4 text-primary-foreground" />
-              </div>
-              <div className="absolute inset-x-0 bottom-0 p-5">
-                <span className="font-display text-xs tracking-widest text-primary-foreground/60 bg-primary/50 px-2 py-1 rounded">
-                  {currentStory.tag}
-                </span>
-                <h3 className="font-display text-2xl font-bold text-primary-foreground mt-2">
-                  {currentStory.name}
-                </h3>
-                <p className="text-xs text-primary-foreground/70 font-body mt-1">
-                  {currentStory.title} {currentStory.description}
-                </p>
-                <div className="flex gap-2 mt-3">
-                  <Instagram className="w-4 h-4 text-primary-foreground/70" />
-                  <Twitter className="w-4 h-4 text-primary-foreground/70" />
-                  <Linkedin className="w-4 h-4 text-primary-foreground/70" />
+                className="h-full w-full group relative overflow-hidden"
+              >
+                <motion.img
+                  whileHover={{ scale: 1.03 }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  src={currentStory.photo}
+                  alt={currentStory.name}
+                  loading="lazy"
+                  width={512}
+                  height={640}
+                  className="w-full h-full object-cover media transition duration-300 group-hover:filter-none group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-primary/30 pointer-events-none" />
+          <div className="absolute top-4 right-4 bg-primary-foreground/20 backdrop-blur-sm rounded-full p-2 pointer-events-none">
+            <Eye className="w-4 h-4 text-primary-foreground" />
+          </div>
+                <div className="absolute inset-x-0 bottom-0 p-5">
+                  <span className="font-display text-xs tracking-widest text-primary-foreground/60 bg-primary/50 px-2 py-1 rounded">
+                    {currentStory.tag}
+                  </span>
+                  <h3 className="font-display text-2xl font-bold text-primary-foreground mt-2">
+                    {currentStory.name}
+                  </h3>
+                  <p className="text-xs text-primary-foreground/70 font-body mt-1">
+                    {currentStory.title} {currentStory.description}
+                  </p>
+                  <div className="flex gap-3 mt-3 pointer-events-auto">
+                    <a
+                      href="https://www.instagram.com"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                      aria-label="Instagram"
+                    >
+                      <Instagram className="w-4 h-4" />
+                    </a>
+                    <a
+                      href="https://www.linkedin.com"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                      aria-label="LinkedIn"
+                    >
+                      <Linkedin className="w-4 h-4" />
+                    </a>
+                    <a
+                      href="https://www.twitter.com"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                      aria-label="Twitter / X"
+                    >
+                      <Twitter className="w-4 h-4" />
+                    </a>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
           </AnimatePresence>
         </motion.div>
 
@@ -428,6 +484,12 @@ const Community = () => {
         transition={{ duration: 0.3 }}
         className="relative bg-secondary rounded-xl p-5 flex flex-col items-center justify-center text-center overflow-hidden"
       >
+        {showViewOverlay && (
+          <div className="absolute inset-0 bg-background/90 backdrop-blur-sm z-20 flex flex-col items-center justify-center gap-2 px-4">
+            <p className="font-display text-sm tracking-widest text-muted-foreground text-center">App is under construction.</p>
+            <p className="text-xs text-muted-foreground text-center">Redirecting to the repository…</p>
+          </div>
+        )}
         <motion.div
           animate={{ rotate: [0, 4, -4, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -445,7 +507,7 @@ const Community = () => {
             {isJoinLoading ? "DETECTING..." : "JOIN COMMUNITY"}
           </button>
           <a
-            href="https://rightsignal.social"
+            href="https://community-app-6imy.onrender.com/#"
             target="_blank"
             rel="noreferrer"
             className="mt-2 w-full text-center font-display text-xs tracking-widest px-4 py-2.5 border border-foreground rounded-lg hover:bg-foreground hover:text-background transition-colors"

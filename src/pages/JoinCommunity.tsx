@@ -132,7 +132,9 @@ const JoinCommunity = () => {
           <div className="space-y-2">
             <p className="font-display text-xs tracking-[0.3em] text-muted-foreground uppercase">Success</p>
             <h1 className="font-display text-3xl font-black">Welcome to the Circle</h1>
-            <p className="text-sm text-muted-foreground">Your profile is live. You can now download the Right Signal app below.</p>
+            <p className="text-sm text-muted-foreground">
+              Your profile is live. Download the app, then log back in and hit “Join Community” to get your regional group link.
+            </p>
           </div>
           
           <div className="grid gap-4 mt-8">
