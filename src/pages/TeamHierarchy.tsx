@@ -195,13 +195,13 @@ const TeamHierarchy = () => {
               ))}
             </div>
 
-            <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
+            <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm flex flex-col h-[420px] max-h-[420px]">
               <img
                 src={mentorImg}
                 alt="Team hierarchy visual"
-                className="w-full h-64 object-cover media"
+                className="w-full h-44 object-cover media"
               />
-              <div className="p-5 space-y-2">
+              <div className="p-5 space-y-2 flex-1 overflow-hidden">
                 <p className="font-display text-[10px] tracking-[0.3em] text-muted-foreground uppercase">
                   SIGNAL ADMIN · CORE TEAM
                 </p>

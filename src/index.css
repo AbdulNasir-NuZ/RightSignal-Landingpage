@@ -49,9 +49,17 @@
     font-family: var(--font-body);
     overflow-x: hidden;
     touch-action: pan-y;
+    scrollbar-width: none; /* Firefox */
+  }
+  body::-webkit-scrollbar {
+    display: none; /* WebKit */
   }
   html {
     overflow-x: hidden;
+    scrollbar-width: none; /* Firefox */
+  }
+  html::-webkit-scrollbar {
+    display: none; /* WebKit */
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
