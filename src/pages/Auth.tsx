@@ -6,25 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import rightSignalLogo from "@/assets/right-signal-logo.jpeg";
-import { Eye, EyeOff, Loader2, ShieldCheck, Lock, Mail, Phone } from "lucide-react";
-import { OTPInput, SlotProps } from "input-otp";
-
-const OtpSlot = (props: SlotProps) => (
-  <div
-    className={`relative w-10 h-12 text-xl font-semibold flex items-center justify-center rounded-md border border-border bg-background transition-all ${
-      props.isActive ? "ring-2 ring-foreground/50 border-foreground" : ""
-    }`}
-  >
-    <div className="opacity-90">
-      {props.char ?? props.placeholderChar ?? "•"}
-    </div>
-    {props.hasFakeCaret && (
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-px h-6 bg-foreground animate-pulse" />
-      </div>
-    )}
-  </div>
-);
+import { Eye, EyeOff, Loader2, Lock, Mail, Phone } from "lucide-react";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -46,10 +28,6 @@ const Auth = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
-  const [otpSent, setOtpSent] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [verifyingOtp, setVerifyingOtp] = useState(false);
 
   const isSignupValid = useMemo(() => {
     return (
@@ -134,7 +112,6 @@ const Auth = () => {
     setLoading(true);
     setError(null);
     setSuccess(null);
-    setOtp("");
 
     const { data, error: signUpError } = await supabase.auth.signUp({
       email,
@@ -159,32 +136,6 @@ const Auth = () => {
       return;
     }
 
-    if (data?.user) {
-      setOtpSent(true);
-      setSuccess("OTP sent to your email. Enter the 6-digit code to verify.");
-    } else {
-      setSuccess("Check your email for verification.");
-    }
-  };
-
-  const handleVerifyOtp = async () => {
-    if (!supabase) return;
-    if (!otp || otp.length < 6) {
-      setError("Enter the 6-digit OTP sent to your email.");
-      return;
-    }
-    setVerifyingOtp(true);
-    setError(null);
-    const { data, error: verifyError } = await supabase.auth.verifyOtp({
-      email,
-      token: otp,
-      type: "signup",
-    });
-    setVerifyingOtp(false);
-    if (verifyError) {
-      setError(verifyError.message);
-      return;
-    }
     if (data?.session) {
       await upsertProfile(data.session.user.id, {
         name: fullName,
@@ -192,20 +143,11 @@ const Auth = () => {
         manager_referral_code: managerCode || null,
       });
       navigate(redirectTo, { replace: true });
-    } else {
-      setSuccess("Verified! Please log in.");
-      setMode("login");
+      return;
     }
-  };
 
-  const handleResendOtp = async () => {
-    if (!supabase) return;
-    const { error: resendError } = await supabase.auth.resend({
-      type: "signup",
-      email,
-    });
-    if (resendError) setError(resendError.message);
-    else setSuccess("OTP resent. Check your inbox.");
+    setSuccess("Account created. Please check your email to verify and then log in.");
+    setMode("login");
   };
 
   const handleGoogle = async () => {
@@ -248,7 +190,6 @@ const Auth = () => {
           <button
             onClick={() => {
               setMode("login");
-              setOtpSent(false);
               setError(null);
               setSuccess(null);
             }}
@@ -422,56 +363,14 @@ const Auth = () => {
               <p className="text-xs text-destructive">Passwords do not match.</p>
             ) : null}
 
-            {!otpSent && (
-              <Button
-                className="w-full text-xs font-display tracking-widest py-3"
-                disabled={loading || !isSignupValid}
-                onClick={handleSignup}
-              >
-                {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
-                SEND OTP & SIGN UP
-              </Button>
-            )}
-
-            {otpSent && (
-              <div className="space-y-3 border border-border rounded-xl p-4 bg-secondary/40">
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                  <p className="text-sm text-muted-foreground">Enter the 6-digit code sent to {email}</p>
-                </div>
-                <OTPInput
-                  maxLength={6}
-                  value={otp}
-                  onChange={setOtp}
-                  containerClassName="group flex items-center justify-center gap-2"
-                  render={({ slots }) => (
-                    <div className="flex gap-2">
-                      {slots.map((slot, idx) => (
-                        <OtpSlot key={idx} {...slot} />
-                      ))}
-                    </div>
-                  )}
-                />
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    className="flex-1"
-                    onClick={handleResendOtp}
-                    disabled={verifyingOtp}
-                  >
-                    Resend OTP
-                  </Button>
-                  <Button
-                    className="flex-1"
-                    onClick={handleVerifyOtp}
-                    disabled={verifyingOtp || otp.length < 6}
-                  >
-                    {verifyingOtp ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
-                    Verify & Create
-                  </Button>
-                </div>
-              </div>
-            )}
+            <Button
+              className="w-full text-xs font-display tracking-widest py-3"
+              disabled={loading || !isSignupValid}
+              onClick={handleSignup}
+            >
+              {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+              SIGN UP
+            </Button>
           </div>
         )}
 
