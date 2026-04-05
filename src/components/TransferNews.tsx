@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Square } from "lucide-react";
 import workshopImg from "@/assets/workshop.jpg";
 import transferImg from "@/assets/transfer.jpg";
 import eventPosterImg from "@/assets/event-poster.jpg";
@@ -193,8 +193,8 @@ const TransferNews = () => {
             {/* Event interest */}
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center text-sm">
-                  *
+                <div className="w-8 h-8 bg-secondary rounded-md flex items-center justify-center text-sm">
+                  <Square className="w-4 h-4 text-foreground" strokeWidth={2.4} />
                 </div>
                 <p className="font-display text-xs tracking-widest text-muted-foreground">
                   {slide.badge}

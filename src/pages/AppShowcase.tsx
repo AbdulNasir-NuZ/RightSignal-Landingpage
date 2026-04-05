@@ -1,7 +1,10 @@
+import { useMemo } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import SEOHead from "@/components/SEOHead";
 import rightSignalLogo from "@/assets/right-signal-logo.jpeg";
+import { supabase } from "@/lib/supabaseClient";
+import { buildPathFromLocation, rememberIntendedPath } from "@/lib/redirect";
 
 const appPreviews = [
   {
@@ -19,6 +22,42 @@ const appPreviews = [
 ];
 
 const AppShowcase = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const intendedPath = useMemo(() => buildPathFromLocation(location), [location]);
+
+  const ensureAccess = async (target: string) => {
+    if (!supabase) {
+      rememberIntendedPath(target);
+      navigate("/auth", { state: { redirectTo: target } });
+      return false;
+    }
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      rememberIntendedPath(target);
+      navigate("/auth", { state: { redirectTo: target } });
+      return false;
+    }
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("is_first_time")
+      .eq("user_id", session.user.id)
+      .maybeSingle();
+    const firstTime = profile?.is_first_time ?? session.user.user_metadata?.first_time_user ?? false;
+    if (firstTime) {
+      rememberIntendedPath(target);
+      navigate("/join", { state: { redirectTo: target, firstTime: true } });
+      return false;
+    }
+    return true;
+  };
+
+  const handleSandbox = async () => {
+    const target = "/startup-sandbox";
+    const ok = await ensureAccess(target);
+    if (ok) navigate(target);
+  };
+
   return (
     <HelmetProvider>
       <SEOHead />
@@ -94,6 +133,13 @@ const AppShowcase = () => {
                 >
                   REQUEST ACCESS
                 </a>
+                <button
+                  type="button"
+                  onClick={handleSandbox}
+                  className="w-48 text-center whitespace-nowrap font-display text-xs tracking-widest px-4 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+                >
+                  OPEN SANDBOX
+                </button>
               </div>
             </div>
 

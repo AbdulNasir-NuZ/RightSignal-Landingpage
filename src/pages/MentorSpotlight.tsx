@@ -77,7 +77,7 @@ const MentorSpotlight = () => {
               to="/join"
               className="font-display text-xs tracking-widest px-4 py-3 border border-foreground rounded-lg hover:bg-foreground hover:text-background transition-colors whitespace-nowrap"
             >
-              REQUEST INTRO
+              BOOK A CALL
             </Link>
           </div>
 
@@ -142,7 +142,7 @@ const MentorSpotlight = () => {
                     to="/join"
                     className="text-xs font-display tracking-widest text-foreground hover:underline mt-auto"
                   >
-                    REQUEST INTRO
+                    BOOK A CALL
                   </Link>
                 </motion.div>
               ))}

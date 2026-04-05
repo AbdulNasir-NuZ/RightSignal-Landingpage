@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 const communities = [
-  { name: "STUDENTS", icon: "*" },
-  { name: "CREATORS", icon: "*" },
-  { name: "FOUNDERS", icon: "*" },
-  { name: "INVESTORS", icon: "*" },
-  { name: "OPERATORS", icon: "*" },
-  { name: "PROFESSIONAL", icon: "*" },
+  { name: "STUDENTS" },
+  { name: "CREATORS" },
+  { name: "FOUNDERS" },
+  { name: "INVESTORS" },
+  { name: "OPERATORS" },
+  { name: "PROFESSIONAL" },
 ];
 
 const container = {
@@ -49,7 +50,7 @@ const LeaguesSection = () => {
             <h3 className="font-display text-base sm:text-lg md:text-2xl font-bold tracking-wide text-foreground">
               {c.name}
             </h3>
-            <span className="text-sm text-muted-foreground">{c.icon}</span>
+            <ArrowRight className="w-5 h-5 text-muted-foreground" strokeWidth={2.6} />
           </div>
           <motion.span
             whileHover={{ letterSpacing: "0.2em" }}

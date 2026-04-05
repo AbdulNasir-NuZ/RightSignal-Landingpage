@@ -7,6 +7,8 @@ import speakerImg from "@/assets/speaker-keynote.jpg";
 import founderImg from "@/assets/founder-portrait.jpg";
 import { Eye, Instagram, Twitter, Linkedin } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
+import { rememberIntendedPath } from "@/lib/redirect";
+import type { Session } from "@supabase/supabase-js";
 
 const cardVariants = {
   hidden: { opacity: 0, y: 60, scale: 0.95 },
@@ -183,7 +185,7 @@ const Community = () => {
   const [detectedContinent, setDetectedContinent] = useState<ContinentKey | null>(null);
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [showViewOverlay, setShowViewOverlay] = useState(false);
-  const [session, setSession] = useState<any>(null);
+  const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
     if (!supabase) return;
@@ -225,6 +227,7 @@ const Community = () => {
 
     // 1) Not signed in: send to Auth (email or Google), then to onboarding form
     if (!session) {
+      rememberIntendedPath("/join");
       navigate("/auth", { state: { redirectTo: "/join", requireManager: true, from: "community-card" } });
       return;
     }
@@ -239,6 +242,7 @@ const Community = () => {
         .maybeSingle();
 
       if (!member) {
+        rememberIntendedPath("/join");
         navigate("/join", { state: { from: "community-card", requireManager: true } });
         return;
       }
@@ -262,7 +266,13 @@ const Community = () => {
   };
 
   return (
-    <section className="px-6 md:px-12 py-16" aria-label="Community leaders">
+    <section id="community" className="px-6 md:px-12 py-16" aria-label="Community leaders">
+      <div className="flex items-center gap-8 text-xs tracking-[0.32em] uppercase text-muted-foreground mb-10">
+        <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
+        <Link to="/events" className="hover:text-foreground transition-colors">Events</Link>
+        <Link to="/apps" className="hover:text-foreground transition-colors">Apps</Link>
+        <Link to="/auth" className="hover:text-foreground transition-colors">Sign In</Link>
+      </div>
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/lib/supabaseClient";
+import { rememberIntendedPath } from "@/lib/redirect";
+import type { Session } from "@supabase/supabase-js";
 import {
   Tooltip,
   TooltipContent,
@@ -11,7 +13,9 @@ import rightSignalLogo from "@/assets/right-signal-logo.jpeg";
 import { motion } from "framer-motion";
 
 const DownloadCTA = () => {
-  const [session, setSession] = useState<any>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const iosTarget = "/#ios-download";
+  const androidTarget = "/#android-download";
 
   useEffect(() => {
     if (!supabase) return;
@@ -69,7 +73,8 @@ const DownloadCTA = () => {
                 ) : (
                   <Link
                     to="/auth"
-                    state={{ redirectTo: "/join" }}
+                    state={{ redirectTo: iosTarget }}
+                    onClick={() => rememberIntendedPath(iosTarget)}
                     className="font-display text-xs tracking-widest px-8 py-4 rounded-xl border-2 border-primary-foreground bg-primary-foreground/50 text-white/80 transition-all text-center min-w-[220px]"
                   >
                     LOGIN TO DOWNLOAD
@@ -95,7 +100,8 @@ const DownloadCTA = () => {
                 ) : (
                   <Link
                     to="/auth"
-                    state={{ redirectTo: "/join" }}
+                    state={{ redirectTo: androidTarget }}
+                    onClick={() => rememberIntendedPath(androidTarget)}
                     className="font-display text-xs tracking-widest px-8 py-4 rounded-xl border-2 border-primary-foreground text-primary-foreground/70 transition-all text-center min-w-[220px]"
                   >
                     LOGIN TO DOWNLOAD

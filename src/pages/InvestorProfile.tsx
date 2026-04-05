@@ -148,7 +148,7 @@ const InvestorProfilePage = () => {
                 to="/join"
                 className="font-display text-xs tracking-widest px-4 py-3 bg-foreground text-background rounded-lg hover:bg-foreground/90 transition-colors"
               >
-                REQUEST INTRO
+                BOOK A CALL
               </Link>
             </div>
           </div>

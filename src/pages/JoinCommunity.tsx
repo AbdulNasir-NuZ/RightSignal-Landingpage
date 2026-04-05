@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { supabase } from "@/lib/supabaseClient";
+import { buildPathFromLocation, clearIntendedPath, getIntendedPath, rememberIntendedPath } from "@/lib/redirect";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,6 +24,13 @@ type FormValues = {
 
 const JoinCommunity = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const redirectFromState = (location.state as { redirectTo?: string } | null)?.redirectTo;
+  const intendedPath = useMemo(
+    () => redirectFromState || buildPathFromLocation(location),
+    [redirectFromState, location],
+  );
+
   const {
     register,
     handleSubmit,
@@ -32,31 +40,47 @@ const JoinCommunity = () => {
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [nextPath, setNextPath] = useState<string>("");
 
   useEffect(() => {
-    if (!supabase) return;
+    if (!supabase) {
+      rememberIntendedPath(intendedPath);
+      navigate("/auth", { replace: true, state: { redirectTo: intendedPath || "/join" } });
+      setLoading(false);
+      return;
+    }
+    rememberIntendedPath(intendedPath);
+
     const checkUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
-        navigate("/auth", { replace: true, state: { redirectTo: "/join" } });
+        navigate("/auth", { replace: true, state: { redirectTo: intendedPath || "/join" } });
         return;
       }
 
-      // Check if already a member
-      const { data: member } = await supabase
-        .from("community_members")
-        .select("*")
-        .eq("user_id", session.user.id)
-        .single();
-      
+      const [{ data: profile }, { data: member }] = await Promise.all([
+        supabase.from("profiles").select("is_first_time").eq("user_id", session.user.id).maybeSingle(),
+        supabase.from("community_members").select("*").eq("user_id", session.user.id).maybeSingle(),
+      ]);
+
+      const isFirstTime = profile?.is_first_time ?? session.user.user_metadata?.first_time_user ?? false;
+      const destination = getIntendedPath(intendedPath || "/startup-sandbox");
+
+      if ((!isFirstTime || member) && destination && destination !== "/join") {
+        clearIntendedPath();
+        navigate(destination, { replace: true });
+        return;
+      }
+
       if (member) {
         setSubmitted(true);
       }
+      setNextPath(destination);
       setLoading(false);
     };
 
     checkUser();
-  }, [navigate]);
+  }, [intendedPath, navigate]);
 
   const onSubmit = async (values: FormValues) => {
     setError(null);
@@ -74,7 +98,7 @@ const JoinCommunity = () => {
       data: { session },
     } = await supabase.auth.getSession();
     if (!session) {
-      navigate("/auth", { replace: true, state: { redirectTo: "/join" } });
+      navigate("/auth", { replace: true, state: { redirectTo: intendedPath || "/join" } });
       return;
     }
 
@@ -112,8 +136,12 @@ const JoinCommunity = () => {
       return;
     }
 
+    await supabase.from("profiles").update({ is_first_time: false }).eq("user_id", session.user.id);
+    await supabase.auth.updateUser({ data: { first_time_user: false } });
+
     localStorage.setItem("community_profile", JSON.stringify(payload));
     setSubmitted(true);
+    setNextPath(getIntendedPath(intendedPath || "/startup-sandbox"));
     reset();
   };
 
@@ -131,10 +159,17 @@ const JoinCommunity = () => {
         <div className="w-full max-w-md bg-secondary/40 border border-border rounded-2xl p-8 text-center space-y-6 shadow-lg">
           <div className="space-y-2">
             <p className="font-display text-xs tracking-[0.3em] text-muted-foreground uppercase">Success</p>
-            <h1 className="font-display text-3xl font-black">Welcome to the Circle</h1>
+            <h1 className="font-display text-3xl font-black">Your account is live.</h1>
             <p className="text-sm text-muted-foreground">
-              Your profile is live. Download the app, then log back in and hit “Join Community” to get your regional group link.
+              Submissions are reviewed weekly. If you are willing to join the community, click here.
             </p>
+            <Link
+              to="/#community"
+              className="text-sm font-display tracking-widest text-primary underline underline-offset-4"
+              onClick={() => clearIntendedPath()}
+            >
+              JOIN COMMUNITY
+            </Link>
           </div>
           
           <div className="grid gap-4 mt-8">
@@ -150,6 +185,17 @@ const JoinCommunity = () => {
             >
               DOWNLOAD FOR ANDROID
             </a>
+            {nextPath ? (
+              <button
+                onClick={() => {
+                  clearIntendedPath();
+                  navigate(nextPath, { replace: true });
+                }}
+                className="w-full py-4 border border-border bg-background font-display text-xs tracking-widest rounded-xl hover:bg-muted transition-all"
+              >
+                CONTINUE TO {nextPath === "/startup-sandbox" ? "SANDBOX" : "YOUR PAGE"}
+              </button>
+            ) : null}
           </div>
 
           <button 

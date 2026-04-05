@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabaseClient";
+import { buildPathFromLocation, rememberIntendedPath } from "@/lib/redirect";
+import type { Session } from "@supabase/supabase-js";
 import heroCommunity from "@/assets/hero-community.jpg";
 import eventPoster from "@/assets/event-poster.jpg";
 import workshopImg from "@/assets/workshop.jpg";
@@ -50,32 +52,62 @@ const events = [
 
 const Events = () => {
   const navigate = useNavigate();
-  const [session, setSession] = useState<any>(null);
+  const location = useLocation();
+  const [session, setSession] = useState<Session | null>(null);
   const featured = useMemo(() => events[0], []);
+  const intendedPath = useMemo(
+    () => buildPathFromLocation(location),
+    [location],
+  );
 
   useEffect(() => {
     if (!supabase) return;
     supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      setSession(nextSession);
     });
     return () => subscription.unsubscribe();
   }, []);
 
-  const gateToAuth = (redirectTo = "/events") => {
-    navigate("/auth", { state: { redirectTo } });
+  const ensureAccess = async (target: string) => {
+    if (!supabase) {
+      navigate("/auth", { state: { redirectTo: target } });
+      return null;
+    }
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      rememberIntendedPath(target);
+      navigate("/auth", { state: { redirectTo: target } });
+      return null;
+    }
+    const { data: profile } = await supabase!
+      .from("profiles")
+      .select("is_first_time")
+      .eq("user_id", session.user.id)
+      .maybeSingle();
+    const firstTime = profile?.is_first_time ?? session.user.user_metadata?.first_time_user ?? false;
+    if (firstTime) {
+      rememberIntendedPath(target);
+      navigate("/join", { state: { redirectTo: target, firstTime: true } });
+      return null;
+    }
+    setSession(session);
+    return session;
   };
 
   const handleRegister = (target = "/events") => {
-    if (!session) {
-      gateToAuth(target);
-      return;
-    }
-    navigate("/join");
+    ensureAccess(target).then((allowed) => {
+      if (!allowed) return;
+      navigate("/join", { state: { redirectTo: target } });
+    });
   };
 
   const handleSubmitIdea = () => {
-    navigate("/startup-sandbox");
+    const target = "/startup-sandbox";
+    ensureAccess(target).then((allowed) => {
+      if (!allowed) return;
+      navigate(target);
+    });
   };
 
   return (

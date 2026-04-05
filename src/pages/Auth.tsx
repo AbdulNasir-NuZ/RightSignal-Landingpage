@@ -1,12 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { supabase } from "@/lib/supabaseClient";
+import { rememberIntendedPath, getIntendedPath, clearIntendedPath } from "@/lib/redirect";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import rightSignalLogo from "@/assets/right-signal-logo.jpeg";
 import { Eye, EyeOff, Loader2, Lock, Mail, Phone } from "lucide-react";
+import type { User } from "@supabase/supabase-js";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -40,38 +42,85 @@ const Auth = () => {
     );
   }, [email, password, confirmPassword, fullName, whatsapp]);
 
+  type ProfileRecord = { is_first_time?: boolean | null } | null;
+
+  const fetchProfile = useCallback(async (userId: string): Promise<ProfileRecord> => {
+    if (!supabase) return null;
+    const { data } = await supabase
+      .from("profiles")
+      .select("is_first_time")
+      .eq("user_id", userId)
+      .maybeSingle();
+    return data;
+  }, []);
+
+  const upsertProfile = useCallback(
+    async (
+      userId: string,
+      extras: {
+        name?: string | null;
+        whatsapp_number?: string | null;
+        manager_referral_code?: string | null;
+        is_first_time?: boolean;
+      },
+    ) => {
+      if (!supabase) return;
+      const payload = {
+        user_id: userId,
+        name: extras.name ?? null,
+        whatsapp_number: extras.whatsapp_number ?? null,
+        manager_referral_code: extras.manager_referral_code ?? null,
+        ...(typeof extras.is_first_time === "boolean" ? { is_first_time: extras.is_first_time } : {}),
+      };
+      await supabase.from("profiles").upsert(payload, { onConflict: "user_id" });
+    },
+    [],
+  );
+
+  const isFirstTimeUser = useCallback(
+    (profile?: ProfileRecord, userMeta?: User["user_metadata"]) =>
+      profile?.is_first_time ?? userMeta?.first_time_user ?? false,
+    [],
+  );
+
   useEffect(() => {
     if (!supabase) return;
-    supabase.auth.getSession().then(async ({ data }) => {
-      if (data.session) {
-        await upsertProfile(data.session.user.id, {
-          name: data.session.user.user_metadata?.full_name,
-          whatsapp_number: data.session.user.user_metadata?.whatsapp_number,
-          manager_referral_code: data.session.user.user_metadata?.manager_referral_code,
-        });
-        navigate(redirectTo, { replace: true });
-      }
-    });
-  }, [navigate, redirectTo]);
+    rememberIntendedPath(redirectTo);
+    const googleAttempt = sessionStorage.getItem("rs_google_oauth_attempt") === "1";
 
-  const upsertProfile = async (
-    userId: string,
-    extras: {
-      name?: string | null;
-      whatsapp_number?: string | null;
-      manager_referral_code?: string | null;
-    },
-  ) => {
-    const payload = {
-      user_id: userId,
-      name: (extras.name ?? fullName) ?? null,
-      whatsapp_number: (extras.whatsapp_number ?? whatsapp) ?? null,
-      manager_referral_code: (extras.manager_referral_code ?? managerCode) ?? null,
-    };
-    await supabase
-      ?.from("profiles")
-      .upsert(payload, { onConflict: "user_id" });
-  };
+    supabase.auth.getSession().then(async ({ data }) => {
+      if (!data.session) {
+        if (googleAttempt) {
+          sessionStorage.removeItem("rs_google_oauth_attempt");
+        }
+        return;
+      }
+
+      const sessionUser = data.session.user;
+      const profile = await fetchProfile(sessionUser.id);
+
+      if (!profile && googleAttempt) {
+        await supabase.auth.signOut();
+        sessionStorage.removeItem("rs_google_oauth_attempt");
+        setError("No existing Google account found. Please sign up first or use email login.");
+        return;
+      }
+
+      await upsertProfile(sessionUser.id, {
+        name: sessionUser.user_metadata?.full_name ?? null,
+        whatsapp_number: sessionUser.user_metadata?.whatsapp_number ?? null,
+        manager_referral_code: sessionUser.user_metadata?.manager_referral_code ?? null,
+      });
+
+      const intended = getIntendedPath(redirectTo);
+      if (isFirstTimeUser(profile, sessionUser.user_metadata)) {
+        navigate("/join", { replace: true, state: { redirectTo: intended, firstTime: true } });
+        return;
+      }
+      clearIntendedPath();
+      navigate(intended, { replace: true });
+    });
+  }, [fetchProfile, isFirstTimeUser, navigate, redirectTo, upsertProfile]);
 
   const handleLogin = async () => {
     if (!supabase) {
@@ -88,15 +137,28 @@ const Auth = () => {
     const { error: signInError, data } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (signInError) {
-      setError(signInError.message);
+      const message = signInError.message.toLowerCase();
+      if (message.includes("invalid login credentials") || message.includes("user not found") || message.includes("no user")) {
+        setError("User not found. Please sign up or check your email and password.");
+      } else {
+        setError(signInError.message);
+      }
       return;
     }
-    await upsertProfile(data.session!.user.id, {
-      name: data.session?.user.user_metadata?.full_name,
-      whatsapp_number: data.session?.user.user_metadata?.whatsapp_number,
-      manager_referral_code: data.session?.user.user_metadata?.manager_referral_code,
+    const sessionUser = data.session!.user;
+    await upsertProfile(sessionUser.id, {
+      name: sessionUser.user_metadata?.full_name ?? null,
+      whatsapp_number: sessionUser.user_metadata?.whatsapp_number ?? null,
+      manager_referral_code: sessionUser.user_metadata?.manager_referral_code ?? null,
     });
-    navigate(redirectTo, { replace: true });
+    const profile = await fetchProfile(sessionUser.id);
+    const intended = getIntendedPath(redirectTo);
+    if (isFirstTimeUser(profile, sessionUser.user_metadata)) {
+      navigate("/join", { replace: true, state: { redirectTo: intended, firstTime: true } });
+      return;
+    }
+    clearIntendedPath();
+    navigate(intended, { replace: true });
   };
 
   const handleSignup = async () => {
@@ -113,6 +175,8 @@ const Auth = () => {
     setError(null);
     setSuccess(null);
 
+    rememberIntendedPath(redirectTo);
+
     const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
@@ -121,6 +185,7 @@ const Auth = () => {
           full_name: fullName,
           whatsapp_number: whatsapp,
           manager_referral_code: managerCode || null,
+          first_time_user: true,
         },
         emailRedirectTo: `${window.location.origin}/auth`,
       },
@@ -141,8 +206,10 @@ const Auth = () => {
         name: fullName,
         whatsapp_number: whatsapp,
         manager_referral_code: managerCode || null,
+        is_first_time: true,
       });
-      navigate(redirectTo, { replace: true });
+      const intended = getIntendedPath(redirectTo);
+      navigate("/join", { replace: true, state: { redirectTo: intended, firstTime: true } });
       return;
     }
 
@@ -157,15 +224,20 @@ const Auth = () => {
     }
     setSuccess(null);
     setError(null);
+    rememberIntendedPath(redirectTo);
+    sessionStorage.setItem("rs_google_oauth_attempt", "1");
     const origin = window.location.origin;
     const { error: err } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { 
+      options: {
         redirectTo: origin,
-        queryParams: { prompt: 'select_account' } 
+        queryParams: { prompt: "select_account" },
       },
     });
-    if (err) setError(err.message);
+    if (err) {
+      sessionStorage.removeItem("rs_google_oauth_attempt");
+      setError(err.message);
+    }
   };
 
   return (
@@ -276,6 +348,9 @@ const Auth = () => {
 
         {mode === "signup" && (
           <div className="grid gap-3">
+            <p className="text-xs text-muted-foreground">
+              Create an account to continue. We'll keep you signed in across devices.
+            </p>
             <div className="grid md:grid-cols-2 gap-3">
               <div className="space-y-1">
                 <Label htmlFor="fullName">Full Name *</Label>
