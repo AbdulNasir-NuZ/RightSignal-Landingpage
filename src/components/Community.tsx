@@ -267,12 +267,7 @@ const Community = () => {
 
   return (
     <section id="community" className="px-6 md:px-12 py-16" aria-label="Community leaders">
-      <div className="flex items-center gap-8 text-xs tracking-[0.32em] uppercase text-muted-foreground mb-10">
-        <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
-        <Link to="/events" className="hover:text-foreground transition-colors">Events</Link>
-        <Link to="/apps" className="hover:text-foreground transition-colors">Apps</Link>
-        <Link to="/auth" className="hover:text-foreground transition-colors">Sign In</Link>
-      </div>
+      
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -281,12 +276,10 @@ const Community = () => {
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0 mb-8"
       >
-        <p className="font-display text-xs tracking-widest text-muted-foreground text-left sm:text-right">
+        <p className="font-display text-xs tracking-widest text-muted-foreground text-left sm:text-left">
           MEET OUR
           <br />
-          SIGNAL
-          <br />
-          LEADERS
+          SIGNAL LEADERS
         </p>
         <h2 className="font-display text-4xl sm:text-5xl md:text-7xl font-black text-foreground leading-tight">
           COMMUNITY HUB

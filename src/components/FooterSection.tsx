@@ -10,14 +10,14 @@ const FooterSection = () => {
       <div className="px-6 md:px-12 py-6 flex flex-col md:flex-row items-start md:items-center justify-between border-b border-primary-foreground/10">
         <nav className="flex flex-wrap gap-4 sm:gap-6" aria-label="Footer navigation">
           {[
-            { label: "HOME", href: "/" },
-            { label: "EVENTS", href: "/#events" },
-            { label: "APPS", href: "/apps" },
-            { label: "SIGN IN", href: "/auth" },
+            { label: "HOME", to: "/" },
+            { label: "EVENTS", to: "/events" },
+            { label: "APPS", to: "/apps" },
+            { label: "SIGN IN", to: "/auth" },
           ].map((link) => (
             <Link
               key={link.label}
-              to={link.href}
+              to={link.to}
               className="font-display text-xs tracking-widest text-primary-foreground/70 cursor-pointer story-link"
             >
               <span>{link.label}</span>
