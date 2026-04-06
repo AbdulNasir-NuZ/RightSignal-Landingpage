@@ -136,6 +136,20 @@ const JoinCommunity = () => {
       return;
     }
 
+    // Trigger Welcome Email securely
+    try {
+      fetch("/api/send-welcome", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: session.user.email,
+          name: values.name,
+        }),
+      });
+    } catch (e) {
+      console.error("Welcome email trigger failed:", e);
+    }
+
     await supabase.from("profiles").update({ is_first_time: false }).eq("user_id", session.user.id);
     await supabase.auth.updateUser({ data: { first_time_user: false } });
 
@@ -171,16 +185,16 @@ const JoinCommunity = () => {
               JOIN COMMUNITY
             </Link>
           </div>
-          
+
           <div className="grid gap-4 mt-8">
-            <a 
-              href="/#ios-download" 
+            <a
+              href="/#ios-download"
               className="w-full py-5 bg-foreground text-background font-display text-sm tracking-widest rounded-xl hover:bg-foreground/90 transition-all flex items-center justify-center gap-2 border-2 border-foreground"
             >
               DOWNLOAD FOR iOS
             </a>
-            <a 
-              href="/#android-download" 
+            <a
+              href="/#android-download"
               className="w-full py-5 border-2 border-border bg-secondary font-display text-sm tracking-widest rounded-xl hover:bg-secondary/70 transition-all flex items-center justify-center gap-2"
             >
               DOWNLOAD FOR ANDROID
@@ -198,7 +212,7 @@ const JoinCommunity = () => {
             ) : null}
           </div>
 
-          <button 
+          <button
             onClick={() => navigate("/")}
             className="text-xs text-muted-foreground underline underline-offset-4"
           >
@@ -267,10 +281,10 @@ const JoinCommunity = () => {
 
         <div className="space-y-1">
           <Label htmlFor="referral_code" className="text-xs uppercase tracking-widest font-bold">Referral Code</Label>
-          <Input 
-            id="referral_code" 
-            {...register("referral_code")} 
-            placeholder="ENTER YOUR CODE (OPTIONAL)" 
+          <Input
+            id="referral_code"
+            {...register("referral_code")}
+            placeholder="ENTER YOUR CODE (OPTIONAL)"
             className="h-10 text-sm font-mono tracking-widest bg-secondary/60 border-primary/20"
           />
         </div>

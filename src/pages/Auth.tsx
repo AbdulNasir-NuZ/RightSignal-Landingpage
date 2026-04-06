@@ -187,7 +187,7 @@ const Auth = () => {
           manager_referral_code: managerCode || null,
           first_time_user: true,
         },
-        emailRedirectTo: `${window.location.origin}/auth`,
+        emailRedirectTo: window.location.origin,
       },
     });
 
@@ -265,9 +265,8 @@ const Auth = () => {
               setError(null);
               setSuccess(null);
             }}
-            className={`font-display text-xs tracking-widest px-4 py-2 rounded-lg border ${
-              mode === "login" ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground"
-            }`}
+            className={`font-display text-xs tracking-widest px-4 py-2 rounded-lg border ${mode === "login" ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground"
+              }`}
           >
             LOGIN
           </button>
@@ -277,9 +276,8 @@ const Auth = () => {
               setError(null);
               setSuccess(null);
             }}
-            className={`font-display text-xs tracking-widest px-4 py-2 rounded-lg border ${
-              mode === "signup" ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground"
-            }`}
+            className={`font-display text-xs tracking-widest px-4 py-2 rounded-lg border ${mode === "signup" ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground"
+              }`}
           >
             SIGN UP
           </button>
