@@ -83,6 +83,23 @@ const Auth = () => {
     [],
   );
 
+  const handlePostAuthRedirect = useCallback(async (sessionUser: User, profile?: ProfileRecord) => {
+    const userProfile = profile || await fetchProfile(sessionUser.id);
+    const isFirstTime = isFirstTimeUser(userProfile, sessionUser.user_metadata);
+    const intended = getIntendedPath(redirectTo);
+    clearIntendedPath();
+
+    // 1. Prioritize deep-links to specific content (e.g. an event, sandbox, etc.)
+    // We specifically exclude "/" "/auth" and "/join" as destinations to keep users on the landing page
+    if (intended && intended !== "/" && intended !== "/auth" && intended !== "/join") {
+      navigate(intended, { replace: true });
+    } 
+    // 2. Default to the landing page for everyone else
+    else {
+      navigate("/", { replace: true });
+    }
+  }, [fetchProfile, isFirstTimeUser, navigate, redirectTo]);
+
   useEffect(() => {
     if (!supabase) return;
     rememberIntendedPath(redirectTo);
@@ -112,15 +129,9 @@ const Auth = () => {
         manager_referral_code: sessionUser.user_metadata?.manager_referral_code ?? null,
       });
 
-      const intended = getIntendedPath(redirectTo);
-      if (isFirstTimeUser(profile, sessionUser.user_metadata)) {
-        navigate("/join", { replace: true, state: { redirectTo: intended, firstTime: true } });
-        return;
-      }
-      clearIntendedPath();
-      navigate(intended, { replace: true });
+      handlePostAuthRedirect(sessionUser, profile);
     });
-  }, [fetchProfile, isFirstTimeUser, navigate, redirectTo, upsertProfile]);
+  }, [fetchProfile, navigate, redirectTo, upsertProfile, handlePostAuthRedirect]);
 
   const handleLogin = async () => {
     if (!supabase) {
@@ -135,8 +146,8 @@ const Auth = () => {
     setError(null);
     setSuccess(null);
     const { error: signInError, data } = await supabase.auth.signInWithPassword({ email, password });
-    setLoading(false);
     if (signInError) {
+      setLoading(false);
       const message = signInError.message.toLowerCase();
       if (message.includes("invalid login credentials") || message.includes("user not found") || message.includes("no user")) {
         setError("User not found. Please sign up or check your email and password.");
@@ -151,14 +162,8 @@ const Auth = () => {
       whatsapp_number: sessionUser.user_metadata?.whatsapp_number ?? null,
       manager_referral_code: sessionUser.user_metadata?.manager_referral_code ?? null,
     });
-    const profile = await fetchProfile(sessionUser.id);
-    const intended = getIntendedPath(redirectTo);
-    if (isFirstTimeUser(profile, sessionUser.user_metadata)) {
-      navigate("/join", { replace: true, state: { redirectTo: intended, firstTime: true } });
-      return;
-    }
-    clearIntendedPath();
-    navigate(intended, { replace: true });
+    setLoading(false);
+    handlePostAuthRedirect(sessionUser);
   };
 
   const handleSignup = async () => {
@@ -202,14 +207,14 @@ const Auth = () => {
     }
 
     if (data?.session) {
-      await upsertProfile(data.session.user.id, {
+      const sessionUser = data.session.user;
+      await upsertProfile(sessionUser.id, {
         name: fullName,
         whatsapp_number: whatsapp,
         manager_referral_code: managerCode || null,
         is_first_time: true,
       });
-      const intended = getIntendedPath(redirectTo);
-      navigate("/join", { replace: true, state: { redirectTo: intended, firstTime: true } });
+      handlePostAuthRedirect(sessionUser);
       return;
     }
 
