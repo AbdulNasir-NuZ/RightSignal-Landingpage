@@ -341,6 +341,33 @@ const Auth = () => {
               {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
               LOGIN
             </Button>
+            <div className="flex justify-between px-1">
+               <button
+                type="button"
+                onClick={() => {
+                   if (!email) {
+                     setError("Please enter your email to resend the verification link.");
+                     return;
+                   }
+                   setLoading(true);
+                   setError(null);
+                   setSuccess(null);
+                   supabase!.auth.resend({
+                     type: 'signup',
+                     email: email,
+                     options: { emailRedirectTo: window.location.origin }
+                   }).then(({ error }) => {
+                     setLoading(false);
+                     if (error) setError(error.message);
+                     else setSuccess("Verification email resent. Please check your inbox.");
+                   });
+                }}
+                disabled={loading}
+                className="text-[10px] uppercase font-display tracking-widest text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Didn't get the email? Resend
+              </button>
+            </div>
           </div>
         )}
 

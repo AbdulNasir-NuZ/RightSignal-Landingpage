@@ -136,20 +136,6 @@ const JoinCommunity = () => {
       return;
     }
 
-    // Trigger Welcome Email securely
-    try {
-      fetch("/api/send-welcome", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: session.user.email,
-          name: values.name,
-        }),
-      });
-    } catch (e) {
-      console.error("Welcome email trigger failed:", e);
-    }
-
     await supabase.from("profiles").update({ is_first_time: false }).eq("user_id", session.user.id);
     await supabase.auth.updateUser({ data: { first_time_user: false } });
 
