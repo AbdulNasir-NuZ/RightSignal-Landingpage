@@ -35,6 +35,7 @@ const Auth = () => {
     return (
       email &&
       password &&
+      password.length >= 6 &&
       confirmPassword &&
       fullName &&
       whatsapp &&
@@ -49,7 +50,7 @@ const Auth = () => {
     const { data } = await supabase
       .from("profiles")
       .select("is_first_time")
-      .eq("user_id", userId)
+      .eq("id", userId)
       .maybeSingle();
     return data;
   }, []);
@@ -66,13 +67,13 @@ const Auth = () => {
     ) => {
       if (!supabase) return;
       const payload = {
-        user_id: userId,
+        id: userId,
         name: extras.name ?? null,
         whatsapp_number: extras.whatsapp_number ?? null,
         manager_referral_code: extras.manager_referral_code ?? null,
         ...(typeof extras.is_first_time === "boolean" ? { is_first_time: extras.is_first_time } : {}),
       };
-      await supabase.from("profiles").upsert(payload, { onConflict: "user_id" });
+      await supabase.from("profiles").upsert(payload, { onConflict: "id" });
     },
     [],
   );
@@ -90,8 +91,8 @@ const Auth = () => {
     clearIntendedPath();
 
     // 1. Prioritize deep-links to specific content (e.g. an event, sandbox, etc.)
-    // We specifically exclude "/" "/auth" and "/join" as destinations to keep users on the landing page
-    if (intended && intended !== "/" && intended !== "/auth" && intended !== "/join") {
+    // We specifically allow "/join" now to ensure the onboarding flow works as requested.
+    if (intended && intended !== "/" && intended !== "/auth") {
       navigate(intended, { replace: true });
     } 
     // 2. Default to the landing page for everyone else
@@ -148,9 +149,13 @@ const Auth = () => {
     const { error: signInError, data } = await supabase.auth.signInWithPassword({ email, password });
     if (signInError) {
       setLoading(false);
+      console.error("Login Error:", signInError); // DEBUG LOG
       const message = signInError.message.toLowerCase();
-      if (message.includes("invalid login credentials") || message.includes("user not found") || message.includes("no user")) {
-        setError("User not found. Please sign up or check your email and password.");
+      
+      if (message.includes("confirm your email") || message.includes("email not confirmed")) {
+        setError("Your account exists but the email hasn't been confirmed yet. Please check your inbox (or spam) and click the verify link.");
+      } else if (message.includes("invalid login credentials") || message.includes("user not found") || message.includes("no user")) {
+        setError("Invalid credentials. Please sign up or check your email and password.");
       } else {
         setError(signInError.message);
       }
@@ -172,7 +177,11 @@ const Auth = () => {
       return;
     }
     if (!isSignupValid) {
-      setError("Please complete all required fields and ensure passwords match.");
+      if (password && password.length < 6) {
+        setError("Password should be at least 6 characters.");
+      } else {
+        setError("Please complete all required fields and ensure passwords match.");
+      }
       return;
     }
 
@@ -199,10 +208,18 @@ const Auth = () => {
     setLoading(false);
 
     if (signUpError) {
-      if (signUpError.message.toLowerCase().includes("already registered")) {
+      setLoading(false);
+      console.error("Signup error details:", signUpError); // DEBUG LOG
+      const message = signUpError.message.toLowerCase();
+      if (message.includes("already registered")) {
         setMode("login");
       }
-      setError(signUpError.message);
+      // Provide more diagnostic info for 400 errors
+      if (signUpError.status === 400) {
+        setError(`${signUpError.message} (Is your redirect URL ${window.location.origin} added to Supabase Allow List? Check console for details.)`);
+      } else {
+        setError(signUpError.message);
+      }
       return;
     }
 
@@ -361,11 +378,14 @@ const Auth = () => {
                      type: 'signup',
                      email: email,
                      options: { emailRedirectTo: window.location.origin }
-                   }).then(({ error }) => {
-                     setLoading(false);
-                     if (error) setError(error.message);
-                     else setSuccess("Verification email resent. Please check your inbox.");
-                   });
+                    }).then(({ error }) => {
+                      setLoading(false);
+                      if (error) {
+                        console.error("Resend error details:", error); // DEBUG LOG
+                        setError(error.message);
+                      }
+                      else setSuccess("Verification email resent. Please check your inbox.");
+                    });
                 }}
                 disabled={loading}
                 className="text-[10px] uppercase font-display tracking-widest text-muted-foreground hover:text-foreground transition-colors"
