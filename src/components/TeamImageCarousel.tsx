@@ -9,6 +9,9 @@ const baseImages = [
   "/team/6.png",
   "/team/7.png",
   "/team/8.png",
+  "/team/9.png",
+  "/team/10.png",
+  "/team/11.png",
 ].filter(Boolean);
 
 const TeamImageCarousel = () => {
