@@ -4,6 +4,7 @@ import { motion, useAnimationFrame, useMotionValue } from "framer-motion";
 const baseImages = [
   "/team/1.png",
   "/team/2.png",
+  "/team/3.png",
   "/team/4.png",
   "/team/5.png",
   "/team/6.png",
