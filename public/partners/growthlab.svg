@@ -1,0 +1,7 @@
+<svg width="220" height="96" viewBox="0 0 220 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="96" rx="16" fill="white"/>
+  <rect x="30" y="34" width="30" height="30" rx="8" fill="#16A34A"/>
+  <path d="M37 49H53" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <path d="M45 41V57" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <text x="74" y="55" fill="#0F172A" font-family="Arial, sans-serif" font-weight="700" font-size="20" letter-spacing="1">GROWTHLAB</text>
+</svg>

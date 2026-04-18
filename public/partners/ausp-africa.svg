@@ -1,0 +1,10 @@
+<svg width="220" height="140" viewBox="0 0 220 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="140" rx="18" fill="white"/>
+  <circle cx="110" cy="58" r="42" fill="#4A96D3"/>
+  <circle cx="110" cy="58" r="30" fill="#EAF3FB"/>
+  <path d="M93 58C96 50 102 44 110 42C117 41 124 43 129 48" stroke="#4A96D3" stroke-width="3" stroke-linecap="round"/>
+  <path d="M92 64C98 69 105 71 113 70C120 69 126 65 130 59" stroke="#F2C94C" stroke-width="4" stroke-linecap="round"/>
+  <path d="M102 62L108 54L115 62" stroke="#4A96D3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M108 54V66" stroke="#4A96D3" stroke-width="3" stroke-linecap="round"/>
+  <text x="110" y="122" text-anchor="middle" fill="#2F80C8" font-family="Arial, sans-serif" font-weight="700" font-size="22" letter-spacing="2">AUSP</text>
+</svg>

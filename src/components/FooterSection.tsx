@@ -24,6 +24,7 @@ const FooterSection = () => {
             </Link>
           ))}
         </nav>
+        
         <div className="flex items-center gap-4 mt-4 md:mt-0">
           <span className="font-display text-xs tracking-widest text-primary-foreground/70">
             INSTAGRAM

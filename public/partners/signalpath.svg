@@ -1,0 +1,6 @@
+<svg width="220" height="96" viewBox="0 0 220 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="96" rx="16" fill="white"/>
+  <rect x="30" y="34" width="30" height="30" rx="7" fill="#F97316"/>
+  <path d="M35 49L41 55L54 42" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="74" y="55" fill="#0F172A" font-family="Arial, sans-serif" font-weight="700" font-size="20" letter-spacing="1">SIGNALPATH</text>
+</svg>

@@ -1,0 +1,6 @@
+<svg width="220" height="96" viewBox="0 0 220 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="96" rx="16" fill="white"/>
+  <path d="M30 60V36H40.5C47 36 51 39.5 51 45C51 50.5 47 54 40.5 54H35V60H30Z" fill="#111827"/>
+  <path d="M35 49H40.2C43 49 45 47.4 45 45C45 42.6 43 41 40.2 41H35V49Z" fill="#0EA5E9"/>
+  <text x="74" y="55" fill="#0F172A" font-family="Arial, sans-serif" font-weight="700" font-size="20" letter-spacing="1">PULSEWORKS</text>
+</svg>

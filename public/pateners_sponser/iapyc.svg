@@ -1,0 +1,11 @@
+<svg width="220" height="140" viewBox="0 0 220 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="140" rx="18" fill="white"/>
+  <circle cx="110" cy="56" r="40" fill="#2AA156"/>
+  <circle cx="110" cy="56" r="31" fill="white"/>
+  <path d="M110 30C93 34 82 45 82 58C82 69 93 80 110 83C127 80 138 69 138 58C138 45 127 34 110 30Z" fill="none" stroke="#2AA156" stroke-width="2"/>
+  <path d="M90 56H130" stroke="#222" stroke-width="2"/>
+  <path d="M109 39V73" stroke="#222" stroke-width="2"/>
+  <circle cx="71" cy="56" r="5" fill="#F2D84B"/>
+  <circle cx="149" cy="56" r="5" fill="#F2D84B"/>
+  <text x="110" y="112" text-anchor="middle" fill="#2AA156" font-family="Arial, sans-serif" font-weight="700" font-size="14" letter-spacing="1">PAN AFRICAN YOUTH CONF.</text>
+</svg>

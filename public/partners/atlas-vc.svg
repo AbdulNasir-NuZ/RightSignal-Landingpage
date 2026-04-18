@@ -1,0 +1,6 @@
+<svg width="220" height="96" viewBox="0 0 220 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="96" rx="16" fill="white"/>
+  <path d="M30 61L44 33L58 61H52.5L49.5 54.5H38.5L35.5 61H30Z" fill="#111827"/>
+  <path d="M40.6 49.5H47.4L44 42.5L40.6 49.5Z" fill="#06B6D4"/>
+  <text x="74" y="55" fill="#0F172A" font-family="Arial, sans-serif" font-weight="700" font-size="20" letter-spacing="1">ATLAS VC</text>
+</svg>

@@ -7,6 +7,7 @@ import eventPosterImg from "@/assets/event-poster.jpg";
 import heroCommunityImg from "@/assets/hero-community.jpg";
 import magazineCoverImg from "@/assets/magazine-cover.jpg";
 import TeamImageCarousel from "@/components/TeamImageCarousel";
+import SponsorsSection from "@/components/SponsorsSection";
 
 const slides = [
   {
@@ -259,6 +260,7 @@ const TransferNews = () => {
         </AnimatePresence>
       </section>
       <TeamImageCarousel />
+      <SponsorsSection />
     </>
   );
 };

@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import founderImg from "@/assets/founder-portrait.jpg";
 import mentorImg from "@/assets/mentor.jpg";
 import investorImg from "@/assets/investor-portrait.jpg";
@@ -162,19 +163,25 @@ const TeamHierarchy = () => {
       </Helmet>
       <main className="min-h-screen bg-background text-foreground">
         <section className="px-6 md:px-12 py-12 space-y-10">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <p className="font-display text-xs tracking-widest text-muted-foreground">
-                COMMUNITY GRAPH
-              </p>
+          <div className="space-y-3">
+            <p className="font-display text-xs tracking-widest text-muted-foreground">
+              COMMUNITY GRAPH
+            </p>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
               <h1 className="font-display text-4xl md:text-5xl font-black">
                 Team Hierarchy
               </h1>
-              <p className="text-sm md:text-base text-muted-foreground max-w-2xl mt-2">
-                Global Signal to pods, designed to balance load for 50,000 members across continents, countries, states,
-                cities, and local pods.
-              </p>
+              <Link
+                to="/join"
+                className="inline-flex w-fit items-center justify-center rounded-lg border border-foreground/25 bg-background px-5 py-2.5 font-display text-[11px] tracking-[0.18em] uppercase text-foreground transition-colors duration-300 hover:bg-foreground hover:text-background hover:border-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                Join Community
+              </Link>
             </div>
+            <p className="text-sm md:text-base text-muted-foreground max-w-2xl">
+              Global Signal to pods, designed to balance load for 50,000 members across continents, countries, states,
+              cities, and local pods.
+            </p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">

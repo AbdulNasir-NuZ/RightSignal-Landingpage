@@ -1,0 +1,7 @@
+<svg width="220" height="96" viewBox="0 0 220 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="96" rx="16" fill="white"/>
+  <circle cx="44" cy="48" r="16" fill="#0A66C2"/>
+  <path d="M40 40H48V56H40V40Z" fill="white"/>
+  <path d="M44 37.5C46.2091 37.5 48 35.7091 48 33.5C48 31.2909 46.2091 29.5 44 29.5C41.7909 29.5 40 31.2909 40 33.5C40 35.7091 41.7909 37.5 44 37.5Z" fill="white"/>
+  <text x="74" y="55" fill="#0F172A" font-family="Arial, sans-serif" font-weight="700" font-size="20" letter-spacing="1">LINKFORGE</text>
+</svg>
