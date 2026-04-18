@@ -16,7 +16,7 @@ const baseImages = [
  "/team/12.png",
   "/team/13.png",
   "/team/14.png",
-  // "/team/15.png",
+  "/team/15.png",
   // "/team/16.png",
   "/team/17.png",
 
