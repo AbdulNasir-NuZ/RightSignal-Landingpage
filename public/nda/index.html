@@ -1,27 +1,30 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Right Signal — NDA Portal V5</title>
+<title>Right Signal â€” NDA Portal V5</title>
+<link rel="icon" type="image/jpeg" href="/RightSignalLOGO.jpeg">
+<link rel="shortcut icon" type="image/jpeg" href="/RightSignalLOGO.jpeg">
+<link rel="apple-touch-icon" href="/RightSignalLOGO.jpeg">
 <!--
-╔══════════════════════════════════════════════════════════════════════╗
-║  RIGHT SIGNAL — UNIVERSAL NDA SYSTEM  V5.0                          ║
-║  Zero External Dependencies · PDF Download · Global Share Link      ║
-╠══════════════════════════════════════════════════════════════════════╣
-║  HOW SHARE LINKS WORK:                                               ║
-║  After Party A signs, a unique link is generated:                    ║
-║  https://yoursite.com/nda/#share=<base64-encoded-nda-data>          ║
-║  Party B opens this link anywhere in the world, sees the             ║
-║  NDA pre-filled, adds their signature, and locks it.                 ║
-║  Both parties can then download the final PDF.                       ║
-║                                                                      ║
-║  EMBED: <iframe src="/nda/" style="width:100%;height:100vh;          ║
-║           border:none;" allow="camera"></iframe>                     ║
-╠══════════════════════════════════════════════════════════════════════╣
-║  CONFIG: Edit the CONFIG block in <script> to connect backend        ║
-║  PDF: Built with pure HTML Canvas — no libraries needed              ║
-╚══════════════════════════════════════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—
+â•‘  RIGHT SIGNAL â€” UNIVERSAL NDA SYSTEM  V5.0                          â•‘
+â•‘  Zero External Dependencies Â· PDF Download Â· Global Share Link      â•‘
+â• â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•£
+â•‘  HOW SHARE LINKS WORK:                                               â•‘
+â•‘  After Party A signs, a unique link is generated:                    â•‘
+â•‘  https://yoursite.com/nda/#share=<base64-encoded-nda-data>          â•‘
+â•‘  Party B opens this link anywhere in the world, sees the             â•‘
+â•‘  NDA pre-filled, adds their signature, and locks it.                 â•‘
+â•‘  Both parties can then download the final PDF.                       â•‘
+â•‘                                                                      â•‘
+â•‘  EMBED: <iframe src="/nda/" style="width:100%;height:100vh;          â•‘
+â•‘           border:none;" allow="camera"></iframe>                     â•‘
+â• â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•£
+â•‘  CONFIG: Edit the CONFIG block in <script> to connect backend        â•‘
+â•‘  PDF: Built with pure HTML Canvas â€” no libraries needed              â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 -->
 <style>
 body, html{scrollbar-width:none;-ms-overflow-style:none;overflow-y:auto;overflow-x:hidden;}
@@ -43,7 +46,7 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 }
 #rs-nda-root .shell{position:relative;z-index:1;display:flex;min-height:100vh;overflow:hidden;}
 
-/* ── SIDEBAR ── */
+/* â”€â”€ SIDEBAR â”€â”€ */
 #rs-nda-root .sb{
   width:264px;min-height:100vh;background:var(--k);
   position:fixed;left:0;top:0;bottom:0;
@@ -78,20 +81,20 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 #rs-nda-root .csd.on{background:var(--ok);}
 #rs-nda-root .csd.off{background:var(--dn);}
 
-/* ── MOBILE ── */
+/* â”€â”€ MOBILE â”€â”€ */
 #rs-nda-root .mob-bar{display:none;background:var(--k);color:#fff;padding:12px 18px;position:sticky;top:0;z-index:300;align-items:center;justify-content:space-between;}
 #rs-nda-root .mob-bar .sb-logo{margin:0;font-size:17px;}
 #rs-nda-root .hbg{background:none;border:none;color:#fff;cursor:pointer;font-size:20px;line-height:1;}
 #rs-nda-root .mob-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:190;}
 
-/* ── MAIN ── */
+/* â”€â”€ MAIN â”€â”€ */
 #rs-nda-root .main{margin-left:264px;flex:1;min-height:100vh;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;}
 #rs-nda-root .main::-webkit-scrollbar{display:none;}
 #rs-nda-root .pnl{display:none;padding:56px;min-height:100vh;max-width:1080px;margin:0 auto;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;}
 #rs-nda-root .pnl::-webkit-scrollbar{display:none;}
 #rs-nda-root .pnl.active{display:block;}
 
-/* ── HEADERS ── */
+/* â”€â”€ HEADERS â”€â”€ */
 #rs-nda-root .phb{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:12px;border-bottom:1px solid rgba(10,10,10,0.1);}
 #rs-nda-root .phb span{font-family:var(--mn);font-size:12.5px;letter-spacing:0.2em;color:var(--gm);text-transform:uppercase;}
 #rs-nda-root .stag{font-family:var(--mn);font-size:8.5px;letter-spacing:0.3em;color:var(--gm);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:12px;}
@@ -99,7 +102,7 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 #rs-nda-root .stit{font-family:var(--sf);font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-0.02em;margin-bottom:24px;}
 #rs-nda-root .dvd{width:100%;height:1px;background:linear-gradient(90deg,var(--k),transparent);margin:22px 0;opacity:0.11;}
 
-/* ── STEPS ── */
+/* â”€â”€ STEPS â”€â”€ */
 #rs-nda-root .steps{display:flex;gap:0;margin-bottom:28px;}
 #rs-nda-root .stp{display:flex;align-items:center;gap:7px;padding:8px 14px;font-family:var(--mn);font-size:12.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gm);border-bottom:2px solid transparent;flex:1;}
 #rs-nda-root .stp.done{color:var(--ok);border-bottom-color:var(--ok);}
@@ -107,14 +110,14 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 #rs-nda-root .stp .sn{width:19px;height:19px;border-radius:50%;border:1px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:12.5px;flex-shrink:0;}
 #rs-nda-root .stp.done .sn{background:var(--ok);border-color:var(--ok);color:#fff;}
 
-/* ── ALERTS ── */
+/* â”€â”€ ALERTS â”€â”€ */
 #rs-nda-root .al{padding:12px 16px;font-family:var(--mn);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:flex-start;gap:9px;line-height:1.6;}
 #rs-nda-root .al.info{background:rgba(26,58,92,0.06);border-left:3px solid var(--ac);color:var(--ac);}
 #rs-nda-root .al.warn{background:rgba(122,89,0,0.06);border-left:3px solid var(--wn);color:var(--wn);}
 #rs-nda-root .al.err{background:rgba(125,58,31,0.07);border-left:3px solid var(--dn);color:var(--dn);}
 #rs-nda-root .al.ok{background:rgba(45,90,61,0.07);border-left:3px solid var(--ok);color:var(--ok);}
 
-/* ── FORMS ── */
+/* â”€â”€ FORMS â”€â”€ */
 #rs-nda-root .fg2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:22px;}
 #rs-nda-root .fg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px;}
 #rs-nda-root .fg{display:flex;flex-direction:column;gap:7px;}
@@ -129,11 +132,11 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 #rs-nda-root .fg input:focus{border-color:var(--ac);}
 #rs-nda-root .fg input[readonly]{color:var(--gd);cursor:not-allowed;border-bottom-style:dashed;}
 
-/* ── PARTY BLOCKS ── */
+/* â”€â”€ PARTY BLOCKS â”€â”€ */
 #rs-nda-root .pb{border:1px solid rgba(10,10,10,0.1);padding:24px;margin-bottom:22px;background:var(--gl);position:relative;}
 #rs-nda-root .pbl{font-family:var(--mn);font-size:10.5px;letter-spacing:0.26em;text-transform:uppercase;color:var(--gd);position:absolute;top:11px;right:13px;}
 
-/* ── BUTTONS ── */
+/* â”€â”€ BUTTONS â”€â”€ */
 #rs-nda-root .btn{display:inline-flex;align-items:center;gap:7px;padding:11px 24px;font-family:var(--mn);font-size:8.5px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;border:none;transition:all .18s;user-select:none;}
 #rs-nda-root .btn-k{background:var(--k);color:#fff;}
 #rs-nda-root .btn-k:hover{background:var(--ac);}
@@ -149,7 +152,7 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 #rs-nda-root .br{display:flex;flex-wrap:wrap;gap:11px;align-items:center;}
 #rs-nda-root .chip{display:inline-block;padding:2px 9px;border:1px solid var(--k);font-family:var(--mn);font-size:14px;letter-spacing:0.11em;text-transform:uppercase;margin:3px 3px 3px 0;}
 
-/* ── SHARE LINK BOX ── */
+/* â”€â”€ SHARE LINK BOX â”€â”€ */
 #rs-nda-root .share-box{
   background:var(--k);padding:20px 22px;margin:20px 0;max-width:680px;
 }
@@ -169,14 +172,14 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 #rs-nda-root .share-copy-btn:hover{background:rgba(255,255,255,0.18);}
 #rs-nda-root .share-note{font-family:var(--mn);font-size:7.5px;color:rgba(255,255,255,0.3);letter-spacing:0.1em;text-transform:uppercase;margin-top:9px;line-height:1.7;}
 
-/* ── VIEW-ONLY BANNER (Party B) ── */
+/* â”€â”€ VIEW-ONLY BANNER (Party B) â”€â”€ */
 #rs-nda-root .view-banner{
   background:var(--ac);color:#fff;padding:16px 22px;
   font-family:var(--mn);font-size:8.5px;letter-spacing:0.14em;text-transform:uppercase;
   display:flex;align-items:center;gap:12px;margin-bottom:20px;max-width:720px;
 }
 
-/* ── NDA DOCUMENT ── */
+/* â”€â”€ NDA DOCUMENT â”€â”€ */
 #rs-nda-root #nda-doc{max-width:720px;background:#fff;border:1px solid rgba(10,10,10,0.08);position:relative;margin-bottom:18px;}
 #rs-nda-root .nwm{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-28deg);font-family:var(--sf);font-size:80px;font-weight:900;color:rgba(10,10,10,0.02);pointer-events:none;white-space:nowrap;z-index:0;letter-spacing:-0.04em;}
 #rs-nda-root .nin{position:relative;z-index:1;padding:46px;}
@@ -212,7 +215,7 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 #rs-nda-root .nft span{font-family:var(--mn);font-size:7.5px;color:var(--gm);letter-spacing:0.13em;text-transform:uppercase;}
 #rs-nda-root .lov{position:absolute;inset:0;z-index:50;pointer-events:all;cursor:not-allowed;}
 
-/* ── SIGNING CONTROLS ── */
+/* â”€â”€ SIGNING CONTROLS â”€â”€ */
 #rs-nda-root .sc{max-width:720px;padding:22px;border:1px solid rgba(10,10,10,0.08);background:var(--gl);margin-bottom:18px;}
 #rs-nda-root .sc h4{font-family:var(--mn);font-size:8.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gd);margin-bottom:13px;}
 #rs-nda-root .pt{display:flex;gap:0;margin-bottom:13px;}
@@ -229,7 +232,7 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 #rs-nda-root .upz p{font-family:var(--mn);font-size:8px;color:var(--gm);letter-spacing:0.13em;text-transform:uppercase;margin-top:5px;}
 #rs-nda-root .vh{font-family:var(--mn);font-size:7.5px;color:var(--dn);letter-spacing:0.11em;text-transform:uppercase;margin-top:8px;}
 
-/* ── OTP MODAL ── */
+/* â”€â”€ OTP MODAL â”€â”€ */
 #rs-nda-root .mbg{position:fixed;inset:0;background:rgba(0,0,0,0.54);z-index:1000;display:none;align-items:center;justify-content:center;}
 #rs-nda-root .mbg.open{display:flex;}
 #rs-nda-root .md{background:#fff;padding:44px;max-width:420px;width:90%;position:relative;}
@@ -240,7 +243,7 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 #rs-nda-root .oi input:focus{border-bottom-color:var(--ac);}
 #rs-nda-root .mc{position:absolute;top:14px;right:18px;background:none;border:none;cursor:pointer;font-size:18px;color:var(--gm);}
 
-/* ── RECORDS ── */
+/* â”€â”€ RECORDS â”€â”€ */
 #rs-nda-root .rc{border:1px solid rgba(10,10,10,0.1);padding:17px 20px;margin-bottom:10px;cursor:pointer;transition:all .17s;background:#fff;}
 #rs-nda-root .rc:hover{border-color:var(--k);transform:translateX(3px);}
 #rs-nda-root .rh{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
@@ -250,7 +253,7 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 #rs-nda-root .es{padding:44px;text-align:center;border:1px dashed rgba(10,10,10,0.1);}
 #rs-nda-root .es p{font-family:var(--mn);font-size:8.5px;letter-spacing:0.18em;color:var(--gm);text-transform:uppercase;}
 
-/* ── ADMIN ── */
+/* â”€â”€ ADMIN â”€â”€ */
 #rs-nda-root .adm{background:var(--k);color:#fff;padding:24px;margin-bottom:26px;}
 #rs-nda-root .adm h3{font-family:var(--sf);font-size:18px;font-weight:700;color:#fff;margin-bottom:15px;}
 #rs-nda-root .af label{font-family:var(--mn);font-size:7.5px;letter-spacing:0.18em;color:rgba(255,255,255,0.26);text-transform:uppercase;display:block;margin-bottom:6px;}
@@ -262,18 +265,18 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 #rs-nda-root .rt tr:hover td{background:rgba(10,10,10,0.015);}
 #rs-nda-root .lt{font-family:var(--mn);font-size:7.5px;letter-spacing:0.09em;text-transform:uppercase;padding:2px 7px;border:1px solid rgba(10,10,10,0.13);}
 
-/* ── SPINNER ── */
+/* â”€â”€ SPINNER â”€â”€ */
 #rs-nda-root .sp{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:rsspin .7s linear infinite;}
 @keyframes rsspin{to{transform:rotate(360deg);}}
 #rs-nda-root .sp.dk{border-color:rgba(0,0,0,0.14);border-top-color:var(--k);}
 
-/* ── TOAST ── */
+/* â”€â”€ TOAST â”€â”€ */
 #rs-nda-root #rtt{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(13px);background:var(--k);color:#fff;font-family:var(--mn);font-size:8.5px;letter-spacing:0.17em;text-transform:uppercase;padding:11px 22px;opacity:0;transition:all .27s;pointer-events:none;z-index:9999;}
 #rs-nda-root #rtt.s{opacity:1;transform:translateX(-50%) translateY(0);}
 #rs-nda-root #rtt.e{background:var(--dn);}
 #rs-nda-root #rtt.o{background:var(--ok);}
 
-/* ── RESPONSIVE ── */
+/* â”€â”€ RESPONSIVE â”€â”€ */
 @media(max-width:840px){
   #rs-nda-root .sb{display:none;}
   #rs-nda-root .sb.mo{display:flex;width:264px;}
@@ -312,7 +315,7 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 <!-- OTP MODAL -->
 <div class="mbg" id="otp-modal">
   <div class="md">
-    <button class="mc" onclick="closeOTP()">✕</button>
+    <button class="mc" onclick="closeOTP()">âœ•</button>
     <h2>Verify Email</h2>
     <p id="otp-msg">A 6-digit code has been sent to your email. Enter it below to confirm your identity.</p>
     <div class="oi" id="otp-inp">
@@ -332,23 +335,23 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 </div>
 
 <div class="shell">
-<!-- ═══════ SIDEBAR ═══════ -->
+<!-- â•â•â•â•â•â•â• SIDEBAR â•â•â•â•â•â•â• -->
 <nav class="sb" id="sb">
   <div class="sb-logo">Right Signal</div>
-  <div class="sb-sub">NDA Portal · V5.0</div>
+  <div class="sb-sub">NDA Portal Â· V5.0</div>
   <div class="sb-rl"></div>
   <div class="sb-lbl">Agreement Flow</div>
-  <div class="sni active" onclick="gp('access')" id="nav-access"><div class="dot"></div>00 · Access</div>
-  <div class="sni" onclick="gp('identity')" id="nav-identity"><div class="dot"></div>01 · Identity</div>
-  <div class="sni" onclick="gp('setup')"    id="nav-setup"><div class="dot"></div>02 · Configure</div>
-  <div class="sni" onclick="gp('nda')"      id="nav-nda"><div class="dot"></div>03 · Sign</div>
-  <div class="sni" onclick="gp('done')"     id="nav-done"><div class="dot"></div>04 · Confirmation</div>
+  <div class="sni active" onclick="gp('access')" id="nav-access"><div class="dot"></div>00 Â· Access</div>
+  <div class="sni" onclick="gp('identity')" id="nav-identity"><div class="dot"></div>01 Â· Identity</div>
+  <div class="sni" onclick="gp('setup')"    id="nav-setup"><div class="dot"></div>02 Â· Configure</div>
+  <div class="sni" onclick="gp('nda')"      id="nav-nda"><div class="dot"></div>03 Â· Sign</div>
+  <div class="sni" onclick="gp('done')"     id="nav-done"><div class="dot"></div>04 Â· Confirmation</div>
   <div class="sb-rl"></div>
   <div class="sb-lbl">Management</div>
   <div class="sni" onclick="gp('records')"  id="nav-records"><div class="dot"></div>Signed Records</div>
-  <div class="sni" onclick="gp('admin')"    id="nav-admin"><div class="dot"></div>Admin · Logbook</div>
+  <div class="sni" onclick="gp('admin')"    id="nav-admin"><div class="dot"></div>Admin Â· Logbook</div>
   <div class="sb-rl"></div>
-  <div class="sni" style="cursor:default;"><div class="dot" style="background:#fff;border-color:#fff;"></div>Master NDA · Active</div>
+  <div class="sni" style="cursor:default;"><div class="dot" style="background:#fff;border-color:#fff;"></div>Master NDA Â· Active</div>
   <div class="sb-foot">
     Template: MASTER_NDA<br>Version: 5.0<br>Scope: Global
     <div class="cs"><div class="csd" id="cdot"></div><span id="clbl">Checking...</span></div>
@@ -359,20 +362,20 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 <!-- MOBILE BAR -->
 <div class="mob-bar">
   <div class="sb-logo">Right Signal</div>
-  <button class="hbg" onclick="tmob()">☰</button>
+  <button class="hbg" onclick="tmob()">â˜°</button>
 </div>
 <div class="mob-ov" id="mov" onclick="tmob()"></div>
 
-<!-- ═══════ MAIN ═══════ -->
+<!-- â•â•â•â•â•â•â• MAIN â•â•â•â•â•â•â• -->
 <div class="main">
 
      
 <div id="panel-access" class="pnl active">
-  <div class="phb"><span>RS — NDA — Access</span><span>Restricted Entry</span></div>
+  <div class="phb"><span>RS â€” NDA â€” Access</span><span>Restricted Entry</span></div>
   <div class="stag">Step 00</div>
   <div class="stit">Enter<br>Access Code</div>
   <div class="dvd"></div>
-  <div class="al info">ℹ &nbsp;Code is issued by Core Team / Director / Admin.</div>
+  <div class="al info">â„¹ &nbsp;Code is issued by Core Team / Director / Admin.</div>
   <div class="pb" style="max-width:560px;">
     <div class="pbl">Reference Code</div>
     <div class="fg">
@@ -391,7 +394,7 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 
      
 <div id="panel-identity" class="pnl">
-  <div class="phb"><span>RS — NDA — Identity</span><span id="id-date-hdr"></span></div>
+  <div class="phb"><span>RS â€” NDA â€” Identity</span><span id="id-date-hdr"></span></div>
   <div class="stag">Step 01</div>
   <div class="stit">Your<br>Identity</div>
   <div class="dvd"></div>
@@ -401,7 +404,7 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
     <div class="stp"><div class="sn">3</div>Sign</div>
     <div class="stp"><div class="sn">4</div>Done</div>
   </div>
-  <div class="al info">ℹ &nbsp;Your details appear on the signed NDA. An OTP verifies your email when backend is active.</div>
+  <div class="al info">â„¹ &nbsp;Your details appear on the signed NDA. An OTP verifies your email when backend is active.</div>
   <div class="pb">
     <div class="pbl">Signer Info</div>
     <div class="fg2">
@@ -409,39 +412,39 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
       <div class="fg"><label>Email Address *</label><input type="email" id="id-email" placeholder="e.g. arjun@rightsignal.io"></div>
       <div class="fg"><label>Organisation / Company</label><input type="text" id="id-org" placeholder="e.g. Right Signal India"></div>
       <div class="fg"><label>Country *</label><input type="text" id="id-country" placeholder="e.g. India"></div>
-      <div class="fg"><label>Role / Designation *</label><input type="text" id="id-role" placeholder="e.g. Country Signal Head — India"></div>
+      <div class="fg"><label>Role / Designation *</label><input type="text" id="id-role" placeholder="e.g. Country Signal Head â€” India"></div>
       <div class="fg"><label>Phone (Optional)</label><input type="tel" id="id-phone" placeholder="e.g. +91 98765 43210"></div>
     </div>
   </div>
-  <div class="al warn">⚠ &nbsp;By proceeding you confirm you are authorised to sign legal agreements on behalf of the role stated above.</div>
-  <div class="br"><button class="btn btn-k" onclick="submitIdentity()"><span>Continue to Configure</span> →</button></div>
+  <div class="al warn">âš  &nbsp;By proceeding you confirm you are authorised to sign legal agreements on behalf of the role stated above.</div>
+  <div class="br"><button class="btn btn-k" onclick="submitIdentity()"><span>Continue to Configure</span> â†’</button></div>
   <div class="dvd" style="margin-top:36px;"></div>
   <div><div class="chip">OTP Verified</div><div class="chip">Global Access</div><div class="chip">Legally Binding</div><div class="chip">Encrypted</div></div>
 </div>
 
      
 <div id="panel-setup" class="pnl">
-  <div class="phb"><span>RS — NDA — Configure</span><span>Master Template</span></div>
+  <div class="phb"><span>RS â€” NDA â€” Configure</span><span>Master Template</span></div>
   <div class="stag">Step 02</div>
   <div class="stit">Configure<br>Agreement</div>
   <div class="dvd"></div>
   <div class="steps">
-    <div class="stp done"><div class="sn">✓</div>Identity</div>
+    <div class="stp done"><div class="sn">âœ“</div>Identity</div>
     <div class="stp cur"><div class="sn">2</div>Configure</div>
     <div class="stp"><div class="sn">3</div>Sign</div>
     <div class="stp"><div class="sn">4</div>Done</div>
   </div>
   <div class="pb">
-    <div class="pbl">Party A — You</div>
+    <div class="pbl">Party A â€” You</div>
     <div class="fg2">
-      <div class="fg"><label>Your Role *</label><input type="text" id="pa-role" placeholder="e.g. Country Signal Head — India"></div>
+      <div class="fg"><label>Your Role *</label><input type="text" id="pa-role" placeholder="e.g. Country Signal Head â€” India"></div>
       <div class="fg"><label>Your Full Name *</label><input type="text" id="pa-name" readonly></div>
     </div>
   </div>
   <div class="pb">
-    <div class="pbl">Party B — Counter-Party</div>
+    <div class="pbl">Party B â€” Counter-Party</div>
     <div class="fg2">
-      <div class="fg"><label>Their Role *</label><input type="text" id="pb-role" placeholder="e.g. Community Signal Manager — Bengaluru"></div>
+      <div class="fg"><label>Their Role *</label><input type="text" id="pb-role" placeholder="e.g. Community Signal Manager â€” Bengaluru"></div>
       <div class="fg"><label>Their Full Name *</label><input type="text" id="pb-name" placeholder="e.g. Anjali Rao"></div>
       <div class="fg"><label>Their Email (for share link)</label><input type="email" id="pb-email" placeholder="e.g. anjali@rightsignal.io"></div>
       <div class="fg"><label>Their Organisation</label><input type="text" id="pb-org" placeholder="e.g. Right Signal Karnataka"></div>
@@ -449,27 +452,27 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
   </div>
   <div class="fg" style="max-width:440px;margin-bottom:22px;"><label>Agreement Context *</label><input type="text" id="nda-ctx" placeholder="e.g. Strategic Partnership, Data Sharing"></div>
   <div class="br">
-    <button class="btn btn-s btn-sm" onclick="gp('identity')">← Back</button>
-    <button class="btn btn-k" onclick="loadNDA()">Generate NDA Document →</button>
+    <button class="btn btn-s btn-sm" onclick="gp('identity')">â† Back</button>
+    <button class="btn btn-k" onclick="loadNDA()">Generate NDA Document â†’</button>
   </div>
 </div>
 
    
 <div id="panel-nda" class="pnl">
-  <div class="phb"><span>RS — NDA — MASTER</span><span id="nda-hdr-date"></span></div>
+  <div class="phb"><span>RS â€” NDA â€” MASTER</span><span id="nda-hdr-date"></span></div>
   <div class="stag">Step 03</div>
   <div class="stit">Sign<br>Agreement</div>
   <div class="dvd"></div>
   <div class="steps">
-    <div class="stp done"><div class="sn">✓</div>Identity</div>
-    <div class="stp done"><div class="sn">✓</div>Configure</div>
+    <div class="stp done"><div class="sn">âœ“</div>Identity</div>
+    <div class="stp done"><div class="sn">âœ“</div>Configure</div>
     <div class="stp cur"><div class="sn">3</div>Sign</div>
     <div class="stp"><div class="sn">4</div>Done</div>
   </div>
 
   <!-- VIEW BANNER shown when Party B opens share link -->
   <div class="view-banner" id="view-banner" style="display:none;">
-    🔗 &nbsp;You are viewing this NDA as Party B. Review the document below and apply your signature to complete the agreement.
+    ðŸ”— &nbsp;You are viewing this NDA as Party B. Review the document below and apply your signature to complete the agreement.
   </div>
 
   <!-- THE NDA DOCUMENT -->
@@ -483,19 +486,19 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
           <span class="mid" style="margin-top:2px;">Ecosystem Framework</span>
         </div>
         <div style="text-align:right;">
-          <span class="mid">RS — NDA — MASTER</span>
+          <span class="mid">RS â€” NDA â€” MASTER</span>
           <span class="mid" id="nda-hd"></span>
           <span class="mid" id="nda-hs">Status: Pending Signatures</span>
         </div>
       </div>
 
       <div class="ntl">NON-DISCLOSURE AGREEMENT</div>
-      <div class="nsu">Confidential &nbsp;·&nbsp; Right Signal Ecosystem &nbsp;·&nbsp; Master Template</div>
+      <div class="nsu">Confidential &nbsp;Â·&nbsp; Right Signal Ecosystem &nbsp;Â·&nbsp; Master Template</div>
 
       <div class="nps">
-        <div class="np"><div class="lbl">Party A</div><div class="rol" id="da-r">—</div><div class="nam" id="da-n">Not Configured</div><div class="org" id="da-o"></div></div>
-        <div class="sep">⟷</div>
-        <div class="np"><div class="lbl">Party B</div><div class="rol" id="db-r">—</div><div class="nam" id="db-n">Not Configured</div><div class="org" id="db-o"></div></div>
+        <div class="np"><div class="lbl">Party A</div><div class="rol" id="da-r">â€”</div><div class="nam" id="da-n">Not Configured</div><div class="org" id="da-o"></div></div>
+        <div class="sep">âŸ·</div>
+        <div class="np"><div class="lbl">Party B</div><div class="rol" id="db-r">â€”</div><div class="nam" id="db-n">Not Configured</div><div class="org" id="db-o"></div></div>
       </div>
 
       <div class="nc"><p>This Non-Disclosure Agreement (the <strong>"Agreement"</strong>) is entered into as of <span class="dph" id="nc-d"></span>, by and between <span class="dph" id="nc-af"></span> (<strong>"Party A"</strong>) and <span class="dph" id="nc-bf"></span> (<strong>"Party B"</strong>), the <strong>"Parties"</strong>. This Agreement relates to: <span class="dph" id="nc-c">General Collaboration</span>.</p></div>
@@ -513,11 +516,11 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 
       <div class="sz">
         <div class="sg">
-          <div class="sb2"><div class="slb">Signature — <span id="slb-a">Party A</span></div><div class="sbx"><img id="sig-a-i" src="" alt=""><div class="sph" id="sig-a-p">Signature Pending</div></div><div class="snl" id="sig-a-n">—</div><div class="sdl" id="sig-a-d">Date: —</div></div>
-          <div class="sb2"><div class="slb">Signature — <span id="slb-b">Party B</span></div><div class="sbx"><img id="sig-b-i" src="" alt=""><div class="sph" id="sig-b-p">Signature Pending</div></div><div class="snl" id="sig-b-n">—</div><div class="sdl" id="sig-b-d">Date: —</div></div>
+          <div class="sb2"><div class="slb">Signature â€” <span id="slb-a">Party A</span></div><div class="sbx"><img id="sig-a-i" src="" alt=""><div class="sph" id="sig-a-p">Signature Pending</div></div><div class="snl" id="sig-a-n">â€”</div><div class="sdl" id="sig-a-d">Date: â€”</div></div>
+          <div class="sb2"><div class="slb">Signature â€” <span id="slb-b">Party B</span></div><div class="sbx"><img id="sig-b-i" src="" alt=""><div class="sph" id="sig-b-p">Signature Pending</div></div><div class="snl" id="sig-b-n">â€”</div><div class="sdl" id="sig-b-d">Date: â€”</div></div>
         </div>
       </div>
-      <div class="nft"><span>Right Signal — Confidential</span><span>RS — NDA — MASTER — V5.0</span><span>All Rights Reserved · 2026</span></div>
+      <div class="nft"><span>Right Signal â€” Confidential</span><span>RS â€” NDA â€” MASTER â€” V5.0</span><span>All Rights Reserved Â· 2026</span></div>
     </div>
   </div>
 
@@ -553,8 +556,8 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
     <div class="dvd"></div>
     <div class="br">
       <button class="btn btn-ok" onclick="lockAndSubmit()" id="btn-lock" style="display:none;"><span id="lbtxt">Lock, Save &amp; Submit</span><span id="lbsp" class="sp" style="display:none;"></span></button>
-      <button class="btn btn-ac" onclick="dlPDF()" id="btn-pdf" disabled>⬇ Download PDF</button>
-      <button class="btn btn-s btn-sm" onclick="gp('setup')" id="btn-back-setup">← Back</button>
+      <button class="btn btn-ac" onclick="dlPDF()" id="btn-pdf" disabled>â¬‡ Download PDF</button>
+      <button class="btn btn-s btn-sm" onclick="gp('setup')" id="btn-back-setup">â† Back</button>
     </div>
     <div class="vh" id="vh">Both signatures + agreement checkbox required.</div>
   </div>
@@ -562,17 +565,17 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 
    
 <div id="panel-done" class="pnl">
-  <div class="phb"><span>RS — NDA — Complete</span><span id="dn-date"></span></div>
+  <div class="phb"><span>RS â€” NDA â€” Complete</span><span id="dn-date"></span></div>
   <div class="stag">Step 04</div>
   <div class="stit">Agreement<br>Submitted</div>
   <div class="dvd"></div>
   <div class="steps">
-    <div class="stp done"><div class="sn">✓</div>Identity</div>
-    <div class="stp done"><div class="sn">✓</div>Configure</div>
-    <div class="stp done"><div class="sn">✓</div>Sign</div>
-    <div class="stp cur done"><div class="sn">✓</div>Done</div>
+    <div class="stp done"><div class="sn">âœ“</div>Identity</div>
+    <div class="stp done"><div class="sn">âœ“</div>Configure</div>
+    <div class="stp done"><div class="sn">âœ“</div>Sign</div>
+    <div class="stp cur done"><div class="sn">âœ“</div>Done</div>
   </div>
-  <div class="al ok">✓ &nbsp;NDA digitally signed, locked, and saved.</div>
+  <div class="al ok">âœ“ &nbsp;NDA digitally signed, locked, and saved.</div>
 
   <div class="pb" style="max-width:600px;">
     <div class="pbl">Agreement Summary</div>
@@ -586,11 +589,11 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
     </div>
   </div>
 
-  <!-- SHARE LINK — visible to other party globally -->
+  <!-- SHARE LINK â€” visible to other party globally -->
   <div class="share-box" id="share-box">
-    <div class="share-box-lbl">🔗 &nbsp;Share Link — Send to Party B to view &amp; sign online</div>
+    <div class="share-box-lbl">ðŸ”— &nbsp;Share Link â€” Send to Party B to view &amp; sign online</div>
     <div class="share-link-row">
-      <div class="share-link-input" id="share-link-txt">Generating link…</div>
+      <div class="share-link-input" id="share-link-txt">Generating linkâ€¦</div>
       <button class="share-copy-btn" onclick="copyLink()">Copy Link</button>
     </div>
     <div class="share-note">
@@ -599,18 +602,18 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
   </div>
 
   <div class="br" style="margin-top:20px;">
-    <button class="btn btn-ac" onclick="dlPDF()">⬇ Download PDF</button>
+    <button class="btn btn-ac" onclick="dlPDF()">â¬‡ Download PDF</button>
     <button class="btn btn-s" onclick="startNew()">Start New Agreement</button>
     <button class="btn btn-s btn-sm" onclick="gp('records')" id="btn-view-records">View All Records</button>
   </div>
 </div>
 
 <div id="panel-records" class="pnl">
-  <div class="phb"><span>RS — NDA — Records</span><span>Signed Instances</span></div>
+  <div class="phb"><span>RS â€” NDA â€” Records</span><span>Signed Instances</span></div>
   <div class="stag">Archive</div>
   <div class="stit">Signed<br>Records</div>
   <div class="dvd"></div>
-  <p style="font-size:13.5px;font-weight:300;color:#1a1a1a;margin-bottom:22px;">Each entry is one locked NDA. The master template was reused — no duplicate files created.</p>
+  <p style="font-size:13.5px;font-weight:300;color:#1a1a1a;margin-bottom:22px;">Each entry is one locked NDA. The master template was reused â€” no duplicate files created.</p>
   <div class="br" style="margin-bottom:18px;">
     <button class="btn btn-s btn-sm" onclick="loadRecs()"><span id="rec-sp" class="sp dk" style="display:none;"></span>Refresh from Server</button>
   </div>
@@ -618,7 +621,7 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 </div>
 
 <div id="panel-admin" class="pnl">
-  <div class="phb"><span>RS — NDA — Admin</span><span>Logbook Manager</span></div>
+  <div class="phb"><span>RS â€” NDA â€” Admin</span><span>Logbook Manager</span></div>
   <div class="stag">Admin</div>
   <div class="stit">Logbook<br>Administration</div>
   <div class="dvd"></div>
@@ -627,7 +630,7 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
     <h3>Add New Entry</h3>
     <div class="fg3">
       <div class="af fg"><label>Full Name</label><input type="text" id="nn" placeholder="e.g. Arjun Mehta"></div>
-      <div class="af fg"><label>Role Title</label><input type="text" id="nr" placeholder="e.g. Country Signal Head — India"></div>
+      <div class="af fg"><label>Role Title</label><input type="text" id="nr" placeholder="e.g. Country Signal Head â€” India"></div>
       <div class="af fg"><label>Hierarchy Level</label><input type="text" id="nl" placeholder="e.g. Country Signal Head"></div>
     </div>
     <button class="btn btn-s btn-sm" onclick="addE()" style="border-color:rgba(255,255,255,0.2);color:#fff;">+ Add Entry</button>
@@ -651,9 +654,9 @@ body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 </div><!-- /rs-nda-root -->
 
 <script>
-/* ════════════════════════════════════════════════════
-   CONFIG — Edit to connect your backend
-════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   CONFIG â€” Edit to connect your backend
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 const CONFIG = {
   API_BASE: '/api',
   BACKEND_LIVE: false,
@@ -668,29 +671,29 @@ const CONFIG = {
   }
 };
 
-/* ════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    LOGBOOK
-════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 let logbook = [
-  {level:'Signal Chief Officers',role:'Chief Signal Officer — Operations',name:'Right Signal HQ'},
-  {level:'Signal Chief Officers',role:'Chief Signal Officer — Strategy',name:'Right Signal HQ'},
+  {level:'Signal Chief Officers',role:'Chief Signal Officer â€” Operations',name:'Right Signal HQ'},
+  {level:'Signal Chief Officers',role:'Chief Signal Officer â€” Strategy',name:'Right Signal HQ'},
   {level:'Signal Director',role:'Signal Director',name:'Right Signal HQ'},
   {level:'Signal Board Members',role:'Signal Board Member',name:'Right Signal HQ'},
-  {level:'Continent Signal Head',role:'Continent Signal Head — Asia',name:'Vikram Nair'},
-  {level:'Continent Signal Head',role:'Continent Signal Head — Europe',name:'Sofia Delacroix'},
-  {level:'Continent Signal Head',role:'Continent Signal Head — Americas',name:'Carlos Mendez'},
-  {level:'Country Signal Head',role:'Country Signal Head — India',name:'Arjun Mehta'},
-  {level:'Country Signal Head',role:'Country Signal Head — UAE',name:'Layla Al-Hassan'},
-  {level:'Country Signal Head',role:'Country Signal Head — UK',name:'James Whitfield'},
-  {level:'State / Province Signal Head',role:'State Signal Head — Karnataka',name:'Priya Sharma'},
-  {level:'State / Province Signal Head',role:'State Signal Head — Maharashtra',name:'Rohan Desai'},
-  {level:'Community Signal Manager',role:'Community Signal Manager — Bengaluru',name:'Anjali Rao'},
-  {level:'Community Signal Manager',role:'Community Signal Manager — Mumbai',name:'Siddharth Kulkarni'},
+  {level:'Continent Signal Head',role:'Continent Signal Head â€” Asia',name:'Vikram Nair'},
+  {level:'Continent Signal Head',role:'Continent Signal Head â€” Europe',name:'Sofia Delacroix'},
+  {level:'Continent Signal Head',role:'Continent Signal Head â€” Americas',name:'Carlos Mendez'},
+  {level:'Country Signal Head',role:'Country Signal Head â€” India',name:'Arjun Mehta'},
+  {level:'Country Signal Head',role:'Country Signal Head â€” UAE',name:'Layla Al-Hassan'},
+  {level:'Country Signal Head',role:'Country Signal Head â€” UK',name:'James Whitfield'},
+  {level:'State / Province Signal Head',role:'State Signal Head â€” Karnataka',name:'Priya Sharma'},
+  {level:'State / Province Signal Head',role:'State Signal Head â€” Maharashtra',name:'Rohan Desai'},
+  {level:'Community Signal Manager',role:'Community Signal Manager â€” Bengaluru',name:'Anjali Rao'},
+  {level:'Community Signal Manager',role:'Community Signal Manager â€” Mumbai',name:'Siddharth Kulkarni'},
 ];
 
-/* ════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    STATE
-════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 let S={
   signer:{name:'',email:'',org:'',country:'',role:'',phone:''},
   otpV:false,
@@ -719,9 +722,9 @@ function enforceRoleVisibility(){
   if(g('btn-view-records')) g('btn-view-records').style.display=showMgmt?'inline-flex':'none';
 }
 
-/* ════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    INIT
-════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 window.addEventListener('DOMContentLoaded',()=>{
   g('id-date-hdr').textContent=fd(new Date());
   rndTbl();
@@ -733,9 +736,9 @@ window.addEventListener('DOMContentLoaded',()=>{
   if(!S.isPartyB) gp('access');
 });
 
-/* ════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    API
-════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 async function api(ep,method='GET',body=null){
   const h={'Content-Type':'application/json'};
   if(CONFIG.AUTH_TOKEN) h['Authorization']='Bearer '+CONFIG.AUTH_TOKEN;
@@ -752,9 +755,9 @@ async function chkConn(){
   catch{g('cdot').className='csd off';g('clbl').textContent='Offline';}
 }
 
-/* ════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    NAV
-════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function gp(n){
   if(!S.accessValidated && n!=='access'){
     n='access';
@@ -962,11 +965,11 @@ function applyRestrictedAccess(payload){
   });
 }
 
-/* ════════════════════════════════════════════════════
-   SHARE LINK — ENCODE / DECODE
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   SHARE LINK â€” ENCODE / DECODE
    Encodes the full NDA state into URL hash so Party B
    can open it in any browser, anywhere in the world.
-════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function buildShareLink(){
   const payload={
     v:1,
@@ -1017,7 +1020,7 @@ function checkShareLink(){
     g('view-banner').style.display='flex';
     // Jump to sign panel
     gp('nda');
-    toast('NDA loaded — please add your signature as Party B','ok');
+    toast('NDA loaded â€” please add your signature as Party B','ok');
     // Clear hash so it doesn't re-trigger
     history.replaceState(null,'',window.location.pathname);
   }catch(e){
@@ -1037,9 +1040,9 @@ function copyLink(){
   }
 }
 
-/* ════════════════════════════════════════════════════
-   STEP 1 — IDENTITY
-════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   STEP 1 â€” IDENTITY
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function submitIdentity(){
   const name=g('id-name').value.trim();
   const email=g('id-email').value.trim();
@@ -1051,7 +1054,7 @@ function submitIdentity(){
   if(!role){toast('Enter your role','err');return;}
   S.signer={name,email,org:g('id-org').value.trim(),country,role,phone:g('id-phone').value.trim()};
   if(CONFIG.BACKEND_LIVE){sendOTP(email);}
-  else{S.otpV=true;g('pa-name').value=name;g('pa-role').value=role;toast('Identity saved — demo mode (OTP skipped)','ok');gp('setup');}
+  else{S.otpV=true;g('pa-name').value=name;g('pa-role').value=role;toast('Identity saved â€” demo mode (OTP skipped)','ok');gp('setup');}
 }
 
 async function sendOTP(email){
@@ -1074,15 +1077,15 @@ async function verifyOTP(){
     await api(CONFIG.ENDPOINTS.VERIFY_OTP,'POST',{email:S.signer.email,code});
     S.otpV=true; closeOTP();
     g('pa-name').value=S.signer.name; g('pa-role').value=S.signer.role;
-    toast('Email verified ✓','ok'); gp('setup');
+    toast('Email verified âœ“','ok'); gp('setup');
   }catch{g('otp-err').style.display='block';g('otp-err').textContent='Invalid code.';}
   finally{g('otp-btn').disabled=false;}
 }
 async function resendOTP(){await sendOTP(S.signer.email);toast('Code resent');}
 
-/* ════════════════════════════════════════════════════
-   STEP 2 — LOAD NDA
-════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   STEP 2 â€” LOAD NDA
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function loadNDA(){
   if(S.isRestricted){
     gp('nda');
@@ -1116,8 +1119,8 @@ function rfNDA(){
   g('nc-bf').textContent=`${S.pB.name} (${S.pB.role})`;
   g('nc-c').textContent=S.ctx;
   g('nc-ar').textContent=S.pA.role; g('nc-br').textContent=S.pB.role;
-  g('slb-a').textContent=`Party A — ${S.pA.role}`;
-  g('slb-b').textContent=`Party B — ${S.pB.role}`;
+  g('slb-a').textContent=`Party A â€” ${S.pA.role}`;
+  g('slb-b').textContent=`Party B â€” ${S.pB.role}`;
   g('sig-a-n').textContent=S.pA.name; g('sig-b-n').textContent=S.pB.name;
   g('sig-a-d').textContent='Date: '+ds; g('sig-b-d').textContent='Date: '+ds;
   g('nda-hs').textContent='Status: Pending Signatures';
@@ -1134,9 +1137,9 @@ function rSig(p){
   g(`sig-${p}-p`).style.display='flex';
 }
 
-/* ════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    SIGNING
-════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function hAgr(cb){S.agreed=cb.checked;chkRdy();}
 function ssp(p){S.sp=p;g('pt-a').classList.toggle('active',p==='a');g('pt-b').classList.toggle('active',p==='b');}
 function sstab(n,el){document.querySelectorAll('.stb').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.spl').forEach(p=>p.classList.remove('active'));el.classList.add('active');g('spl-'+n).classList.add('active');}
@@ -1171,12 +1174,12 @@ function aSig(d){
   if(p==='a')S.sigA=d; else S.sigB=d;
   g(`sig-${p}-i`).src=d; g(`sig-${p}-i`).style.display='block';
   g(`sig-${p}-p`).style.display='none';
-  chkRdy(); toast('Signature applied — Party '+p.toUpperCase(),'ok');
+  chkRdy(); toast('Signature applied â€” Party '+p.toUpperCase(),'ok');
 }
 
-/* ════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    VALIDATION
-════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function canDo(){
   if(S.isRestricted){
     return S.agreed&&S.sigB&&S.pA.role&&S.pA.name&&S.pB.role&&S.pB.name;
@@ -1190,12 +1193,12 @@ function chkRdy(){
   g('vh').style.display=ok?'none':'block';
 }
 
-/* ════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    LOCK, SAVE & SUBMIT
-════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 async function lockAndSubmit(){
   if(!canDo()){toast('Complete all requirements first','err');return;}
-  g('lbtxt').textContent='Saving…'; g('lbsp').style.display='inline-block'; g('btn-lock').disabled=true;
+  g('lbtxt').textContent='Savingâ€¦'; g('lbsp').style.display='inline-block'; g('btn-lock').disabled=true;
   const ndaId='RS-NDA-'+Date.now(); S.id=ndaId;
 
   const payload={
@@ -1213,7 +1216,7 @@ async function lockAndSubmit(){
       S.id=res.id||ndaId;
       try{await api(CONFIG.ENDPOINTS.SEND_EMAIL,'POST',{nda_id:S.id,to:[S.pA.email,S.pB.email].filter(Boolean)});}
       catch(e){console.warn('Email failed',e);}
-    }catch(e){toast('Backend save failed — saved locally','err');console.error(e);}
+    }catch(e){toast('Backend save failed â€” saved locally','err');console.error(e);}
   }
 
   S.locked=true;
@@ -1228,8 +1231,8 @@ async function lockAndSubmit(){
 
   // Done panel
   g('dn-id').textContent=S.id; g('dn-ds').textContent=fd(new Date());
-  g('dn-a').textContent=`${S.pA.name} · ${S.pA.role}`;
-  g('dn-b').textContent=`${S.pB.name} · ${S.pB.role}`;
+  g('dn-a').textContent=`${S.pA.name} Â· ${S.pA.role}`;
+  g('dn-b').textContent=`${S.pB.name} Â· ${S.pB.role}`;
   g('dn-ctx').textContent=S.ctx; g('dn-date').textContent=fd(new Date());
 
   g('lbtxt').textContent='Lock, Save & Submit'; g('lbsp').style.display='none'; g('btn-lock').disabled=false;
@@ -1242,12 +1245,12 @@ async function lockAndSubmit(){
   gp('done'); toast('Agreement signed, locked & saved!','ok');
 }
 
-/* ════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    PDF DOWNLOAD
    Renders a pixel-perfect A4 document matching the
-   Right Signal logbook aesthetic — professional,
+   Right Signal logbook aesthetic â€” professional,
    structured, properly padded, print-optimised.
-════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function dlPDF(){
   if(!canDo()&&!S.locked){toast('Sign both parties first','err');return;}
 
@@ -1261,10 +1264,10 @@ function dlPDF(){
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Right Signal NDA — ${esc(S.pA.name)} &amp; ${esc(S.pB.name)}</title>
+<title>Right Signal NDA â€” ${esc(S.pA.name)} &amp; ${esc(S.pB.name)}</title>
 <style>
 
-/* ── RESET & PAGE ── */
+/* â”€â”€ RESET & PAGE â”€â”€ */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 @page {
@@ -1283,14 +1286,14 @@ html, body {
   print-color-adjust: exact;
 }
 
-/* ── RUNNING HEADER (repeats on every page via fixed positioning in print) ── */
+/* â”€â”€ RUNNING HEADER (repeats on every page via fixed positioning in print) â”€â”€ */
 .page-wrap {
   width: 100%;
   max-width: 170mm; /* A4 minus margins */
   margin: 0 auto;
 }
 
-/* ── DOCUMENT HEADER ── */
+/* â”€â”€ DOCUMENT HEADER â”€â”€ */
 .doc-header {
   display: table;
   width: 100%;
@@ -1326,7 +1329,7 @@ html, body {
   line-height: 1.9;
 }
 
-/* ── TITLE BLOCK ── */
+/* â”€â”€ TITLE BLOCK â”€â”€ */
 .nda-title-block {
   text-align: center;
   margin-bottom: 18pt;
@@ -1349,7 +1352,7 @@ html, body {
   text-transform: uppercase;
 }
 
-/* ── PARTIES BLOCK ── */
+/* â”€â”€ PARTIES BLOCK â”€â”€ */
 .parties-block {
   display: table;
   width: 100%;
@@ -1407,7 +1410,7 @@ html, body {
   letter-spacing: 0.12em;
 }
 
-/* ── PREAMBLE ── */
+/* â”€â”€ PREAMBLE â”€â”€ */
 .preamble {
   font-size: 9.5pt;
   font-weight: 300;
@@ -1420,7 +1423,7 @@ html, body {
 }
 .preamble strong { font-weight: 700; color: #0a0a0a; }
 
-/* ── SECTION DIVIDER ── */
+/* â”€â”€ SECTION DIVIDER â”€â”€ */
 .section-divider {
   width: 100%;
   height: 1pt;
@@ -1428,7 +1431,7 @@ html, body {
   margin: 12pt 0;
 }
 
-/* ── CLAUSE ── */
+/* â”€â”€ CLAUSE â”€â”€ */
 .clause { margin-bottom: 13pt; }
 .clause-head {
   display: table;
@@ -1464,11 +1467,11 @@ html, body {
 }
 .clause-body strong { font-weight: 700; color: #0a0a0a; }
 
-/* ── PAGE BREAK UTILITY ── */
+/* â”€â”€ PAGE BREAK UTILITY â”€â”€ */
 .page-break { page-break-before: always; }
 .no-break   { page-break-inside: avoid; }
 
-/* ── SIGNATURE PAGE ── */
+/* â”€â”€ SIGNATURE PAGE â”€â”€ */
 .sig-page-header {
   text-align: center;
   margin-bottom: 6pt;
@@ -1496,7 +1499,7 @@ html, body {
   margin-bottom: 20pt;
 }
 
-/* ── EXECUTION CONFIRMATION ── */
+/* â”€â”€ EXECUTION CONFIRMATION â”€â”€ */
 .execution-confirm {
   background: #f2f2f0;
   border-left: 3pt solid #0a0a0a;
@@ -1508,7 +1511,7 @@ html, body {
   margin-bottom: 22pt;
 }
 
-/* ── SIGNATURE BLOCKS — table layout for reliable PDF rendering ── */
+/* â”€â”€ SIGNATURE BLOCKS â€” table layout for reliable PDF rendering â”€â”€ */
 .sig-table {
   display: table;
   width: 100%;
@@ -1579,7 +1582,7 @@ html, body {
 }
 .sig-detail .label { color: #4a4a48; }
 
-/* ── DOCUMENT FOOTER ── */
+/* â”€â”€ DOCUMENT FOOTER â”€â”€ */
 .doc-footer {
   display: table;
   width: 100%;
@@ -1598,7 +1601,7 @@ html, body {
   letter-spacing: 0.12em;
 }
 
-/* ── WATERMARK ── */
+/* â”€â”€ WATERMARK â”€â”€ */
 .watermark {
   position: fixed;
   top: 50%;
@@ -1614,7 +1617,7 @@ html, body {
   letter-spacing: -0.04em;
 }
 
-/* ── PRINT: hide watermark bleed, force colors ── */
+/* â”€â”€ PRINT: hide watermark bleed, force colors â”€â”€ */
 @media print {
   .watermark { position: fixed; }
   body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -1628,7 +1631,7 @@ html, body {
 
 <div class="page-wrap">
 
-  <!-- ══ DOCUMENT HEADER ══ -->
+  <!-- â•â• DOCUMENT HEADER â•â• -->
   <div class="doc-header">
     <div class="doc-header-left">
       <div class="brand-name">Right Signal</div>
@@ -1636,21 +1639,21 @@ html, body {
     </div>
     <div class="doc-header-right">
       <div class="doc-meta">
-        RS — NDA — MASTER<br>
+        RS â€” NDA â€” MASTER<br>
         ${ds}<br>
         Status: Signed &amp; Locked<br>
-        ID: ${esc(S.id||'—')}
+        ID: ${esc(S.id||'â€”')}
       </div>
     </div>
   </div>
 
-  <!-- ══ TITLE ══ -->
+  <!-- â•â• TITLE â•â• -->
   <div class="nda-title-block">
     <div class="nda-title">NON-DISCLOSURE AGREEMENT</div>
     <div class="nda-subtitle">Confidential &nbsp;&middot;&nbsp; Right Signal Ecosystem &nbsp;&middot;&nbsp; Master Template</div>
   </div>
 
-  <!-- ══ PARTIES ══ -->
+  <!-- â•â• PARTIES â•â• -->
   <div class="parties-block">
     <div class="parties-inner">
       <div class="party-cell">
@@ -1670,7 +1673,7 @@ html, body {
     </div>
   </div>
 
-  <!-- ══ PREAMBLE ══ -->
+  <!-- â•â• PREAMBLE â•â• -->
   <div class="preamble">
     This Non-Disclosure Agreement (the <strong>"Agreement"</strong>) is entered into as of <strong>${ds}</strong>,
     by and between <strong>${esc(S.pA.name)} (${esc(S.pA.role)})</strong> (<strong>"Party A"</strong>)
@@ -1682,7 +1685,7 @@ html, body {
 
   <div class="section-divider"></div>
 
-  <!-- ══ CLAUSES ══ -->
+  <!-- â•â• CLAUSES â•â• -->
   <div class="clause no-break">
     <div class="clause-head">
       <div class="clause-num">1.0</div>
@@ -1749,7 +1752,7 @@ html, body {
       roles within the Right Signal Ecosystem Framework and agree that this Agreement is consistent with their
       responsibilities and obligations within said framework. Confidential information exchanged shall be governed
       by the ecosystem's security and compliance framework as outlined in the Right Signal Ecosystem Framework
-      Document (RS — EFD).
+      Document (RS â€” EFD).
     </div>
   </div>
 
@@ -1807,16 +1810,16 @@ html, body {
     </div>
   </div>
 
-  <!-- ══ DOCUMENT FOOTER (page 1) ══ -->
+  <!-- â•â• DOCUMENT FOOTER (page 1) â•â• -->
   <div class="doc-footer">
-    <div class="doc-footer-left"><span>Right Signal — Confidential</span></div>
-    <div class="doc-footer-center"><span>RS — NDA — MASTER — V5.0</span></div>
+    <div class="doc-footer-left"><span>Right Signal â€” Confidential</span></div>
+    <div class="doc-footer-center"><span>RS â€” NDA â€” MASTER â€” V5.0</span></div>
     <div class="doc-footer-right"><span>All Rights Reserved &middot; 2026</span></div>
   </div>
 
-  <!-- ══════════════════════════════════
-       SIGNATURE PAGE — new page
-  ══════════════════════════════════ -->
+  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+       SIGNATURE PAGE â€” new page
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
   <div class="page-break"></div>
 
   <!-- Repeat header on sig page -->
@@ -1827,10 +1830,10 @@ html, body {
     </div>
     <div class="doc-header-right">
       <div class="doc-meta">
-        RS — NDA — MASTER<br>
+        RS â€” NDA â€” MASTER<br>
         ${ds}<br>
         Signature Page<br>
-        ID: ${esc(S.id||'—')}
+        ID: ${esc(S.id||'â€”')}
       </div>
     </div>
   </div>
@@ -1891,15 +1894,15 @@ html, body {
     <div class="clause-body" style="font-size:8pt;color:#4a4a48;line-height:1.7;">
       Both parties confirmed agreement by checking the electronic consent box. This document was generated
       by the Right Signal NDA Portal (MASTER_NDA). OTP email verification ${S.otpV?'was completed':'status recorded'}.
-      Agreement ID: <strong>${esc(S.id||'—')}</strong>. Signed: <strong>${ds}</strong>.
+      Agreement ID: <strong>${esc(S.id||'â€”')}</strong>. Signed: <strong>${ds}</strong>.
       This document is legally binding under applicable digital signature laws.
     </div>
   </div>
 
   <!-- Signature page footer -->
   <div class="doc-footer">
-    <div class="doc-footer-left"><span>Right Signal — Confidential</span></div>
-    <div class="doc-footer-center"><span>RS — NDA — MASTER — V5.0</span></div>
+    <div class="doc-footer-left"><span>Right Signal â€” Confidential</span></div>
+    <div class="doc-footer-center"><span>RS â€” NDA â€” MASTER â€” V5.0</span></div>
     <div class="doc-footer-right"><span>All Rights Reserved &middot; 2026</span></div>
   </div>
 
@@ -1932,24 +1935,24 @@ html, body {
     const a = document.createElement('a');
     a.href = url; a.download = name; a.style.display = 'none';
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    toast('Download started — open file and print → Save as PDF','ok');
+    toast('Download started â€” open file and print â†’ Save as PDF','ok');
   } else {
-    toast('Print dialog opening — choose Save as PDF','ok');
+    toast('Print dialog opening â€” choose Save as PDF','ok');
   }
 
   setTimeout(() => URL.revokeObjectURL(url), 30000);
 }
 
-/* ════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    RECORDS
-════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 async function loadRecs(){
   if(!isAdminAccess()){toast('Admin access required','err');return;}
   g('rec-sp').style.display='inline-block';
   let recs=[];
   if(CONFIG.BACKEND_LIVE){
     try{const d=await api(CONFIG.ENDPOINTS.LIST_NDAS);recs=d.records||d||[];}
-    catch{toast('Server load failed — showing local','err');recs=S.records;}
+    catch{toast('Server load failed â€” showing local','err');recs=S.records;}
   }else recs=S.records;
   rndRecs(recs); g('rec-sp').style.display='none';
 }
@@ -1960,11 +1963,11 @@ function rndRecs(recs){
   el.innerHTML=recs.map((r,i)=>{
     const pa=r.party_a||r.pA||{},pb=r.party_b||r.pB||{};
     const date=r.signed_at||r.locked_at||r.created_at||'';
-    const ds=date?new Date(date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'—';
+    const ds=date?new Date(date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'â€”';
     return `<div class="rc" onclick="viewRec(${i})">
-      <div class="rh"><span class="ri">${r.id||'—'}</span><span class="bdg save" style="font-size:7px;">Signed</span></div>
-      <div class="rp">${pa.name||'—'} &nbsp;⟷&nbsp; ${pb.name||'—'}</div>
-      <div class="rm"><span>${pa.role||'—'}</span><span>·</span><span>${pb.role||'—'}</span><span>·</span><span>${ds}</span><span>·</span><span>${r.context||r.ctx||'—'}</span></div>
+      <div class="rh"><span class="ri">${r.id||'â€”'}</span><span class="bdg save" style="font-size:7px;">Signed</span></div>
+      <div class="rp">${pa.name||'â€”'} &nbsp;âŸ·&nbsp; ${pb.name||'â€”'}</div>
+      <div class="rm"><span>${pa.role||'â€”'}</span><span>Â·</span><span>${pb.role||'â€”'}</span><span>Â·</span><span>${ds}</span><span>Â·</span><span>${r.context||r.ctx||'â€”'}</span></div>
     </div>`;
   }).join('');
 }
@@ -1987,9 +1990,9 @@ function viewRec(i){
   chkRdy(); gp('nda'); toast('Viewing: '+r.id);
 }
 
-/* ════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    START NEW
-════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function startNew(){
   setPartyAIdentityFields(false);
   S={...S,signer:{name:'',email:'',org:'',country:'',role:'',phone:''},otpV:false,
@@ -2001,15 +2004,15 @@ function startNew(){
   setBdg('pend','Pending'); gp(isAdminAccess()?'identity':'access');
 }
 
-/* ════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    ADMIN
-════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function addE(){
   if(!isAdminAccess()){toast('Admin access required','err');return;}
   const n=g('nn').value.trim(),r=g('nr').value.trim(),l=g('nl').value.trim();
   if(!n){toast('Enter a name','err');return;}if(!r){toast('Enter a role','err');return;}if(!l){toast('Enter a level','err');return;}
   logbook.push({level:l,role:r,name:n}); g('nn').value=''; g('nr').value=''; g('nl').value='';
-  rndTbl(); toast('Added: '+r+' — '+n,'ok');
+  rndTbl(); toast('Added: '+r+' â€” '+n,'ok');
 }
 function rmE(i){
   if(!isAdminAccess()){toast('Admin access required','err');return;}
@@ -2057,9 +2060,9 @@ function copyGenCode(i){
   toast('Code copied: '+row.code,'ok');
 }
 
-/* ════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    HELPERS
-════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function g(id){return document.getElementById(id);}
 function fd(d){return d.toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});}
 function setBdg(c,t){const el=g('sbdg');el.className='bdg '+c;el.textContent=t;}
@@ -2073,4 +2076,6 @@ function toast(msg,t=''){
 </script>
 </body>
 </html>
+
+
 
