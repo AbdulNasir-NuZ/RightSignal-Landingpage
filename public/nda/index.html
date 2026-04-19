@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Right Signal — NDA Portal V5</title>
+<!--
+╔══════════════════════════════════════════════════════════════════════╗
+║  RIGHT SIGNAL — UNIVERSAL NDA SYSTEM  V5.0                          ║
+║  Zero External Dependencies · PDF Download · Global Share Link      ║
+╠══════════════════════════════════════════════════════════════════════╣
+║  HOW SHARE LINKS WORK:                                               ║
+║  After Party A signs, a unique link is generated:                    ║
+║  https://yoursite.com/nda/#share=<base64-encoded-nda-data>          ║
+║  Party B opens this link anywhere in the world, sees the             ║
+║  NDA pre-filled, adds their signature, and locks it.                 ║
+║  Both parties can then download the final PDF.                       ║
+║                                                                      ║
+║  EMBED: <iframe src="/nda/" style="width:100%;height:100vh;          ║
+║           border:none;" allow="camera"></iframe>                     ║
+╠══════════════════════════════════════════════════════════════════════╣
+║  CONFIG: Edit the CONFIG block in <script> to connect backend        ║
+║  PDF: Built with pure HTML Canvas — no libraries needed              ║
+╚══════════════════════════════════════════════════════════════════════╝
+-->
+<style>
+#rs-nda-root *{margin:0;padding:0;box-sizing:border-box;}
+#rs-nda-root{
+  --k:#0a0a0a;--w:#fafafa;--gl:#f2f2f0;--gm:#c8c8c4;--gd:#4a4a48;
+  --gr:rgba(10,10,10,0.055);--ac:#1a3a5c;--dn:#7d3a1f;--ok:#2d5a3d;--wn:#7a5900;
+  --sf:Georgia,'Times New Roman',serif;--mn:'Courier New',Courier,monospace;
+  font-family:var(--sf);font-size:16px;line-height:1.75;color:var(--k);
+  background:var(--w);min-height:100vh;-webkit-font-smoothing:antialiased;position:relative;
+}
+#rs-nda-root .gbg{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(var(--gr) 1px,transparent 1px),linear-gradient(90deg,var(--gr) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+#rs-nda-root .shell{position:relative;z-index:1;display:flex;min-height:100vh;}
+
+/* ── SIDEBAR ── */
+#rs-nda-root .sb{
+  width:264px;min-height:100vh;background:var(--k);
+  position:fixed;left:0;top:0;bottom:0;
+  display:flex;flex-direction:column;padding:36px 24px;z-index:200;overflow-y:auto;
+}
+#rs-nda-root .sb-logo{font-family:var(--sf);font-size:22px;font-weight:900;color:#fff;letter-spacing:-0.02em;margin-bottom:3px;}
+#rs-nda-root .sb-sub{font-family:var(--mn);font-size:7.5px;letter-spacing:0.3em;color:rgba(255,255,255,0.25);text-transform:uppercase;margin-bottom:30px;}
+#rs-nda-root .sb-rl{height:1px;background:rgba(255,255,255,0.07);margin:16px 0;}
+#rs-nda-root .sb-lbl{font-family:var(--mn);font-size:7.5px;letter-spacing:0.28em;color:rgba(255,255,255,0.2);text-transform:uppercase;margin-bottom:10px;}
+#rs-nda-root .sni{
+  display:flex;align-items:center;gap:9px;padding:8px 0;
+  font-family:var(--mn);font-size:8.5px;letter-spacing:0.12em;
+  color:rgba(255,255,255,0.36);text-transform:uppercase;
+  cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.04);transition:color .18s;user-select:none;
+}
+#rs-nda-root .sni:hover{color:rgba(255,255,255,0.7);}
+#rs-nda-root .sni.active{color:#fff;}
+#rs-nda-root .sni .dot{width:5px;height:5px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);flex-shrink:0;}
+#rs-nda-root .sni.active .dot{background:#fff;border-color:#fff;}
+#rs-nda-root .sb-foot{
+  margin-top:auto;padding:13px;border:1px solid rgba(255,255,255,0.06);
+  font-family:var(--mn);font-size:7.5px;color:rgba(255,255,255,0.22);letter-spacing:0.13em;text-transform:uppercase;line-height:2;
+}
+#rs-nda-root .bdg{display:inline-block;padding:2px 8px;font-family:var(--mn);font-size:7px;letter-spacing:0.16em;text-transform:uppercase;border:1px solid;margin-top:6px;}
+#rs-nda-root .bdg.pend{color:rgba(255,255,255,0.28);border-color:rgba(255,255,255,0.1);}
+#rs-nda-root .bdg.lock{color:#e8b4a0;border-color:#7d3a1f;}
+#rs-nda-root .bdg.save{color:#a8d8b0;border-color:#2d5a3d;}
+#rs-nda-root .cs{display:flex;align-items:center;gap:5px;font-family:var(--mn);font-size:7.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gm);margin-top:8px;}
+#rs-nda-root .csd{width:6px;height:6px;border-radius:50%;background:var(--gm);}
+#rs-nda-root .csd.on{background:var(--ok);}
+#rs-nda-root .csd.off{background:var(--dn);}
+
+/* ── MOBILE ── */
+#rs-nda-root .mob-bar{display:none;background:var(--k);color:#fff;padding:12px 18px;position:sticky;top:0;z-index:300;align-items:center;justify-content:space-between;}
+#rs-nda-root .mob-bar .sb-logo{margin:0;font-size:17px;}
+#rs-nda-root .hbg{background:none;border:none;color:#fff;cursor:pointer;font-size:20px;line-height:1;}
+#rs-nda-root .mob-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:190;}
+
+/* ── MAIN ── */
+#rs-nda-root .main{margin-left:264px;flex:1;min-height:100vh;}
+#rs-nda-root .pnl{display:none;padding:56px;min-height:100vh;}
+#rs-nda-root .pnl.active{display:block;}
+
+/* ── HEADERS ── */
+#rs-nda-root .phb{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:12px;border-bottom:1px solid rgba(10,10,10,0.1);}
+#rs-nda-root .phb span{font-family:var(--mn);font-size:8.5px;letter-spacing:0.2em;color:var(--gm);text-transform:uppercase;}
+#rs-nda-root .stag{font-family:var(--mn);font-size:8.5px;letter-spacing:0.3em;color:var(--gm);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+#rs-nda-root .stag::after{content:'';flex:1;height:1px;background:var(--gm);opacity:0.3;}
+#rs-nda-root .stit{font-family:var(--sf);font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-0.02em;margin-bottom:24px;}
+#rs-nda-root .dvd{width:100%;height:1px;background:linear-gradient(90deg,var(--k),transparent);margin:22px 0;opacity:0.11;}
+
+/* ── STEPS ── */
+#rs-nda-root .steps{display:flex;gap:0;margin-bottom:28px;}
+#rs-nda-root .stp{display:flex;align-items:center;gap:7px;padding:8px 14px;font-family:var(--mn);font-size:7.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gm);border-bottom:2px solid transparent;flex:1;}
+#rs-nda-root .stp.done{color:var(--ok);border-bottom-color:var(--ok);}
+#rs-nda-root .stp.cur{color:var(--k);border-bottom-color:var(--k);}
+#rs-nda-root .stp .sn{width:19px;height:19px;border-radius:50%;border:1px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:7.5px;flex-shrink:0;}
+#rs-nda-root .stp.done .sn{background:var(--ok);border-color:var(--ok);color:#fff;}
+
+/* ── ALERTS ── */
+#rs-nda-root .al{padding:12px 16px;font-family:var(--mn);font-size:8px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:flex-start;gap:9px;line-height:1.6;}
+#rs-nda-root .al.info{background:rgba(26,58,92,0.06);border-left:3px solid var(--ac);color:var(--ac);}
+#rs-nda-root .al.warn{background:rgba(122,89,0,0.06);border-left:3px solid var(--wn);color:var(--wn);}
+#rs-nda-root .al.err{background:rgba(125,58,31,0.07);border-left:3px solid var(--dn);color:var(--dn);}
+#rs-nda-root .al.ok{background:rgba(45,90,61,0.07);border-left:3px solid var(--ok);color:var(--ok);}
+
+/* ── FORMS ── */
+#rs-nda-root .fg2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:22px;}
+#rs-nda-root .fg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px;}
+#rs-nda-root .fg{display:flex;flex-direction:column;gap:7px;}
+#rs-nda-root .fg label{font-family:var(--mn);font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gd);}
+#rs-nda-root .fg input[type=text],
+#rs-nda-root .fg input[type=email],
+#rs-nda-root .fg input[type=tel]{
+  font-family:var(--sf);font-size:16px;border:none;border-bottom:2px solid var(--k);
+  padding:8px 0;background:transparent;color:var(--k);outline:none;width:100%;transition:border-color .18s;
+}
+#rs-nda-root .fg input::placeholder{color:var(--gm);font-style:italic;font-weight:300;}
+#rs-nda-root .fg input:focus{border-color:var(--ac);}
+#rs-nda-root .fg input[readonly]{color:var(--gd);cursor:not-allowed;border-bottom-style:dashed;}
+
+/* ── PARTY BLOCKS ── */
+#rs-nda-root .pb{border:1px solid rgba(10,10,10,0.1);padding:24px;margin-bottom:22px;background:var(--gl);position:relative;}
+#rs-nda-root .pbl{font-family:var(--mn);font-size:7.5px;letter-spacing:0.26em;text-transform:uppercase;color:var(--gd);position:absolute;top:11px;right:13px;}
+
+/* ── BUTTONS ── */
+#rs-nda-root .btn{display:inline-flex;align-items:center;gap:7px;padding:11px 24px;font-family:var(--mn);font-size:8.5px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;border:none;transition:all .18s;user-select:none;}
+#rs-nda-root .btn-k{background:var(--k);color:#fff;}
+#rs-nda-root .btn-k:hover{background:var(--ac);}
+#rs-nda-root .btn-s{background:transparent;color:var(--k);border:1px solid var(--k);}
+#rs-nda-root .btn-s:hover{background:var(--k);color:#fff;}
+#rs-nda-root .btn-ok{background:var(--ok);color:#fff;}
+#rs-nda-root .btn-ok:hover{opacity:.87;}
+#rs-nda-root .btn-ac{background:var(--ac);color:#fff;}
+#rs-nda-root .btn-ac:hover{opacity:.87;}
+#rs-nda-root .btn-dn{background:var(--dn);color:#fff;}
+#rs-nda-root .btn-sm{padding:6px 13px;font-size:7.5px;}
+#rs-nda-root .btn:disabled{opacity:.28;cursor:not-allowed;pointer-events:none;}
+#rs-nda-root .br{display:flex;flex-wrap:wrap;gap:11px;align-items:center;}
+#rs-nda-root .chip{display:inline-block;padding:2px 9px;border:1px solid var(--k);font-family:var(--mn);font-size:8px;letter-spacing:0.11em;text-transform:uppercase;margin:3px 3px 3px 0;}
+
+/* ── SHARE LINK BOX ── */
+#rs-nda-root .share-box{
+  background:var(--k);padding:20px 22px;margin:20px 0;max-width:680px;
+}
+#rs-nda-root .share-box-lbl{font-family:var(--mn);font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:10px;}
+#rs-nda-root .share-link-row{display:flex;gap:8px;align-items:stretch;}
+#rs-nda-root .share-link-input{
+  flex:1;font-family:var(--mn);font-size:10px;background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.8);
+  padding:10px 12px;outline:none;word-break:break-all;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+#rs-nda-root .share-copy-btn{
+  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);
+  color:#fff;padding:10px 16px;cursor:pointer;font-family:var(--mn);
+  font-size:8px;letter-spacing:0.15em;text-transform:uppercase;transition:background .16s;white-space:nowrap;
+}
+#rs-nda-root .share-copy-btn:hover{background:rgba(255,255,255,0.18);}
+#rs-nda-root .share-note{font-family:var(--mn);font-size:7.5px;color:rgba(255,255,255,0.3);letter-spacing:0.1em;text-transform:uppercase;margin-top:9px;line-height:1.7;}
+
+/* ── VIEW-ONLY BANNER (Party B) ── */
+#rs-nda-root .view-banner{
+  background:var(--ac);color:#fff;padding:16px 22px;
+  font-family:var(--mn);font-size:8.5px;letter-spacing:0.14em;text-transform:uppercase;
+  display:flex;align-items:center;gap:12px;margin-bottom:20px;max-width:720px;
+}
+
+/* ── NDA DOCUMENT ── */
+#rs-nda-root #nda-doc{max-width:720px;background:#fff;border:1px solid rgba(10,10,10,0.08);position:relative;margin-bottom:18px;}
+#rs-nda-root .nwm{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-28deg);font-family:var(--sf);font-size:80px;font-weight:900;color:rgba(10,10,10,0.02);pointer-events:none;white-space:nowrap;z-index:0;letter-spacing:-0.04em;}
+#rs-nda-root .nin{position:relative;z-index:1;padding:46px;}
+#rs-nda-root .nhd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;padding-bottom:16px;border-bottom:2px solid var(--k);}
+#rs-nda-root .nbr{font-family:var(--sf);font-size:24px;font-weight:900;letter-spacing:-0.02em;}
+#rs-nda-root .mid{font-family:var(--mn);font-size:7.5px;letter-spacing:0.18em;color:var(--gm);text-transform:uppercase;display:block;line-height:1.9;}
+#rs-nda-root .ntl{font-family:var(--sf);font-size:20px;font-weight:700;text-align:center;margin-bottom:5px;}
+#rs-nda-root .nsu{font-family:var(--mn);font-size:7.5px;letter-spacing:0.22em;color:var(--gm);text-transform:uppercase;text-align:center;margin-bottom:24px;}
+#rs-nda-root .nps{display:grid;grid-template-columns:1fr 34px 1fr;align-items:start;margin:22px 0;padding:18px;background:var(--gl);border-left:3px solid var(--k);}
+#rs-nda-root .np .lbl{font-family:var(--mn);font-size:7.5px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gd);margin-bottom:3px;}
+#rs-nda-root .np .rol{font-family:var(--sf);font-size:16px;font-weight:700;color:var(--k);line-height:1.2;}
+#rs-nda-root .np .nam{font-family:var(--sf);font-size:13.5px;font-weight:300;color:var(--gd);}
+#rs-nda-root .np .org{font-family:var(--mn);font-size:7px;color:var(--gm);text-transform:uppercase;letter-spacing:0.1em;margin-top:2px;}
+#rs-nda-root .sep{display:flex;align-items:center;justify-content:center;font-family:var(--mn);font-size:11px;color:var(--gm);}
+#rs-nda-root .nc{margin-bottom:18px;}
+#rs-nda-root .nc h3{font-family:var(--sf);font-size:13px;font-weight:700;color:var(--k);margin-bottom:5px;display:flex;gap:8px;align-items:baseline;}
+#rs-nda-root .nc h3 .cn{font-family:var(--mn);font-size:8px;color:var(--gm);font-weight:400;flex-shrink:0;}
+#rs-nda-root .nc p{font-size:12.5px;font-weight:300;color:#1a1a1a;line-height:1.85;margin-bottom:6px;padding-left:18px;}
+#rs-nda-root .dph{font-family:var(--sf);font-weight:700;color:var(--k);}
+#rs-nda-root .agr{display:flex;align-items:flex-start;gap:11px;margin:20px 0 14px;padding:14px 16px;border:1px solid rgba(10,10,10,0.1);background:var(--gl);}
+#rs-nda-root .agr input[type=checkbox]{width:15px;height:15px;flex-shrink:0;margin-top:2px;accent-color:var(--k);cursor:pointer;}
+#rs-nda-root .agr p{font-family:var(--sf);font-size:12.5px;font-weight:300;line-height:1.7;color:#1a1a1a;}
+#rs-nda-root .sz{margin-top:28px;border-top:1px solid rgba(10,10,10,0.09);padding-top:24px;}
+#rs-nda-root .sg{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+#rs-nda-root .sb2{display:flex;flex-direction:column;gap:7px;}
+#rs-nda-root .slb{font-family:var(--mn);font-size:7.5px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gd);}
+#rs-nda-root .sbx{width:100%;height:80px;border:1px dashed rgba(10,10,10,0.16);position:relative;background:var(--gl);overflow:hidden;}
+#rs-nda-root .sbx img{width:100%;height:100%;object-fit:contain;object-position:center;display:none;}
+#rs-nda-root .sph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--mn);font-size:7.5px;color:var(--gm);letter-spacing:0.14em;text-transform:uppercase;}
+#rs-nda-root .snl{border-bottom:1px solid var(--k);padding-bottom:2px;font-family:var(--sf);font-size:13.5px;font-weight:300;color:var(--k);min-height:20px;display:flex;align-items:flex-end;}
+#rs-nda-root .sdl{font-family:var(--mn);font-size:7.5px;color:var(--gm);letter-spacing:0.1em;}
+#rs-nda-root .nft{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:10px;border-top:1px solid rgba(10,10,10,0.06);}
+#rs-nda-root .nft span{font-family:var(--mn);font-size:7.5px;color:var(--gm);letter-spacing:0.13em;text-transform:uppercase;}
+#rs-nda-root .lov{position:absolute;inset:0;z-index:50;pointer-events:all;cursor:not-allowed;}
+
+/* ── SIGNING CONTROLS ── */
+#rs-nda-root .sc{max-width:720px;padding:22px;border:1px solid rgba(10,10,10,0.08);background:var(--gl);margin-bottom:18px;}
+#rs-nda-root .sc h4{font-family:var(--mn);font-size:8.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gd);margin-bottom:13px;}
+#rs-nda-root .pt{display:flex;gap:0;margin-bottom:13px;}
+#rs-nda-root .ptb{font-family:var(--mn);font-size:7.5px;letter-spacing:0.13em;text-transform:uppercase;padding:7px 16px;cursor:pointer;border:1px solid rgba(10,10,10,0.14);background:#fff;color:var(--gd);transition:all .15s;margin-right:-1px;}
+#rs-nda-root .ptb.active{background:var(--k);color:#fff;border-color:var(--k);}
+#rs-nda-root .stbs{display:flex;gap:0;margin-bottom:13px;border-bottom:1px solid rgba(10,10,10,0.09);}
+#rs-nda-root .stb{font-family:var(--mn);font-size:8px;letter-spacing:0.13em;text-transform:uppercase;padding:6px 13px;cursor:pointer;color:var(--gd);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;}
+#rs-nda-root .stb.active{color:var(--k);border-bottom-color:var(--k);}
+#rs-nda-root .spl{display:none;}
+#rs-nda-root .spl.active{display:block;}
+#rs-nda-root #dc{border:1px solid rgba(10,10,10,0.11);background:#fff;cursor:crosshair;display:block;width:100%;height:116px;}
+#rs-nda-root .upz{border:1px dashed rgba(10,10,10,0.15);padding:22px;text-align:center;background:#fff;cursor:pointer;transition:background .15s;}
+#rs-nda-root .upz:hover{background:var(--gl);}
+#rs-nda-root .upz p{font-family:var(--mn);font-size:8px;color:var(--gm);letter-spacing:0.13em;text-transform:uppercase;margin-top:5px;}
+#rs-nda-root .vh{font-family:var(--mn);font-size:7.5px;color:var(--dn);letter-spacing:0.11em;text-transform:uppercase;margin-top:8px;}
+
+/* ── OTP MODAL ── */
+#rs-nda-root .mbg{position:fixed;inset:0;background:rgba(0,0,0,0.54);z-index:1000;display:none;align-items:center;justify-content:center;}
+#rs-nda-root .mbg.open{display:flex;}
+#rs-nda-root .md{background:#fff;padding:44px;max-width:420px;width:90%;position:relative;}
+#rs-nda-root .md h2{font-family:var(--sf);font-size:24px;font-weight:900;margin-bottom:7px;}
+#rs-nda-root .md p{font-size:13.5px;font-weight:300;color:var(--gd);margin-bottom:22px;line-height:1.6;}
+#rs-nda-root .oi{display:flex;gap:9px;margin-bottom:22px;}
+#rs-nda-root .oi input{width:42px;height:50px;text-align:center;font-family:var(--sf);font-size:20px;font-weight:700;border:none;border-bottom:3px solid var(--k);background:var(--gl);outline:none;transition:border-color .18s;}
+#rs-nda-root .oi input:focus{border-bottom-color:var(--ac);}
+#rs-nda-root .mc{position:absolute;top:14px;right:18px;background:none;border:none;cursor:pointer;font-size:18px;color:var(--gm);}
+
+/* ── RECORDS ── */
+#rs-nda-root .rc{border:1px solid rgba(10,10,10,0.1);padding:17px 20px;margin-bottom:10px;cursor:pointer;transition:all .17s;background:#fff;}
+#rs-nda-root .rc:hover{border-color:var(--k);transform:translateX(3px);}
+#rs-nda-root .rh{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+#rs-nda-root .ri{font-family:var(--mn);font-size:7.5px;letter-spacing:0.13em;color:var(--gm);text-transform:uppercase;}
+#rs-nda-root .rp{font-family:var(--sf);font-size:16px;font-weight:700;color:var(--k);}
+#rs-nda-root .rm{font-family:var(--mn);font-size:7.5px;color:var(--gm);letter-spacing:0.09em;text-transform:uppercase;margin-top:4px;display:flex;gap:11px;flex-wrap:wrap;}
+#rs-nda-root .es{padding:44px;text-align:center;border:1px dashed rgba(10,10,10,0.1);}
+#rs-nda-root .es p{font-family:var(--mn);font-size:8.5px;letter-spacing:0.18em;color:var(--gm);text-transform:uppercase;}
+
+/* ── ADMIN ── */
+#rs-nda-root .adm{background:var(--k);color:#fff;padding:24px;margin-bottom:26px;}
+#rs-nda-root .adm h3{font-family:var(--sf);font-size:18px;font-weight:700;color:#fff;margin-bottom:15px;}
+#rs-nda-root .af label{font-family:var(--mn);font-size:7.5px;letter-spacing:0.18em;color:rgba(255,255,255,0.26);text-transform:uppercase;display:block;margin-bottom:6px;}
+#rs-nda-root .af input{font-family:var(--sf);font-size:15px;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.16);color:#fff;width:100%;padding:5px 0;outline:none;}
+#rs-nda-root .af input::placeholder{color:rgba(255,255,255,0.2);font-style:italic;}
+#rs-nda-root .rt{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px;}
+#rs-nda-root .rt th{font-family:var(--mn);font-size:7.5px;letter-spacing:0.13em;text-transform:uppercase;color:var(--gd);text-align:left;padding:7px 11px;border-bottom:2px solid var(--k);}
+#rs-nda-root .rt td{padding:7px 11px;border-bottom:1px solid rgba(10,10,10,0.06);font-family:var(--sf);font-size:13px;}
+#rs-nda-root .rt tr:hover td{background:rgba(10,10,10,0.015);}
+#rs-nda-root .lt{font-family:var(--mn);font-size:7.5px;letter-spacing:0.09em;text-transform:uppercase;padding:2px 7px;border:1px solid rgba(10,10,10,0.13);}
+
+/* ── SPINNER ── */
+#rs-nda-root .sp{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:rsspin .7s linear infinite;}
+@keyframes rsspin{to{transform:rotate(360deg);}}
+#rs-nda-root .sp.dk{border-color:rgba(0,0,0,0.14);border-top-color:var(--k);}
+
+/* ── TOAST ── */
+#rs-nda-root #rtt{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(13px);background:var(--k);color:#fff;font-family:var(--mn);font-size:8.5px;letter-spacing:0.17em;text-transform:uppercase;padding:11px 22px;opacity:0;transition:all .27s;pointer-events:none;z-index:9999;}
+#rs-nda-root #rtt.s{opacity:1;transform:translateX(-50%) translateY(0);}
+#rs-nda-root #rtt.e{background:var(--dn);}
+#rs-nda-root #rtt.o{background:var(--ok);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:840px){
+  #rs-nda-root .sb{display:none;}
+  #rs-nda-root .sb.mo{display:flex;width:264px;}
+  #rs-nda-root .mob-bar{display:flex;}
+  #rs-nda-root .main{margin-left:0;}
+  #rs-nda-root .pnl{padding:24px 16px;}
+  #rs-nda-root .fg2,#rs-nda-root .fg3{grid-template-columns:1fr;}
+  #rs-nda-root .sg,#rs-nda-root .nps{grid-template-columns:1fr;}
+  #rs-nda-root .sep{display:none;}
+  #rs-nda-root .nin{padding:22px 18px;}
+  #rs-nda-root .stit{font-size:30px;}
+  #rs-nda-root .steps{flex-direction:column;gap:2px;}
+  #rs-nda-root .stp{border-bottom:none;border-left:2px solid transparent;}
+  #rs-nda-root .stp.done{border-left-color:var(--ok);}
+  #rs-nda-root .stp.cur{border-left-color:var(--k);}
+}
+@media print{
+  #rs-nda-root .sb,#rs-nda-root .mob-bar,#rs-nda-root .sc,
+  #rs-nda-root .phb,#rs-nda-root .stag,#rs-nda-root .stit,
+  #rs-nda-root .dvd,#rs-nda-root .steps,#rs-nda-root .br,
+  #rs-nda-root .gbg,#rs-nda-root #rtt,#rs-nda-root .al,
+  #rs-nda-root .share-box,#rs-nda-root .view-banner{display:none!important;}
+  #rs-nda-root .main{margin-left:0!important;}
+  #rs-nda-root .pnl{padding:0!important;}
+  #rs-nda-root #nda-doc{max-width:100%!important;border:none!important;}
+  #rs-nda-root .lov{display:none!important;}
+  body{background:#fff!important;}
+}
+</style>
+</head>
+<body>
+<div id="rs-nda-root">
+<div class="gbg"></div>
+<div id="rtt"></div>
+
+<!-- OTP MODAL -->
+<div class="mbg" id="otp-modal">
+  <div class="md">
+    <button class="mc" onclick="closeOTP()">✕</button>
+    <h2>Verify Email</h2>
+    <p id="otp-msg">A 6-digit code has been sent to your email. Enter it below to confirm your identity.</p>
+    <div class="oi" id="otp-inp">
+      <input type="number" maxlength="1" oninput="otpN(this,0)">
+      <input type="number" maxlength="1" oninput="otpN(this,1)">
+      <input type="number" maxlength="1" oninput="otpN(this,2)">
+      <input type="number" maxlength="1" oninput="otpN(this,3)">
+      <input type="number" maxlength="1" oninput="otpN(this,4)">
+      <input type="number" maxlength="1" oninput="otpN(this,5)">
+    </div>
+    <div class="br">
+      <button class="btn btn-k" onclick="verifyOTP()" id="otp-btn">Verify &amp; Continue</button>
+      <button class="btn btn-s btn-sm" onclick="resendOTP()">Resend Code</button>
+    </div>
+    <div id="otp-err" class="vh" style="margin-top:11px;display:none;"></div>
+  </div>
+</div>
+
+<div class="shell">
+<!-- ═══════ SIDEBAR ═══════ -->
+<nav class="sb" id="sb">
+  <div class="sb-logo">Right Signal</div>
+  <div class="sb-sub">NDA Portal · V5.0</div>
+  <div class="sb-rl"></div>
+  <div class="sb-lbl">Agreement Flow</div>
+  <div class="sni active" onclick="gp('access')" id="nav-access"><div class="dot"></div>00 · Access</div>
+  <div class="sni" onclick="gp('identity')" id="nav-identity"><div class="dot"></div>01 · Identity</div>
+  <div class="sni" onclick="gp('setup')"    id="nav-setup"><div class="dot"></div>02 · Configure</div>
+  <div class="sni" onclick="gp('nda')"      id="nav-nda"><div class="dot"></div>03 · Sign</div>
+  <div class="sni" onclick="gp('done')"     id="nav-done"><div class="dot"></div>04 · Confirmation</div>
+  <div class="sb-rl"></div>
+  <div class="sb-lbl">Management</div>
+  <div class="sni" onclick="gp('records')"  id="nav-records"><div class="dot"></div>Signed Records</div>
+  <div class="sni" onclick="gp('admin')"    id="nav-admin"><div class="dot"></div>Admin · Logbook</div>
+  <div class="sb-rl"></div>
+  <div class="sni" style="cursor:default;"><div class="dot" style="background:#fff;border-color:#fff;"></div>Master NDA · Active</div>
+  <div class="sb-foot">
+    Template: MASTER_NDA<br>Version: 5.0<br>Scope: Global
+    <div class="cs"><div class="csd" id="cdot"></div><span id="clbl">Checking...</span></div>
+    <span class="bdg pend" id="sbdg">Pending</span>
+  </div>
+</nav>
+
+<!-- MOBILE BAR -->
+<div class="mob-bar">
+  <div class="sb-logo">Right Signal</div>
+  <button class="hbg" onclick="tmob()">☰</button>
+</div>
+<div class="mob-ov" id="mov" onclick="tmob()"></div>
+
+<!-- ═══════ MAIN ═══════ -->
+<div class="main">
+
+     
+<div id="panel-access" class="pnl active">
+  <div class="phb"><span>RS — NDA — Access</span><span>Restricted Entry</span></div>
+  <div class="stag">Step 00</div>
+  <div class="stit">Enter<br>Access Code</div>
+  <div class="dvd"></div>
+  <div class="al info">ℹ &nbsp;Code is issued by Core Team / Director / Admin.</div>
+  <div class="pb" style="max-width:560px;">
+    <div class="pbl">Reference Code</div>
+    <div class="fg">
+      <label>Enter Access Code *</label>
+      <input type="text" id="access-code" placeholder="e.g. RS-ONBOARD-2026">
+    </div>
+  </div>
+  <div class="br">
+    <button class="btn btn-k" onclick="validateAccessCode()" id="verify-code-btn">
+      <span id="verify-code-text">Verify &amp; Continue</span>
+      <span id="verify-code-sp" class="sp" style="display:none;"></span>
+    </button>
+  </div>
+  <div id="access-error" class="vh" style="margin-top:12px;display:none;"></div>
+</div>
+
+    
+<div id="panel-identity" class="pnl">
+  <div class="phb"><span>RS — NDA — Identity</span><span id="id-date-hdr"></span></div>
+  <div class="stag">Step 01</div>
+  <div class="stit">Your<br>Identity</div>
+  <div class="dvd"></div>
+  <div class="steps">
+    <div class="stp cur"><div class="sn">1</div>Identity</div>
+    <div class="stp"><div class="sn">2</div>Configure</div>
+    <div class="stp"><div class="sn">3</div>Sign</div>
+    <div class="stp"><div class="sn">4</div>Done</div>
+  </div>
+  <div class="al info">ℹ &nbsp;Your details appear on the signed NDA. An OTP verifies your email when backend is active.</div>
+  <div class="pb">
+    <div class="pbl">Signer Info</div>
+    <div class="fg2">
+      <div class="fg"><label>Full Legal Name *</label><input type="text" id="id-name" placeholder="e.g. Arjun Mehta"></div>
+      <div class="fg"><label>Email Address *</label><input type="email" id="id-email" placeholder="e.g. arjun@rightsignal.io"></div>
+      <div class="fg"><label>Organisation / Company</label><input type="text" id="id-org" placeholder="e.g. Right Signal India"></div>
+      <div class="fg"><label>Country *</label><input type="text" id="id-country" placeholder="e.g. India"></div>
+      <div class="fg"><label>Role / Designation *</label><input type="text" id="id-role" placeholder="e.g. Country Signal Head — India"></div>
+      <div class="fg"><label>Phone (Optional)</label><input type="tel" id="id-phone" placeholder="e.g. +91 98765 43210"></div>
+    </div>
+  </div>
+  <div class="al warn">⚠ &nbsp;By proceeding you confirm you are authorised to sign legal agreements on behalf of the role stated above.</div>
+  <div class="br"><button class="btn btn-k" onclick="submitIdentity()"><span>Continue to Configure</span> →</button></div>
+  <div class="dvd" style="margin-top:36px;"></div>
+  <div><div class="chip">OTP Verified</div><div class="chip">Global Access</div><div class="chip">Legally Binding</div><div class="chip">Encrypted</div></div>
+</div>
+
+    
+<div id="panel-setup" class="pnl">
+  <div class="phb"><span>RS — NDA — Configure</span><span>Master Template</span></div>
+  <div class="stag">Step 02</div>
+  <div class="stit">Configure<br>Agreement</div>
+  <div class="dvd"></div>
+  <div class="steps">
+    <div class="stp done"><div class="sn">✓</div>Identity</div>
+    <div class="stp cur"><div class="sn">2</div>Configure</div>
+    <div class="stp"><div class="sn">3</div>Sign</div>
+    <div class="stp"><div class="sn">4</div>Done</div>
+  </div>
+  <div class="pb">
+    <div class="pbl">Party A — You</div>
+    <div class="fg2">
+      <div class="fg"><label>Your Role *</label><input type="text" id="pa-role" placeholder="e.g. Country Signal Head — India"></div>
+      <div class="fg"><label>Your Full Name *</label><input type="text" id="pa-name" readonly></div>
+    </div>
+  </div>
+  <div class="pb">
+    <div class="pbl">Party B — Counter-Party</div>
+    <div class="fg2">
+      <div class="fg"><label>Their Role *</label><input type="text" id="pb-role" placeholder="e.g. Community Signal Manager — Bengaluru"></div>
+      <div class="fg"><label>Their Full Name *</label><input type="text" id="pb-name" placeholder="e.g. Anjali Rao"></div>
+      <div class="fg"><label>Their Email (for share link)</label><input type="email" id="pb-email" placeholder="e.g. anjali@rightsignal.io"></div>
+      <div class="fg"><label>Their Organisation</label><input type="text" id="pb-org" placeholder="e.g. Right Signal Karnataka"></div>
+    </div>
+  </div>
+  <div class="fg" style="max-width:440px;margin-bottom:22px;"><label>Agreement Context *</label><input type="text" id="nda-ctx" placeholder="e.g. Strategic Partnership, Data Sharing"></div>
+  <div class="br">
+    <button class="btn btn-s btn-sm" onclick="gp('identity')">← Back</button>
+    <button class="btn btn-k" onclick="loadNDA()">Generate NDA Document →</button>
+  </div>
+</div>
+
+
+<div id="panel-nda" class="pnl">
+  <div class="phb"><span>RS — NDA — MASTER</span><span id="nda-hdr-date"></span></div>
+  <div class="stag">Step 03</div>
+  <div class="stit">Sign<br>Agreement</div>
+  <div class="dvd"></div>
+  <div class="steps">
+    <div class="stp done"><div class="sn">✓</div>Identity</div>
+    <div class="stp done"><div class="sn">✓</div>Configure</div>
+    <div class="stp cur"><div class="sn">3</div>Sign</div>
+    <div class="stp"><div class="sn">4</div>Done</div>
+  </div>
+
+  <!-- VIEW BANNER shown when Party B opens share link -->
+  <div class="view-banner" id="view-banner" style="display:none;">
+    🔗 &nbsp;You are viewing this NDA as Party B. Review the document below and apply your signature to complete the agreement.
+  </div>
+
+  <!-- THE NDA DOCUMENT -->
+  <div id="nda-doc">
+    <div class="nwm">RIGHT SIGNAL</div>
+    <div id="lov" class="lov" style="display:none;"></div>
+    <div class="nin">
+      <div class="nhd">
+        <div>
+          <div class="nbr">Right Signal</div>
+          <span class="mid" style="margin-top:2px;">Ecosystem Framework</span>
+        </div>
+        <div style="text-align:right;">
+          <span class="mid">RS — NDA — MASTER</span>
+          <span class="mid" id="nda-hd"></span>
+          <span class="mid" id="nda-hs">Status: Pending Signatures</span>
+        </div>
+      </div>
+
+      <div class="ntl">NON-DISCLOSURE AGREEMENT</div>
+      <div class="nsu">Confidential &nbsp;·&nbsp; Right Signal Ecosystem &nbsp;·&nbsp; Master Template</div>
+
+      <div class="nps">
+        <div class="np"><div class="lbl">Party A</div><div class="rol" id="da-r">—</div><div class="nam" id="da-n">Not Configured</div><div class="org" id="da-o"></div></div>
+        <div class="sep">⟷</div>
+        <div class="np"><div class="lbl">Party B</div><div class="rol" id="db-r">—</div><div class="nam" id="db-n">Not Configured</div><div class="org" id="db-o"></div></div>
+      </div>
+
+      <div class="nc"><p>This Non-Disclosure Agreement (the <strong>"Agreement"</strong>) is entered into as of <span class="dph" id="nc-d"></span>, by and between <span class="dph" id="nc-af"></span> (<strong>"Party A"</strong>) and <span class="dph" id="nc-bf"></span> (<strong>"Party B"</strong>), the <strong>"Parties"</strong>. This Agreement relates to: <span class="dph" id="nc-c">General Collaboration</span>.</p></div>
+      <div class="nc"><h3><span class="cn">1.0</span>Definition of Confidential Information</h3><p>"Confidential Information" means any non-public information disclosed by either Party, whether written, oral, or electronic, designated as confidential or reasonably understood to be so. This includes business strategies, financial data, technical specifications, product roadmaps, personnel information, partnership structures, and ecosystem operational frameworks within or for the Right Signal ecosystem.</p></div>
+      <div class="nc"><h3><span class="cn">2.0</span>Obligations of the Receiving Party</h3><p>Each Party agrees to: (a) hold Confidential Information in strict confidence; (b) not disclose it to third parties without prior written consent; (c) use it solely for the collaboration defined herein; and (d) protect it with the same care as its own confidential information.</p></div>
+      <div class="nc"><h3><span class="cn">3.0</span>Exclusions</h3><p>Obligations do not apply to information that: (a) is publicly known through no act of the Receiving Party; (b) was rightfully known prior to disclosure; (c) is rightfully obtained from a third party; or (d) is independently developed without reference to the Confidential Information.</p></div>
+      <div class="nc"><h3><span class="cn">4.0</span>Term &amp; Duration</h3><p>Effective from the date first written above for three (3) years, unless terminated by mutual written consent. Confidentiality obligations survive termination for a further two (2) years.</p></div>
+      <div class="nc"><h3><span class="cn">5.0</span>Ecosystem Role Acknowledgement</h3><p><span class="dph" id="nc-ar"></span> and <span class="dph" id="nc-br"></span> acknowledge their roles within the Right Signal Ecosystem Framework and confirm this Agreement is consistent with their responsibilities therein.</p></div>
+      <div class="nc"><h3><span class="cn">6.0</span>Remedies</h3><p>Any breach would cause irreparable harm. The non-breaching Party is entitled to equitable relief including injunction and specific performance, in addition to all other remedies at law or in equity.</p></div>
+      <div class="nc"><h3><span class="cn">7.0</span>Governing Law &amp; Jurisdiction</h3><p>Governed by applicable laws consistent with the Right Signal Ecosystem Framework. Disputes shall be resolved through good-faith negotiation, then binding arbitration. This Agreement is globally enforceable across all Right Signal jurisdictions.</p></div>
+      <div class="nc"><h3><span class="cn">8.0</span>Entire Agreement</h3><p>This constitutes the entire agreement between the Parties and supersedes all prior discussions. It may not be amended except in writing signed by authorised representatives of both Parties.</p></div>
+      <div class="nc"><h3><span class="cn">9.0</span>Digital Execution</h3><p>Electronic signatures constitute valid and legally binding signatures. The digital record including timestamps, OTP verification, IP addresses, and email confirmations constitutes admissible evidence of execution.</p></div>
+
+      <div class="agr"><input type="checkbox" id="agr-cb" onchange="hAgr(this)"><p>I have read, understood, and agree to be bound by all terms of this NDA. I confirm I have authority to enter this Agreement on behalf of my stated role within the Right Signal ecosystem, and acknowledge my electronic signature carries full legal weight.</p></div>
+
+      <div class="sz">
+        <div class="sg">
+          <div class="sb2"><div class="slb">Signature — <span id="slb-a">Party A</span></div><div class="sbx"><img id="sig-a-i" src="" alt=""><div class="sph" id="sig-a-p">Signature Pending</div></div><div class="snl" id="sig-a-n">—</div><div class="sdl" id="sig-a-d">Date: —</div></div>
+          <div class="sb2"><div class="slb">Signature — <span id="slb-b">Party B</span></div><div class="sbx"><img id="sig-b-i" src="" alt=""><div class="sph" id="sig-b-p">Signature Pending</div></div><div class="snl" id="sig-b-n">—</div><div class="sdl" id="sig-b-d">Date: —</div></div>
+        </div>
+      </div>
+      <div class="nft"><span>Right Signal — Confidential</span><span>RS — NDA — MASTER — V5.0</span><span>All Rights Reserved · 2026</span></div>
+    </div>
+  </div>
+
+  <!-- SIGNING CONTROLS -->
+  <div class="sc" id="sig-ctrl">
+    <h4>Signing Controls</h4>
+    <div class="pt">
+      <div class="ptb active" id="pt-a" onclick="ssp('a')">Sign as Party A</div>
+      <div class="ptb" id="pt-b" onclick="ssp('b')">Sign as Party B</div>
+    </div>
+    <div class="stbs">
+      <div class="stb active" onclick="sstab('draw',this)">Draw Signature</div>
+      <div class="stb" onclick="sstab('upload',this)">Upload PNG/JPG</div>
+    </div>
+    <div id="spl-draw" class="spl active">
+      <canvas id="dc" width="640" height="116"></canvas>
+      <div class="br" style="margin-top:10px;">
+        <button class="btn btn-s btn-sm" onclick="clrC()">Clear</button>
+        <button class="btn btn-k btn-sm" onclick="applyDrawn()">Apply Drawn Signature</button>
+      </div>
+    </div>
+    <div id="spl-upload" class="spl">
+      <div class="upz" onclick="document.getElementById('sf').click()">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><rect x="6" y="18" width="20" height="2" fill="#c8c8c4"/><path d="M16 6v14M10 12l6-6 6 6" stroke="#c8c8c4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p>Click to upload PNG / JPG</p>
+      </div>
+      <input type="file" id="sf" accept="image/png,image/jpeg" style="display:none;" onchange="hUpload(this)">
+      <div id="uprev" style="margin-top:11px;display:none;">
+        <img id="upimg" style="max-height:72px;border:1px solid rgba(10,10,10,0.09);">
+        <div class="br" style="margin-top:10px;"><button class="btn btn-k btn-sm" onclick="applyUploaded()">Apply This Signature</button></div>
+      </div>
+    </div>
+    <div class="dvd"></div>
+    <div class="br">
+      <button class="btn btn-ok" onclick="lockAndSubmit()" id="btn-lock" style="display:none;"><span id="lbtxt">Lock, Save &amp; Submit</span><span id="lbsp" class="sp" style="display:none;"></span></button>
+      <button class="btn btn-ac" onclick="dlPDF()" id="btn-pdf" disabled>⬇ Download PDF</button>
+      <button class="btn btn-s btn-sm" onclick="gp('setup')" id="btn-back-setup">← Back</button>
+    </div>
+    <div class="vh" id="vh">Both signatures + agreement checkbox required.</div>
+  </div>
+</div>
+
+   
+<div id="panel-done" class="pnl">
+  <div class="phb"><span>RS — NDA — Complete</span><span id="dn-date"></span></div>
+  <div class="stag">Step 04</div>
+  <div class="stit">Agreement<br>Submitted</div>
+  <div class="dvd"></div>
+  <div class="steps">
+    <div class="stp done"><div class="sn">✓</div>Identity</div>
+    <div class="stp done"><div class="sn">✓</div>Configure</div>
+    <div class="stp done"><div class="sn">✓</div>Sign</div>
+    <div class="stp cur done"><div class="sn">✓</div>Done</div>
+  </div>
+  <div class="al ok">✓ &nbsp;NDA digitally signed, locked, and saved.</div>
+
+  <div class="pb" style="max-width:600px;">
+    <div class="pbl">Agreement Summary</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px;">
+      <div><div style="font-family:var(--mn);font-size:7.5px;color:var(--gd);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:3px;">Agreement ID</div><div id="dn-id" style="font-family:var(--sf);font-size:14px;font-weight:700;"></div></div>
+      <div><div style="font-family:var(--mn);font-size:7.5px;color:var(--gd);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:3px;">Date Signed</div><div id="dn-ds" style="font-family:var(--sf);font-size:14px;font-weight:300;"></div></div>
+      <div><div style="font-family:var(--mn);font-size:7.5px;color:var(--gd);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:3px;">Party A</div><div id="dn-a" style="font-family:var(--sf);font-size:14px;font-weight:300;"></div></div>
+      <div><div style="font-family:var(--mn);font-size:7.5px;color:var(--gd);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:3px;">Party B</div><div id="dn-b" style="font-family:var(--sf);font-size:14px;font-weight:300;"></div></div>
+      <div><div style="font-family:var(--mn);font-size:7.5px;color:var(--gd);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:3px;">Context</div><div id="dn-ctx" style="font-family:var(--sf);font-size:14px;font-weight:300;"></div></div>
+      <div><div style="font-family:var(--mn);font-size:7.5px;color:var(--gd);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:3px;">Status</div><div style="font-family:var(--sf);font-size:14px;font-weight:700;color:var(--ok);">Signed &amp; Locked</div></div>
+    </div>
+  </div>
+
+  <!-- SHARE LINK — visible to other party globally -->
+  <div class="share-box" id="share-box">
+    <div class="share-box-lbl">🔗 &nbsp;Share Link — Send to Party B to view &amp; sign online</div>
+    <div class="share-link-row">
+      <div class="share-link-input" id="share-link-txt">Generating link…</div>
+      <button class="share-copy-btn" onclick="copyLink()">Copy Link</button>
+    </div>
+    <div class="share-note">
+      Party B opens this link in any browser, anywhere in the world. The NDA loads pre-filled with Party A's details and signature. Party B adds their own signature to complete the agreement. Both parties can download the final PDF.
+    </div>
+  </div>
+
+  <div class="br" style="margin-top:20px;">
+    <button class="btn btn-ac" onclick="dlPDF()">⬇ Download PDF</button>
+    <button class="btn btn-s" onclick="startNew()">Start New Agreement</button>
+    <button class="btn btn-s btn-sm" onclick="gp('records')" id="btn-view-records">View All Records</button>
+  </div>
+</div>
+
+<div id="panel-records" class="pnl">
+  <div class="phb"><span>RS — NDA — Records</span><span>Signed Instances</span></div>
+  <div class="stag">Archive</div>
+  <div class="stit">Signed<br>Records</div>
+  <div class="dvd"></div>
+  <p style="font-size:13.5px;font-weight:300;color:#1a1a1a;margin-bottom:22px;">Each entry is one locked NDA. The master template was reused — no duplicate files created.</p>
+  <div class="br" style="margin-bottom:18px;">
+    <button class="btn btn-s btn-sm" onclick="loadRecs()"><span id="rec-sp" class="sp dk" style="display:none;"></span>Refresh from Server</button>
+  </div>
+  <div id="recs-list"><div class="es"><p>No signed agreements yet</p></div></div>
+</div>
+
+<div id="panel-admin" class="pnl">
+  <div class="phb"><span>RS — NDA — Admin</span><span>Logbook Manager</span></div>
+  <div class="stag">Admin</div>
+  <div class="stit">Logbook<br>Administration</div>
+  <div class="dvd"></div>
+  <p style="font-size:13.5px;font-weight:300;color:#1a1a1a;margin-bottom:22px;">All fields are free-text. NDA structure is permanently locked.</p>
+  <div class="adm">
+    <h3>Add New Entry</h3>
+    <div class="fg3">
+      <div class="af fg"><label>Full Name</label><input type="text" id="nn" placeholder="e.g. Arjun Mehta"></div>
+      <div class="af fg"><label>Role Title</label><input type="text" id="nr" placeholder="e.g. Country Signal Head — India"></div>
+      <div class="af fg"><label>Hierarchy Level</label><input type="text" id="nl" placeholder="e.g. Country Signal Head"></div>
+    </div>
+    <button class="btn btn-s btn-sm" onclick="addE()" style="border-color:rgba(255,255,255,0.2);color:#fff;">+ Add Entry</button>
+  </div>
+  <div class="pb" style="max-width:760px;">
+    <div class="pbl">Access Code Generator</div>
+    <div class="fg3">
+      <div class="fg"><label>Role Type</label><input type="text" id="gen-role" value="member" placeholder="member | admin | core | director"></div>
+      <div class="fg"><label>Expiry Date</label><input type="text" id="gen-exp" placeholder="YYYY-MM-DD"></div>
+      <div class="fg"><label>Assigned By</label><input type="text" id="gen-by" placeholder="e.g. Core Team"></div>
+    </div>
+    <div class="br"><button class="btn btn-k btn-sm" onclick="genAccessCode()">Generate Code</button></div>
+    <table class="rt" style="margin-top:12px;"><thead><tr><th>Code</th><th>Role</th><th>Expiry</th><th>Assigned By</th><th></th></tr></thead><tbody id="ac-list"></tbody></table>
+  </div>
+  <table class="rt"><thead><tr><th>Level</th><th>Role</th><th>Name</th><th></th></tr></thead><tbody id="lb"></tbody></table>
+  <div class="dvd"></div>
+  <div><div class="chip">Admin Only</div><div class="chip">Manual Entry</div><div class="chip">Template Locked</div></div>
+</div>
+</div><!-- /main -->
+</div><!-- /shell -->
+</div><!-- /rs-nda-root -->
+
+<script>
+/* ════════════════════════════════════════════════════
+   CONFIG — Edit to connect your backend
+════════════════════════════════════════════════════ */
+const CONFIG = {
+  API_BASE: '/api',
+  BACKEND_LIVE: false,
+  AUTH_TOKEN: '',
+  ENDPOINTS: {
+    SUBMIT_NDA:  '/nda/submit',
+    LIST_NDAS:   '/nda/list',
+    GET_NDA:     '/nda/',
+    SEND_OTP:    '/auth/send-otp',
+    VERIFY_OTP:  '/auth/verify-otp',
+    SEND_EMAIL:  '/email/send-nda',
+  }
+};
+
+/* ════════════════════════════════════════════════════
+   LOGBOOK
+════════════════════════════════════════════════════ */
+let logbook = [
+  {level:'Signal Chief Officers',role:'Chief Signal Officer — Operations',name:'Right Signal HQ'},
+  {level:'Signal Chief Officers',role:'Chief Signal Officer — Strategy',name:'Right Signal HQ'},
+  {level:'Signal Director',role:'Signal Director',name:'Right Signal HQ'},
+  {level:'Signal Board Members',role:'Signal Board Member',name:'Right Signal HQ'},
+  {level:'Continent Signal Head',role:'Continent Signal Head — Asia',name:'Vikram Nair'},
+  {level:'Continent Signal Head',role:'Continent Signal Head — Europe',name:'Sofia Delacroix'},
+  {level:'Continent Signal Head',role:'Continent Signal Head — Americas',name:'Carlos Mendez'},
+  {level:'Country Signal Head',role:'Country Signal Head — India',name:'Arjun Mehta'},
+  {level:'Country Signal Head',role:'Country Signal Head — UAE',name:'Layla Al-Hassan'},
+  {level:'Country Signal Head',role:'Country Signal Head — UK',name:'James Whitfield'},
+  {level:'State / Province Signal Head',role:'State Signal Head — Karnataka',name:'Priya Sharma'},
+  {level:'State / Province Signal Head',role:'State Signal Head — Maharashtra',name:'Rohan Desai'},
+  {level:'Community Signal Manager',role:'Community Signal Manager — Bengaluru',name:'Anjali Rao'},
+  {level:'Community Signal Manager',role:'Community Signal Manager — Mumbai',name:'Siddharth Kulkarni'},
+];
+
+/* ════════════════════════════════════════════════════
+   STATE
+════════════════════════════════════════════════════ */
+let S={
+  signer:{name:'',email:'',org:'',country:'',role:'',phone:''},
+  otpV:false,
+  pA:{role:'',name:'',org:'',email:''},
+  pB:{role:'',name:'',org:'',email:''},
+  ctx:'',agreed:false,sigA:null,sigB:null,
+  locked:false,records:[],upSig:null,sp:'a',
+  cDate:null,id:null,isPartyB:false,
+  isRestricted:false,accessValidated:false,accessRole:'member',accessCode:'',
+};
+const adminRoles=new Set(['admin','core','director']);
+let generatedCodes=[];
+
+let drw=false,lx=0,ly=0,dcanv,dctx;
+
+function isAdminAccess(){
+  return adminRoles.has((S.accessRole||'').toLowerCase());
+}
+
+function enforceRoleVisibility(){
+  const showMgmt=isAdminAccess();
+  ['records','admin'].forEach((k)=>{
+    const p=g('panel-'+k); if(p) p.style.display=showMgmt?'':'none';
+    const n=g('nav-'+k); if(n) n.style.display=showMgmt?'':'none';
+  });
+  if(g('btn-view-records')) g('btn-view-records').style.display=showMgmt?'inline-flex':'none';
+}
+
+/* ════════════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded',()=>{
+  g('id-date-hdr').textContent=fd(new Date());
+  rndTbl();
+  rndAccessCodes();
+  initC();
+  chkConn();
+  checkShareLink(); // detect if opened via share link
+  enforceRoleVisibility();
+  if(!S.isPartyB) gp('access');
+});
+
+/* ════════════════════════════════════════════════════
+   API
+════════════════════════════════════════════════════ */
+async function api(ep,method='GET',body=null){
+  const h={'Content-Type':'application/json'};
+  if(CONFIG.AUTH_TOKEN) h['Authorization']='Bearer '+CONFIG.AUTH_TOKEN;
+  const o={method,headers:h};
+  if(body) o.body=JSON.stringify(body);
+  const r=await fetch(CONFIG.API_BASE+ep,o);
+  if(!r.ok) throw new Error('API '+r.status);
+  return r.json();
+}
+
+async function chkConn(){
+  if(!CONFIG.BACKEND_LIVE){g('cdot').className='csd off';g('clbl').textContent='Demo Mode';return;}
+  try{await fetch(CONFIG.API_BASE+'/health');g('cdot').className='csd on';g('clbl').textContent='Connected';}
+  catch{g('cdot').className='csd off';g('clbl').textContent='Offline';}
+}
+
+/* ════════════════════════════════════════════════════
+   NAV
+════════════════════════════════════════════════════ */
+function gp(n){
+  if(!S.accessValidated && n!=='access'){
+    n='access';
+  }
+  if((n==='records'||n==='admin') && !isAdminAccess()){
+    n='nda';
+  }
+  if(S.isRestricted){
+    const blocked=['identity','setup','records','admin','done'];
+    if(blocked.includes(n)) n='nda';
+  }
+  document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sni').forEach(x=>x.classList.remove('active'));
+  g('panel-'+n).classList.add('active');
+  if(g('nav-'+n)) g('nav-'+n).classList.add('active');
+  if(n==='records') loadRecs();
+  g('sb').classList.remove('mo');
+  g('mov').style.display='none';
+}
+function tmob(){
+  const open=g('sb').classList.toggle('mo');
+  g('mov').style.display=open?'block':'none';
+}
+
+function getLocalAccessCodePayload(code){
+  const localCodes={
+    'RS-ADMIN-CORE-2026':{
+      valid:true,role:'admin',restricted:false,assignedBy:'core_team',
+      context:'Right Signal Admin NDA Test',partyB:{}
+    },
+    'RS-DIRECTOR-ACCESS-2026':{
+      valid:true,role:'director',restricted:false,assignedBy:'director_office',
+      context:'Right Signal Director NDA Test',partyB:{}
+    },
+    'RS-MEMBER-SIGN-2026':{
+      valid:true,role:'member',restricted:true,assignedBy:'community_admin',
+      context:'Right Signal Contributor Onboarding',
+      partyB:{name:'Voluntary Contributor',role:'Community Contributor',email:'',org:''}
+    },
+    'RS-ADMIN-TEST-ALPHA':{
+      valid:true,role:'admin',restricted:false,assignedBy:'core_team',
+      context:'Right Signal Admin QA Flow',partyB:{}
+    },
+    'ADMINRS26':{
+      valid:true,role:'core',restricted:false,assignedBy:'core_team',
+      context:'Right Signal Core Team Secure Access',partyB:{}
+    },
+    'RS-MEMBER-TEST-BETA':{
+      valid:true,role:'member',restricted:true,assignedBy:'community_admin',
+      context:'Right Signal Contributor NDA Test',
+      partyB:{name:'Contributor Beta',role:'Voluntary Contributor',email:'',org:''}
+    }
+  };
+  return localCodes[code]||null;
+}
+
+function applyValidatedAccess(code,res){
+  S.accessValidated=true;
+  S.accessCode=code;
+  S.accessRole=(res.role||'member').toLowerCase();
+  S.isRestricted=!!res.restricted;
+  S.signer.role=S.accessRole;
+  enforceRoleVisibility();
+
+  if(S.isRestricted){
+    applyRestrictedAccess(res);
+    gp('nda');
+    toast('Access granted: restricted signing mode','ok');
+    return;
+  }
+  showFullPanels();
+  gp('identity');
+  toast('Access granted: full admin mode','ok');
+}
+
+async function validateAccessCode(){
+  const code=g('access-code').value.trim().toUpperCase();
+  if(!code){
+    g('access-error').textContent='Enter an access code.';
+    g('access-error').style.display='block';
+    return;
+  }
+
+  g('verify-code-btn').disabled=true;
+  g('verify-code-text').textContent='Validating...';
+  g('verify-code-sp').style.display='inline-block';
+  g('access-error').style.display='none';
+
+  try{
+    let res=null;
+    try{
+      res=await api('/validate-code','POST',{code});
+    }catch{
+      res=getLocalAccessCodePayload(code);
+    }
+    if(!res||!res.valid){
+      res=getLocalAccessCodePayload(code);
+    }
+    if(!res||!res.valid){
+      throw new Error('invalid');
+    }
+    applyValidatedAccess(code,res);
+  }catch(e){
+    g('access-error').textContent='Invalid or expired code.';
+    g('access-error').style.display='block';
+    toast('Invalid or expired code','err');
+  }finally{
+    g('verify-code-btn').disabled=false;
+    g('verify-code-text').textContent='Verify & Continue';
+    g('verify-code-sp').style.display='none';
+  }
+}
+
+function showFullPanels(){
+  ['identity','setup','nda','done','records','admin'].forEach((k)=>{
+    const p=g('panel-'+k); if(p) p.style.display='';
+    const n=g('nav-'+k); if(n) n.style.display='';
+  });
+  enforceRoleVisibility();
+  if(g('panel-access')) g('panel-access').style.display='none';
+  if(g('nav-access')) g('nav-access').style.display='none';
+}
+
+function hideOtherPanels(){
+  ['identity','setup','done','records','admin'].forEach((k)=>{
+    const p=g('panel-'+k); if(p) p.style.display='none';
+    const n=g('nav-'+k); if(n) n.style.display='none';
+  });
+  if(g('panel-access')) g('panel-access').style.display='none';
+  const accessNav=g('nav-access');
+  if(accessNav) accessNav.style.display='none';
+}
+
+function applyRestrictedAccess(payload){
+  S.accessValidated=true;
+  S.isRestricted=true;
+  hideOtherPanels();
+
+  S.pA={
+    role:'Core Team / Admin',
+    name:'Right Signal',
+    org:'Right Signal',
+    email:'',
+  };
+
+  const pb=payload.partyB||{};
+  S.pB={
+    role:pb.role||'Voluntary Contributor',
+    name:pb.name||'New Member',
+    org:pb.org||'',
+    email:pb.email||'',
+  };
+
+  S.ctx=payload.context||'Right Signal Community Onboarding';
+  S.cDate=new Date();
+  S.agreed=false;
+  S.sigA='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NDAiIGhlaWdodD0iMTE2Ij48dGV4dCB4PSIyMCIgeT0iNzAiIGZvbnQtc2l6ZT0iMzIiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhIiBmaWxsPSIjMGExMDBhIj5SaWdodCBTaWduYWwgQ29yZSBUZWFtPC90ZXh0Pjwvc3ZnPg==';
+  S.sigB=null;
+  S.locked=false;
+  S.isPartyB=true;
+
+  rfNDA();
+  g('sig-a-i').src=S.sigA;
+  g('sig-a-i').style.display='block';
+  g('sig-a-p').style.display='none';
+  ssp('b');
+  g('pt-a').style.display='none';
+  g('btn-back-setup').style.display='none';
+  g('view-banner').style.display='none';
+  g('vh').textContent='Agreement checkbox + your signature required.';
+
+  const stepBlocks=g('panel-nda').querySelectorAll('.steps .stp');
+  stepBlocks.forEach((el,idx)=>{
+    el.style.display=idx===2?'flex':'none';
+  });
+}
+
+/* ════════════════════════════════════════════════════
+   SHARE LINK — ENCODE / DECODE
+   Encodes the full NDA state into URL hash so Party B
+   can open it in any browser, anywhere in the world.
+════════════════════════════════════════════════════ */
+function buildShareLink(){
+  const payload={
+    v:1,
+    pA:{...S.pA},pB:{...S.pB},ctx:S.ctx,
+    sigA:S.sigA,
+    ds:S.cDate?S.cDate.toISOString():new Date().toISOString(),
+    id:S.id,
+    signer:{country:S.signer.country,phone:S.signer.phone},
+  };
+  try{
+    const json=JSON.stringify(payload);
+    const b64=btoa(unescape(encodeURIComponent(json)));
+    const base=window.location.href.split('#')[0];
+    return base+'#share='+b64;
+  }catch(e){
+    return window.location.href.split('#')[0]+'#share=error';
+  }
+}
+
+function checkShareLink(){
+  const hash=window.location.hash;
+  if(!hash.startsWith('#share=')) return;
+  const b64=hash.slice(7);
+  try{
+    const json=decodeURIComponent(escape(atob(b64)));
+    const d=JSON.parse(json);
+    // Restore Party A's data
+    S.pA=d.pA||{}; S.pB=d.pB||{};
+    S.ctx=d.ctx||'';
+    S.sigA=d.sigA||null;
+    S.cDate=d.ds?new Date(d.ds):new Date();
+    S.id=d.id||null;
+    S.isPartyB=true;
+    S.accessValidated=true;
+    S.accessRole='member';
+    S.isRestricted=true;
+    S.signer={...S.signer,...(d.signer||{})};
+    enforceRoleVisibility();
+    // Show NDA with Party A pre-signed, Party B needs to sign
+    rfNDA();
+    // Show Party A sig
+    if(S.sigA){
+      g('sig-a-i').src=S.sigA; g('sig-a-i').style.display='block';
+      g('sig-a-p').style.display='none';
+    }
+    // Default signing to Party B
+    ssp('b');
+    g('view-banner').style.display='flex';
+    // Jump to sign panel
+    gp('nda');
+    toast('NDA loaded — please add your signature as Party B','ok');
+    // Clear hash so it doesn't re-trigger
+    history.replaceState(null,'',window.location.pathname);
+  }catch(e){
+    toast('Invalid share link','err');
+  }
+}
+
+function copyLink(){
+  const link=g('share-link-txt').textContent;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(link).then(()=>toast('Link copied to clipboard!','ok'));
+  } else {
+    const ta=document.createElement('textarea');
+    ta.value=link; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    toast('Link copied!','ok');
+  }
+}
+
+/* ════════════════════════════════════════════════════
+   STEP 1 — IDENTITY
+════════════════════════════════════════════════════ */
+function submitIdentity(){
+  const name=g('id-name').value.trim();
+  const email=g('id-email').value.trim();
+  const country=g('id-country').value.trim();
+  const role=g('id-role').value.trim();
+  if(!name){toast('Enter your full name','err');return;}
+  if(!email||!email.includes('@')){toast('Enter a valid email','err');return;}
+  if(!country){toast('Enter your country','err');return;}
+  if(!role){toast('Enter your role','err');return;}
+  S.signer={name,email,org:g('id-org').value.trim(),country,role,phone:g('id-phone').value.trim()};
+  if(CONFIG.BACKEND_LIVE){sendOTP(email);}
+  else{S.otpV=true;g('pa-name').value=name;g('pa-role').value=role;toast('Identity saved — demo mode (OTP skipped)','ok');gp('setup');}
+}
+
+async function sendOTP(email){
+  try{await api(CONFIG.ENDPOINTS.SEND_OTP,'POST',{email});openOTP(email);}
+  catch{toast('Could not send OTP. Check API config.','err');}
+}
+function openOTP(em){
+  g('otp-msg').textContent=`A 6-digit code was sent to ${em}. Enter it below.`;
+  g('otp-modal').classList.add('open');
+  g('otp-inp').querySelectorAll('input').forEach(i=>i.value='');
+  g('otp-inp').querySelector('input').focus();
+}
+function closeOTP(){g('otp-modal').classList.remove('open');}
+function otpN(el,i){el.value=el.value.slice(-1);if(el.value&&i<5){g('otp-inp').querySelectorAll('input')[i+1].focus();}}
+async function verifyOTP(){
+  const code=Array.from(g('otp-inp').querySelectorAll('input')).map(i=>i.value).join('');
+  if(code.length<6){g('otp-err').style.display='block';g('otp-err').textContent='Enter all 6 digits.';return;}
+  g('otp-btn').disabled=true;
+  try{
+    await api(CONFIG.ENDPOINTS.VERIFY_OTP,'POST',{email:S.signer.email,code});
+    S.otpV=true; closeOTP();
+    g('pa-name').value=S.signer.name; g('pa-role').value=S.signer.role;
+    toast('Email verified ✓','ok'); gp('setup');
+  }catch{g('otp-err').style.display='block';g('otp-err').textContent='Invalid code.';}
+  finally{g('otp-btn').disabled=false;}
+}
+async function resendOTP(){await sendOTP(S.signer.email);toast('Code resent');}
+
+/* ════════════════════════════════════════════════════
+   STEP 2 — LOAD NDA
+════════════════════════════════════════════════════ */
+function loadNDA(){
+  if(S.isRestricted){
+    gp('nda');
+    return;
+  }
+  const ar=g('pa-role').value.trim(),an=g('pa-name').value.trim();
+  const br=g('pb-role').value.trim(),bn=g('pb-name').value.trim();
+  const cx=g('nda-ctx').value.trim();
+  if(!ar){toast('Enter your role','err');return;}
+  if(!an){toast('Your name is missing','err');return;}
+  if(!br){toast('Enter counter-party role','err');return;}
+  if(!bn){toast('Enter counter-party name','err');return;}
+  if(!cx){toast('Enter agreement context','err');return;}
+  if(ar===br&&an===bn){toast('Parties cannot be identical','err');return;}
+  S.pA={role:ar,name:an,org:g('id-org').value.trim(),email:S.signer.email};
+  S.pB={role:br,name:bn,org:g('pb-org').value.trim(),email:g('pb-email').value.trim()};
+  S.ctx=cx; S.agreed=false; S.sigA=null; S.sigB=null;
+  S.locked=false; S.cDate=new Date(); S.isPartyB=false;
+  rfNDA(); ssp('a'); g('view-banner').style.display='none';
+  gp('nda'); chkRdy();
+  toast('NDA template loaded');
+}
+
+function rfNDA(){
+  const ds=fd(S.cDate||new Date());
+  g('nda-hdr-date').textContent=ds;
+  g('nda-hd').textContent=ds; g('nc-d').textContent=ds;
+  g('da-r').textContent=S.pA.role; g('da-n').textContent=S.pA.name; g('da-o').textContent=S.pA.org||'';
+  g('db-r').textContent=S.pB.role; g('db-n').textContent=S.pB.name; g('db-o').textContent=S.pB.org||'';
+  g('nc-af').textContent=`${S.pA.name} (${S.pA.role})`;
+  g('nc-bf').textContent=`${S.pB.name} (${S.pB.role})`;
+  g('nc-c').textContent=S.ctx;
+  g('nc-ar').textContent=S.pA.role; g('nc-br').textContent=S.pB.role;
+  g('slb-a').textContent=`Party A — ${S.pA.role}`;
+  g('slb-b').textContent=`Party B — ${S.pB.role}`;
+  g('sig-a-n').textContent=S.pA.name; g('sig-b-n').textContent=S.pB.name;
+  g('sig-a-d').textContent='Date: '+ds; g('sig-b-d').textContent='Date: '+ds;
+  g('nda-hs').textContent='Status: Pending Signatures';
+  setBdg('pend','Pending');
+  g('agr-cb').checked=false; g('agr-cb').disabled=false;
+  rSig('a'); rSig('b');
+  g('lov').style.display='none';
+  g('sig-ctrl').style.display='block';
+  clrC();
+}
+
+function rSig(p){
+  g(`sig-${p}-i`).src=''; g(`sig-${p}-i`).style.display='none';
+  g(`sig-${p}-p`).style.display='flex';
+}
+
+/* ════════════════════════════════════════════════════
+   SIGNING
+════════════════════════════════════════════════════ */
+function hAgr(cb){S.agreed=cb.checked;chkRdy();}
+function ssp(p){S.sp=p;g('pt-a').classList.toggle('active',p==='a');g('pt-b').classList.toggle('active',p==='b');}
+function sstab(n,el){document.querySelectorAll('.stb').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.spl').forEach(p=>p.classList.remove('active'));el.classList.add('active');g('spl-'+n).classList.add('active');}
+
+function initC(){
+  dcanv=g('dc'); if(!dcanv)return;
+  dctx=dcanv.getContext('2d');
+  dctx.strokeStyle='#0a0a0a';dctx.lineWidth=2;dctx.lineCap='round';dctx.lineJoin='round';
+  dcanv.addEventListener('mousedown',e=>{drw=true;[lx,ly]=[e.offsetX,e.offsetY];});
+  dcanv.addEventListener('mousemove',e=>{if(!drw)return;dctx.beginPath();dctx.moveTo(lx,ly);dctx.lineTo(e.offsetX,e.offsetY);dctx.stroke();[lx,ly]=[e.offsetX,e.offsetY];});
+  dcanv.addEventListener('mouseup',()=>drw=false);
+  dcanv.addEventListener('mouseleave',()=>drw=false);
+  const touch=(e,t)=>{e.preventDefault();const tc=e.touches[0],r=dcanv.getBoundingClientRect();const ox=tc.clientX-r.left,oy=tc.clientY-r.top;if(t==='s'){drw=true;[lx,ly]=[ox,oy];}else{if(!drw)return;dctx.beginPath();dctx.moveTo(lx,ly);dctx.lineTo(ox,oy);dctx.stroke();[lx,ly]=[ox,oy];}};
+  dcanv.addEventListener('touchstart',e=>touch(e,'s'),{passive:false});
+  dcanv.addEventListener('touchmove',e=>touch(e,'m'),{passive:false});
+  dcanv.addEventListener('touchend',()=>drw=false);
+}
+function clrC(){if(dctx)dctx.clearRect(0,0,dcanv.width,dcanv.height);}
+function cEmpty(){return !dctx||!dctx.getImageData(0,0,dcanv.width,dcanv.height).data.some(d=>d!==0);}
+function applyDrawn(){if(cEmpty()){toast('Draw your signature first','err');return;}aSig(dcanv.toDataURL('image/png'));}
+
+function hUpload(input){
+  if(!input.files||!input.files[0])return;
+  const r=new FileReader();
+  r.onload=e=>{S.upSig=e.target.result;g('upimg').src=e.target.result;g('uprev').style.display='block';};
+  r.readAsDataURL(input.files[0]);
+}
+function applyUploaded(){if(!S.upSig){toast('Upload a signature first','err');return;}aSig(S.upSig);}
+
+function aSig(d){
+  const p=S.sp;
+  if(p==='a')S.sigA=d; else S.sigB=d;
+  g(`sig-${p}-i`).src=d; g(`sig-${p}-i`).style.display='block';
+  g(`sig-${p}-p`).style.display='none';
+  chkRdy(); toast('Signature applied — Party '+p.toUpperCase(),'ok');
+}
+
+/* ════════════════════════════════════════════════════
+   VALIDATION
+════════════════════════════════════════════════════ */
+function canDo(){
+  if(S.isRestricted){
+    return S.agreed&&S.sigB&&S.pA.role&&S.pA.name&&S.pB.role&&S.pB.name;
+  }
+  return S.agreed&&S.sigA&&S.sigB&&S.pA.role&&S.pA.name&&S.pB.role&&S.pB.name;
+}
+function chkRdy(){
+  const ok=canDo();
+  g('btn-lock').style.display=(!S.locked&&ok)?'inline-flex':'none';
+  g('btn-pdf').disabled=!ok;
+  g('vh').style.display=ok?'none':'block';
+}
+
+/* ════════════════════════════════════════════════════
+   LOCK, SAVE & SUBMIT
+════════════════════════════════════════════════════ */
+async function lockAndSubmit(){
+  if(!canDo()){toast('Complete all requirements first','err');return;}
+  g('lbtxt').textContent='Saving…'; g('lbsp').style.display='inline-block'; g('btn-lock').disabled=true;
+  const ndaId='RS-NDA-'+Date.now(); S.id=ndaId;
+
+  const payload={
+    id:ndaId,template_id:'MASTER_NDA',
+    party_a:{name:S.pA.name,role:S.pA.role,email:S.pA.email,org:S.pA.org,country:S.signer.country,phone:S.signer.phone,signature:S.sigA},
+    party_b:{name:S.pB.name,role:S.pB.role,email:S.pB.email,org:S.pB.org,signature:S.sigB},
+    context:S.ctx,agreed:true,otp_verified:S.otpV,
+    signed_at:new Date().toISOString(),status:'locked',
+    access_code:S.accessCode,access_role:S.accessRole,access_mode:S.isRestricted?'restricted':'full',
+  };
+
+  if(CONFIG.BACKEND_LIVE){
+    try{
+      const res=await api(CONFIG.ENDPOINTS.SUBMIT_NDA,'POST',payload);
+      S.id=res.id||ndaId;
+      try{await api(CONFIG.ENDPOINTS.SEND_EMAIL,'POST',{nda_id:S.id,to:[S.pA.email,S.pB.email].filter(Boolean)});}
+      catch(e){console.warn('Email failed',e);}
+    }catch(e){toast('Backend save failed — saved locally','err');console.error(e);}
+  }
+
+  S.locked=true;
+  g('lov').style.display='block'; g('sig-ctrl').style.display='none';
+  g('agr-cb').disabled=true; g('nda-hs').textContent='Status: Signed & Locked';
+  setBdg('lock','Locked');
+  S.records.unshift({...payload,ds:fd(S.cDate||new Date())});
+
+  // Build share link
+  const link=buildShareLink();
+  g('share-link-txt').textContent=link;
+
+  // Done panel
+  g('dn-id').textContent=S.id; g('dn-ds').textContent=fd(new Date());
+  g('dn-a').textContent=`${S.pA.name} · ${S.pA.role}`;
+  g('dn-b').textContent=`${S.pB.name} · ${S.pB.role}`;
+  g('dn-ctx').textContent=S.ctx; g('dn-date').textContent=fd(new Date());
+
+  g('lbtxt').textContent='Lock, Save & Submit'; g('lbsp').style.display='none'; g('btn-lock').disabled=false;
+  if(S.isRestricted){
+    g('btn-pdf').disabled=false;
+    toast('Agreement signed and locked. Download PDF now.','ok');
+    gp('nda');
+    return;
+  }
+  gp('done'); toast('Agreement signed, locked & saved!','ok');
+}
+
+/* ════════════════════════════════════════════════════
+   PDF DOWNLOAD
+   Renders a pixel-perfect A4 document matching the
+   Right Signal logbook aesthetic — professional,
+   structured, properly padded, print-optimised.
+════════════════════════════════════════════════════ */
+function dlPDF(){
+  if(!canDo()&&!S.locked){toast('Sign both parties first','err');return;}
+
+  const ds   = fd(S.cDate||new Date());
+  const esc  = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const sigImg = src => src
+    ? `<img src="${src}" alt="Signature" style="display:block;max-width:100%;max-height:100%;object-fit:contain;object-position:center;">`
+    : '';
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Right Signal NDA — ${esc(S.pA.name)} &amp; ${esc(S.pB.name)}</title>
+<style>
+
+/* ── RESET & PAGE ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+@page {
+  size: A4 portrait;
+  margin: 20mm 22mm 20mm 22mm;
+}
+
+html, body {
+  width: 100%;
+  background: #ffffff;
+  color: #0a0a0a;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 10pt;
+  line-height: 1.70;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ── RUNNING HEADER (repeats on every page via fixed positioning in print) ── */
+.page-wrap {
+  width: 100%;
+  max-width: 170mm; /* A4 minus margins */
+  margin: 0 auto;
+}
+
+/* ── DOCUMENT HEADER ── */
+.doc-header {
+  display: table;
+  width: 100%;
+  border-bottom: 2pt solid #0a0a0a;
+  padding-bottom: 10pt;
+  margin-bottom: 18pt;
+}
+.doc-header-left  { display: table-cell; vertical-align: top; }
+.doc-header-right { display: table-cell; vertical-align: top; text-align: right; }
+
+.brand-name {
+  font-family: Georgia, serif;
+  font-size: 18pt;
+  font-weight: 900;
+  color: #0a0a0a;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.brand-sub {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 6pt;
+  letter-spacing: 0.22em;
+  color: #c8c8c4;
+  text-transform: uppercase;
+  margin-top: 3pt;
+}
+.doc-meta {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 6.5pt;
+  color: #c8c8c4;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  line-height: 1.9;
+}
+
+/* ── TITLE BLOCK ── */
+.nda-title-block {
+  text-align: center;
+  margin-bottom: 18pt;
+  padding-bottom: 16pt;
+  border-bottom: 1pt solid #e8e8e6;
+}
+.nda-title {
+  font-family: Georgia, serif;
+  font-size: 15pt;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  color: #0a0a0a;
+  margin-bottom: 5pt;
+}
+.nda-subtitle {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 6.5pt;
+  letter-spacing: 0.28em;
+  color: #c8c8c4;
+  text-transform: uppercase;
+}
+
+/* ── PARTIES BLOCK ── */
+.parties-block {
+  display: table;
+  width: 100%;
+  background: #f2f2f0;
+  border-left: 3pt solid #0a0a0a;
+  margin: 14pt 0 18pt 0;
+}
+.parties-inner {
+  display: table;
+  width: 100%;
+  padding: 14pt 16pt;
+}
+.party-cell {
+  display: table-cell;
+  vertical-align: top;
+  width: 46%;
+}
+.party-sep-cell {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  width: 8%;
+  font-family: 'Courier New', monospace;
+  font-size: 9pt;
+  color: #c8c8c4;
+}
+.party-tag {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 6pt;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #4a4a48;
+  margin-bottom: 4pt;
+}
+.party-role {
+  font-family: Georgia, serif;
+  font-size: 11.5pt;
+  font-weight: 700;
+  color: #0a0a0a;
+  line-height: 1.25;
+  margin-bottom: 3pt;
+}
+.party-name {
+  font-family: Georgia, serif;
+  font-size: 9.5pt;
+  font-weight: 300;
+  color: #4a4a48;
+  margin-bottom: 2pt;
+}
+.party-org {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 5.5pt;
+  color: #c8c8c4;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* ── PREAMBLE ── */
+.preamble {
+  font-size: 9.5pt;
+  font-weight: 300;
+  line-height: 1.75;
+  color: #1a1a1a;
+  margin-bottom: 16pt;
+  padding: 12pt 14pt;
+  background: #f9f9f8;
+  border-left: 2pt solid #c8c8c4;
+}
+.preamble strong { font-weight: 700; color: #0a0a0a; }
+
+/* ── SECTION DIVIDER ── */
+.section-divider {
+  width: 100%;
+  height: 1pt;
+  background: #e8e8e6;
+  margin: 12pt 0;
+}
+
+/* ── CLAUSE ── */
+.clause { margin-bottom: 13pt; }
+.clause-head {
+  display: table;
+  width: 100%;
+  margin-bottom: 5pt;
+}
+.clause-num {
+  display: table-cell;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 6.5pt;
+  color: #c8c8c4;
+  letter-spacing: 0.1em;
+  vertical-align: top;
+  padding-top: 2pt;
+  width: 24pt;
+  white-space: nowrap;
+}
+.clause-title {
+  display: table-cell;
+  font-family: Georgia, serif;
+  font-size: 9.5pt;
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: 0.01em;
+  vertical-align: top;
+}
+.clause-body {
+  padding-left: 24pt;
+  font-size: 9pt;
+  font-weight: 300;
+  color: #1a1a1a;
+  line-height: 1.78;
+}
+.clause-body strong { font-weight: 700; color: #0a0a0a; }
+
+/* ── PAGE BREAK UTILITY ── */
+.page-break { page-break-before: always; }
+.no-break   { page-break-inside: avoid; }
+
+/* ── SIGNATURE PAGE ── */
+.sig-page-header {
+  text-align: center;
+  margin-bottom: 6pt;
+}
+.sig-page-title {
+  font-family: Georgia, serif;
+  font-size: 16pt;
+  font-weight: 900;
+  color: #0a0a0a;
+  letter-spacing: -0.01em;
+}
+.sig-page-rule {
+  width: 100%;
+  height: 2pt;
+  background: #0a0a0a;
+  margin: 8pt 0 6pt 0;
+}
+.sig-page-date {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 6.5pt;
+  letter-spacing: 0.22em;
+  color: #c8c8c4;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 20pt;
+}
+
+/* ── EXECUTION CONFIRMATION ── */
+.execution-confirm {
+  background: #f2f2f0;
+  border-left: 3pt solid #0a0a0a;
+  padding: 11pt 14pt;
+  font-size: 8.5pt;
+  font-weight: 300;
+  line-height: 1.68;
+  color: #1a1a1a;
+  margin-bottom: 22pt;
+}
+
+/* ── SIGNATURE BLOCKS — table layout for reliable PDF rendering ── */
+.sig-table {
+  display: table;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 24pt 0;
+  margin-bottom: 20pt;
+}
+.sig-col {
+  display: table-cell;
+  vertical-align: top;
+  width: 50%;
+}
+.sig-col-gap {
+  display: table-cell;
+  width: 24pt;
+}
+.sig-col-tag {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 6pt;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #4a4a48;
+  margin-bottom: 6pt;
+  padding-bottom: 4pt;
+  border-bottom: 1pt solid #e8e8e6;
+}
+.sig-box {
+  width: 100%;
+  height: 72pt;
+  background: #f8f8f6;
+  border: 1pt dashed #c8c8c4;
+  margin-bottom: 9pt;
+  display: block;
+  overflow: hidden;
+  position: relative;
+}
+.sig-box img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+.sig-empty {
+  width: 100%;
+  height: 72pt;
+  background: #f8f8f6;
+  border: 1pt dashed #c8c8c4;
+  margin-bottom: 9pt;
+}
+.sig-name-line {
+  font-family: Georgia, serif;
+  font-size: 11pt;
+  font-weight: 300;
+  color: #0a0a0a;
+  border-bottom: 1pt solid #0a0a0a;
+  padding-bottom: 3pt;
+  margin-bottom: 6pt;
+  min-height: 18pt;
+}
+.sig-detail {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 6pt;
+  color: #c8c8c4;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.9;
+}
+.sig-detail .label { color: #4a4a48; }
+
+/* ── DOCUMENT FOOTER ── */
+.doc-footer {
+  display: table;
+  width: 100%;
+  border-top: 1pt solid #e8e8e6;
+  padding-top: 8pt;
+  margin-top: 20pt;
+}
+.doc-footer-left   { display: table-cell; text-align: left;   }
+.doc-footer-center { display: table-cell; text-align: center; }
+.doc-footer-right  { display: table-cell; text-align: right;  }
+.doc-footer span {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 5.5pt;
+  color: #c8c8c4;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* ── WATERMARK ── */
+.watermark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-family: Georgia, serif;
+  font-size: 80pt;
+  font-weight: 900;
+  color: rgba(10,10,10,0.025);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: -1;
+  letter-spacing: -0.04em;
+}
+
+/* ── PRINT: hide watermark bleed, force colors ── */
+@media print {
+  .watermark { position: fixed; }
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="watermark">RIGHT SIGNAL</div>
+
+<div class="page-wrap">
+
+  <!-- ══ DOCUMENT HEADER ══ -->
+  <div class="doc-header">
+    <div class="doc-header-left">
+      <div class="brand-name">Right Signal</div>
+      <div class="brand-sub">Ecosystem Framework</div>
+    </div>
+    <div class="doc-header-right">
+      <div class="doc-meta">
+        RS — NDA — MASTER<br>
+        ${ds}<br>
+        Status: Signed &amp; Locked<br>
+        ID: ${esc(S.id||'—')}
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TITLE ══ -->
+  <div class="nda-title-block">
+    <div class="nda-title">NON-DISCLOSURE AGREEMENT</div>
+    <div class="nda-subtitle">Confidential &nbsp;&middot;&nbsp; Right Signal Ecosystem &nbsp;&middot;&nbsp; Master Template</div>
+  </div>
+
+  <!-- ══ PARTIES ══ -->
+  <div class="parties-block">
+    <div class="parties-inner">
+      <div class="party-cell">
+        <div class="party-tag">Party A</div>
+        <div class="party-role">${esc(S.pA.role)}</div>
+        <div class="party-name">${esc(S.pA.name)}</div>
+        ${S.pA.org ? `<div class="party-org">${esc(S.pA.org)}</div>` : ''}
+        ${S.signer.country ? `<div class="party-org">${esc(S.signer.country)}</div>` : ''}
+      </div>
+      <div class="party-sep-cell">&harr;</div>
+      <div class="party-cell">
+        <div class="party-tag">Party B</div>
+        <div class="party-role">${esc(S.pB.role)}</div>
+        <div class="party-name">${esc(S.pB.name)}</div>
+        ${S.pB.org ? `<div class="party-org">${esc(S.pB.org)}</div>` : ''}
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PREAMBLE ══ -->
+  <div class="preamble">
+    This Non-Disclosure Agreement (the <strong>"Agreement"</strong>) is entered into as of <strong>${ds}</strong>,
+    by and between <strong>${esc(S.pA.name)} (${esc(S.pA.role)})</strong> (<strong>"Party A"</strong>)
+    and <strong>${esc(S.pB.name)} (${esc(S.pB.role)})</strong> (<strong>"Party B"</strong>),
+    collectively referred to as the <strong>"Parties"</strong>.
+    This Agreement is entered into within the context of the Right Signal Innovation Ecosystem Framework,
+    in relation to: <strong>${esc(S.ctx)}</strong>.
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ══ CLAUSES ══ -->
+  <div class="clause no-break">
+    <div class="clause-head">
+      <div class="clause-num">1.0</div>
+      <div class="clause-title">Definition of Confidential Information</div>
+    </div>
+    <div class="clause-body">
+      "Confidential Information" means any and all non-public information disclosed by either Party to the other,
+      whether in writing, orally, electronically, or by any other means, that is designated as confidential
+      or that reasonably should be understood to be confidential given the nature of the information and
+      circumstances of disclosure. This includes, but is not limited to, business strategies, financial data,
+      technical specifications, product development roadmaps, personnel information, partnership structures,
+      and ecosystem operational frameworks developed within or for the Right Signal ecosystem.
+    </div>
+  </div>
+
+  <div class="clause no-break">
+    <div class="clause-head">
+      <div class="clause-num">2.0</div>
+      <div class="clause-title">Obligations of the Receiving Party</div>
+    </div>
+    <div class="clause-body">
+      Each Party agrees to: (a) hold all Confidential Information of the other Party in strict confidence;
+      (b) not disclose any Confidential Information to any third party without prior written consent of the
+      disclosing Party; (c) use the Confidential Information solely for the purpose of the collaboration
+      defined in this Agreement; and (d) employ at least the same degree of care to protect the Confidential
+      Information as it uses to protect its own confidential information, but in no event less than reasonable care.
+    </div>
+  </div>
+
+  <div class="clause no-break">
+    <div class="clause-head">
+      <div class="clause-num">3.0</div>
+      <div class="clause-title">Exclusions from Confidential Information</div>
+    </div>
+    <div class="clause-body">
+      The obligations of confidentiality shall not apply to information that: (a) is or becomes publicly known
+      through no act or omission of the Receiving Party; (b) was rightfully known by the Receiving Party prior
+      to disclosure; (c) is rightfully obtained from a third party without restriction; or (d) is independently
+      developed by the Receiving Party without reference to the Confidential Information.
+      Any exclusion must be demonstrable by written records.
+    </div>
+  </div>
+
+  <div class="clause no-break">
+    <div class="clause-head">
+      <div class="clause-num">4.0</div>
+      <div class="clause-title">Term &amp; Duration</div>
+    </div>
+    <div class="clause-body">
+      This Agreement shall be effective as of <strong>${ds}</strong> and shall remain in effect for
+      a period of three (3) years, unless earlier terminated by mutual written consent of the Parties.
+      Obligations regarding Confidential Information disclosed during the term shall survive termination
+      for a further period of two (2) years.
+    </div>
+  </div>
+
+  <div class="clause no-break">
+    <div class="clause-head">
+      <div class="clause-num">5.0</div>
+      <div class="clause-title">Ecosystem Role Acknowledgement</div>
+    </div>
+    <div class="clause-body">
+      <strong>${esc(S.pA.role)}</strong> and <strong>${esc(S.pB.role)}</strong> acknowledge their respective
+      roles within the Right Signal Ecosystem Framework and agree that this Agreement is consistent with their
+      responsibilities and obligations within said framework. Confidential information exchanged shall be governed
+      by the ecosystem's security and compliance framework as outlined in the Right Signal Ecosystem Framework
+      Document (RS — EFD).
+    </div>
+  </div>
+
+  <div class="clause no-break">
+    <div class="clause-head">
+      <div class="clause-num">6.0</div>
+      <div class="clause-title">Remedies</div>
+    </div>
+    <div class="clause-body">
+      Each Party acknowledges that any breach of this Agreement would result in irreparable harm and that
+      monetary damages would be an inadequate remedy. Accordingly, the non-breaching Party shall be entitled
+      to seek equitable relief, including injunction and specific performance, in addition to all other remedies
+      available at law or in equity, without the necessity of proving actual damages or posting any bond.
+    </div>
+  </div>
+
+  <div class="clause no-break">
+    <div class="clause-head">
+      <div class="clause-num">7.0</div>
+      <div class="clause-title">Governing Law &amp; Jurisdiction</div>
+    </div>
+    <div class="clause-body">
+      This Agreement shall be governed by and construed in accordance with applicable laws, consistent with
+      the jurisdiction of operation established by the Right Signal Ecosystem Framework. Any dispute arising
+      from or in connection with this Agreement shall be resolved through good-faith negotiation, then binding
+      arbitration, before resorting to litigation. This Agreement is valid and enforceable globally across all
+      jurisdictions where the Right Signal ecosystem operates.
+    </div>
+  </div>
+
+  <div class="clause no-break">
+    <div class="clause-head">
+      <div class="clause-num">8.0</div>
+      <div class="clause-title">Entire Agreement</div>
+    </div>
+    <div class="clause-body">
+      This Agreement constitutes the entire agreement between the Parties with respect to the subject matter
+      hereof and supersedes all prior discussions, negotiations, representations, or agreements relating to
+      the same. This Agreement may not be amended except in writing signed by duly authorised representatives
+      of both Parties.
+    </div>
+  </div>
+
+  <div class="clause no-break">
+    <div class="clause-head">
+      <div class="clause-num">9.0</div>
+      <div class="clause-title">Digital Execution</div>
+    </div>
+    <div class="clause-body">
+      The Parties agree that electronic signatures applied to this Agreement constitute valid and legally binding
+      signatures, equivalent in all respects to handwritten signatures. This Agreement may be executed digitally
+      and transmitted electronically, and such execution shall be deemed original. The digital record including
+      timestamps, OTP verification records, IP addresses, and email confirmations shall constitute admissible
+      evidence of execution.
+    </div>
+  </div>
+
+  <!-- ══ DOCUMENT FOOTER (page 1) ══ -->
+  <div class="doc-footer">
+    <div class="doc-footer-left"><span>Right Signal — Confidential</span></div>
+    <div class="doc-footer-center"><span>RS — NDA — MASTER — V5.0</span></div>
+    <div class="doc-footer-right"><span>All Rights Reserved &middot; 2026</span></div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SIGNATURE PAGE — new page
+  ══════════════════════════════════ -->
+  <div class="page-break"></div>
+
+  <!-- Repeat header on sig page -->
+  <div class="doc-header">
+    <div class="doc-header-left">
+      <div class="brand-name">Right Signal</div>
+      <div class="brand-sub">Ecosystem Framework</div>
+    </div>
+    <div class="doc-header-right">
+      <div class="doc-meta">
+        RS — NDA — MASTER<br>
+        ${ds}<br>
+        Signature Page<br>
+        ID: ${esc(S.id||'—')}
+      </div>
+    </div>
+  </div>
+
+  <div class="sig-page-header">
+    <div class="sig-page-title">SIGNATURES &amp; EXECUTION</div>
+  </div>
+  <div class="sig-page-rule"></div>
+  <div class="sig-page-date">Executed as of: ${ds.toUpperCase()}</div>
+
+  <div class="execution-confirm">
+    Both parties have read, understood, and agreed to be bound by all terms and conditions of this
+    Non-Disclosure Agreement, and confirm that they have the authority to enter into this Agreement
+    on behalf of the roles they represent within the Right Signal ecosystem.
+    Electronic signatures below carry full legal weight equivalent to handwritten signatures.
+  </div>
+
+  <!-- Signature blocks using table layout for reliable print rendering -->
+  <div class="sig-table">
+    <div class="sig-col">
+      <div class="sig-col-tag">Party A &nbsp;&mdash;&nbsp; ${esc(S.pA.role)}</div>
+      ${S.sigA
+        ? `<div class="sig-box">${sigImg(S.sigA)}</div>`
+        : `<div class="sig-empty"></div>`
+      }
+      <div class="sig-name-line">${esc(S.pA.name)}</div>
+      <div class="sig-detail">
+        <span class="label">DATE</span> &nbsp; ${ds}<br>
+        ${S.pA.email    ? `<span class="label">EMAIL</span> &nbsp; ${esc(S.pA.email)}<br>` : ''}
+        ${S.signer.country ? `<span class="label">COUNTRY</span> &nbsp; ${esc(S.signer.country)}<br>` : ''}
+        ${S.signer.phone   ? `<span class="label">PHONE</span> &nbsp; ${esc(S.signer.phone)}<br>` : ''}
+      </div>
+    </div>
+    <div class="sig-col-gap"></div>
+    <div class="sig-col">
+      <div class="sig-col-tag">Party B &nbsp;&mdash;&nbsp; ${esc(S.pB.role)}</div>
+      ${S.sigB
+        ? `<div class="sig-box">${sigImg(S.sigB)}</div>`
+        : `<div class="sig-empty"></div>`
+      }
+      <div class="sig-name-line">${esc(S.pB.name)}</div>
+      <div class="sig-detail">
+        <span class="label">DATE</span> &nbsp; ${ds}<br>
+        ${S.pB.email ? `<span class="label">EMAIL</span> &nbsp; ${esc(S.pB.email)}<br>` : ''}
+        ${S.pB.org   ? `<span class="label">ORG</span> &nbsp; ${esc(S.pB.org)}<br>` : ''}
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- Agreement verification block -->
+  <div class="clause no-break" style="margin-top:14pt;">
+    <div class="clause-head">
+      <div class="clause-num" style="font-size:6pt;color:#4a4a48;">&#10003;</div>
+      <div class="clause-title" style="font-size:8.5pt;color:#4a4a48;">Agreement &amp; Digital Verification</div>
+    </div>
+    <div class="clause-body" style="font-size:8pt;color:#4a4a48;line-height:1.7;">
+      Both parties confirmed agreement by checking the electronic consent box. This document was generated
+      by the Right Signal NDA Portal (MASTER_NDA). OTP email verification ${S.otpV?'was completed':'status recorded'}.
+      Agreement ID: <strong>${esc(S.id||'—')}</strong>. Signed: <strong>${ds}</strong>.
+      This document is legally binding under applicable digital signature laws.
+    </div>
+  </div>
+
+  <!-- Signature page footer -->
+  <div class="doc-footer">
+    <div class="doc-footer-left"><span>Right Signal — Confidential</span></div>
+    <div class="doc-footer-center"><span>RS — NDA — MASTER — V5.0</span></div>
+    <div class="doc-footer-right"><span>All Rights Reserved &middot; 2026</span></div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<script>
+(function(){
+  // Give images time to load, then print
+  var imgs = document.images;
+  var loaded = 0;
+  if(imgs.length === 0){ setTimeout(function(){ window.print(); }, 300); return; }
+  for(var i=0;i<imgs.length;i++){
+    if(imgs[i].complete){ loaded++; if(loaded===imgs.length){ setTimeout(function(){ window.print(); },300); } }
+    else { imgs[i].onload = imgs[i].onerror = function(){ loaded++; if(loaded===imgs.length){ setTimeout(function(){ window.print(); },300); } }; }
+  }
+})();
+<\/script>
+</body>
+</html>`;
+
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const name = `RightSignal_NDA_${(S.pA.name||'PartyA').replace(/\s+/g,'_')}_${(S.pB.name||'PartyB').replace(/\s+/g,'_')}.html`;
+
+  // Primary: open in new tab for print-to-PDF
+  const pw = window.open(url, '_blank');
+
+  // Fallback: direct file download if popup blocked
+  if (!pw) {
+    const a = document.createElement('a');
+    a.href = url; a.download = name; a.style.display = 'none';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    toast('Download started — open file and print → Save as PDF','ok');
+  } else {
+    toast('Print dialog opening — choose Save as PDF','ok');
+  }
+
+  setTimeout(() => URL.revokeObjectURL(url), 30000);
+}
+
+/* ════════════════════════════════════════════════════
+   RECORDS
+════════════════════════════════════════════════════ */
+async function loadRecs(){
+  if(!isAdminAccess()){toast('Admin access required','err');return;}
+  g('rec-sp').style.display='inline-block';
+  let recs=[];
+  if(CONFIG.BACKEND_LIVE){
+    try{const d=await api(CONFIG.ENDPOINTS.LIST_NDAS);recs=d.records||d||[];}
+    catch{toast('Server load failed — showing local','err');recs=S.records;}
+  }else recs=S.records;
+  rndRecs(recs); g('rec-sp').style.display='none';
+}
+
+function rndRecs(recs){
+  const el=g('recs-list');
+  if(!recs||!recs.length){el.innerHTML='<div class="es"><p>No signed agreements yet</p></div>';return;}
+  el.innerHTML=recs.map((r,i)=>{
+    const pa=r.party_a||r.pA||{},pb=r.party_b||r.pB||{};
+    const date=r.signed_at||r.locked_at||r.created_at||'';
+    const ds=date?new Date(date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'—';
+    return `<div class="rc" onclick="viewRec(${i})">
+      <div class="rh"><span class="ri">${r.id||'—'}</span><span class="bdg save" style="font-size:7px;">Signed</span></div>
+      <div class="rp">${pa.name||'—'} &nbsp;⟷&nbsp; ${pb.name||'—'}</div>
+      <div class="rm"><span>${pa.role||'—'}</span><span>·</span><span>${pb.role||'—'}</span><span>·</span><span>${ds}</span><span>·</span><span>${r.context||r.ctx||'—'}</span></div>
+    </div>`;
+  }).join('');
+}
+
+function viewRec(i){
+  if(!isAdminAccess()){toast('Admin access required','err');return;}
+  const r=S.records[i]; if(!r)return;
+  const pa=r.party_a||r.pA||{},pb=r.party_b||r.pB||{};
+  S.pA={role:pa.role||'',name:pa.name||'',org:pa.org||'',email:pa.email||''};
+  S.pB={role:pb.role||'',name:pb.name||'',org:pb.org||'',email:pb.email||''};
+  S.ctx=r.context||r.ctx||''; S.sigA=pa.signature||r.sigA||null; S.sigB=pb.signature||r.sigB||null;
+  S.agreed=true; S.locked=true; S.id=r.id;
+  S.cDate=new Date(r.signed_at||r.locked_at||Date.now());
+  rfNDA();
+  if(S.sigA){g('sig-a-i').src=S.sigA;g('sig-a-i').style.display='block';g('sig-a-p').style.display='none';}
+  if(S.sigB){g('sig-b-i').src=S.sigB;g('sig-b-i').style.display='block';g('sig-b-p').style.display='none';}
+  g('agr-cb').checked=true; g('agr-cb').disabled=true;
+  g('lov').style.display='block'; g('sig-ctrl').style.display='none';
+  g('nda-hs').textContent='Status: Signed & Locked'; setBdg('lock','Locked');
+  chkRdy(); gp('nda'); toast('Viewing: '+r.id);
+}
+
+/* ════════════════════════════════════════════════════
+   START NEW
+════════════════════════════════════════════════════ */
+function startNew(){
+  S={...S,signer:{name:'',email:'',org:'',country:'',role:'',phone:''},otpV:false,
+     pA:{role:'',name:'',org:'',email:''},pB:{role:'',name:'',org:'',email:''},
+     ctx:'',agreed:false,sigA:null,sigB:null,locked:false,cDate:null,id:null,isPartyB:false};
+  ['id-name','id-email','id-org','id-country','id-role','id-phone',
+   'pa-role','pa-name','pb-role','pb-name','pb-email','pb-org','nda-ctx']
+    .forEach(id=>{if(g(id))g(id).value='';});
+  setBdg('pend','Pending'); gp(isAdminAccess()?'identity':'access');
+}
+
+/* ════════════════════════════════════════════════════
+   ADMIN
+════════════════════════════════════════════════════ */
+function addE(){
+  if(!isAdminAccess()){toast('Admin access required','err');return;}
+  const n=g('nn').value.trim(),r=g('nr').value.trim(),l=g('nl').value.trim();
+  if(!n){toast('Enter a name','err');return;}if(!r){toast('Enter a role','err');return;}if(!l){toast('Enter a level','err');return;}
+  logbook.push({level:l,role:r,name:n}); g('nn').value=''; g('nr').value=''; g('nl').value='';
+  rndTbl(); toast('Added: '+r+' — '+n,'ok');
+}
+function rmE(i){
+  if(!isAdminAccess()){toast('Admin access required','err');return;}
+  logbook.splice(i,1);rndTbl();toast('Entry removed');
+}
+function rndTbl(){
+  g('lb').innerHTML=logbook.map((e,i)=>`
+    <tr>
+      <td><span class="lt">${e.level}</span></td>
+      <td>${e.role}</td><td>${e.name}</td>
+      <td><button class="btn btn-dn btn-sm" style="padding:3px 10px;font-size:7px;" onclick="rmE(${i})">Remove</button></td>
+    </tr>`).join('');
+}
+
+function genAccessCode(){
+  if(!isAdminAccess()){toast('Admin access required','err');return;}
+  const role=(g('gen-role')?.value||'member').trim().toLowerCase();
+  const assignedBy=(g('gen-by')?.value||'core_team').trim()||'core_team';
+  const exp=(g('gen-exp')?.value||'').trim();
+  if(!['member','admin','core','director'].includes(role)){toast('Role must be member/admin/core/director','err');return;}
+  if(exp && !/^\d{4}-\d{2}-\d{2}$/.test(exp)){toast('Use expiry format YYYY-MM-DD','err');return;}
+  const prefix=role==='member'?'RS-MEMBER':'RS-ADMIN';
+  const code=`${prefix}-${Math.random().toString(36).slice(2,6).toUpperCase()}-${Date.now().toString().slice(-4)}`;
+  generatedCodes.unshift({code,role,assignedBy,expiresAt:exp||'2030-12-31'});
+  rndAccessCodes();
+  toast('Access code generated','ok');
+}
+
+function rndAccessCodes(){
+  const el=g('ac-list'); if(!el) return;
+  if(!generatedCodes.length){
+    el.innerHTML='<tr><td colspan="5" style="color:#777;">No generated codes yet</td></tr>';
+    return;
+  }
+  el.innerHTML=generatedCodes.map((x,i)=>`
+    <tr>
+      <td>${x.code}</td><td>${x.role}</td><td>${x.expiresAt}</td><td>${x.assignedBy}</td>
+      <td><button class="btn btn-s btn-sm" style="padding:3px 10px;font-size:7px;" onclick="copyGenCode(${i})">Copy</button></td>
+    </tr>`).join('');
+}
+
+function copyGenCode(i){
+  const row=generatedCodes[i]; if(!row) return;
+  if(navigator.clipboard){navigator.clipboard.writeText(row.code);}
+  toast('Code copied: '+row.code,'ok');
+}
+
+/* ════════════════════════════════════════════════════
+   HELPERS
+════════════════════════════════════════════════════ */
+function g(id){return document.getElementById(id);}
+function fd(d){return d.toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});}
+function setBdg(c,t){const el=g('sbdg');el.className='bdg '+c;el.textContent=t;}
+
+let _tt;
+function toast(msg,t=''){
+  const el=g('rtt');el.textContent=msg;
+  el.className='s'+(t==='err'?' e':t==='ok'?' o':'');
+  clearTimeout(_tt);_tt=setTimeout(()=>el.className='',2800);
+}
+</script>
+</body>
+</html>
+

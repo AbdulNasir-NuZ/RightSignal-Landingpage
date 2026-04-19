@@ -13,6 +13,7 @@ import InvestorProfile from "./pages/InvestorProfile.tsx";
 import MentorSpotlight from "./pages/MentorSpotlight.tsx";
 import StartupSandbox from "./pages/StartupSandbox.tsx";
 import TeamHierarchy from "./pages/TeamHierarchy.tsx";
+import NdaRedirect from "./pages/NdaRedirect.tsx";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/investors/:slug" element={<InvestorProfile />} />
           <Route path="/mentor-spotlight" element={<MentorSpotlight />} />
           <Route path="/team-hierarchy" element={<TeamHierarchy />} />
+          <Route path="/nda" element={<NdaRedirect />} />
           <Route path="/startup-sandbox" element={<StartupSandbox />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
