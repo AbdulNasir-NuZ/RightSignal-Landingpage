@@ -24,6 +24,8 @@
 ╚══════════════════════════════════════════════════════════════════════╝
 -->
 <style>
+body, html{scrollbar-width:none;-ms-overflow-style:none;overflow-y:auto;overflow-x:hidden;}
+body::-webkit-scrollbar, html::-webkit-scrollbar{display:none;}
 #rs-nda-root *{margin:0;padding:0;box-sizing:border-box;}
 #rs-nda-root{
   --k:#0a0a0a;--w:#fafafa;--gl:#f2f2f0;--gm:#c8c8c4;--gd:#4a4a48;
@@ -39,7 +41,7 @@
   background-image:linear-gradient(var(--gr) 1px,transparent 1px),linear-gradient(90deg,var(--gr) 1px,transparent 1px);
   background-size:40px 40px;
 }
-#rs-nda-root .shell{position:relative;z-index:1;display:flex;min-height:100vh;}
+#rs-nda-root .shell{position:relative;z-index:1;display:flex;min-height:100vh;overflow:hidden;}
 
 /* ── SIDEBAR ── */
 #rs-nda-root .sb{
@@ -83,8 +85,10 @@
 #rs-nda-root .mob-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:190;}
 
 /* ── MAIN ── */
-#rs-nda-root .main{margin-left:264px;flex:1;min-height:100vh;}
-#rs-nda-root .pnl{display:none;padding:56px;min-height:100vh;}
+#rs-nda-root .main{margin-left:264px;flex:1;min-height:100vh;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;}
+#rs-nda-root .main::-webkit-scrollbar{display:none;}
+#rs-nda-root .pnl{display:none;padding:56px;min-height:100vh;max-width:1080px;margin:0 auto;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;}
+#rs-nda-root .pnl::-webkit-scrollbar{display:none;}
 #rs-nda-root .pnl.active{display:block;}
 
 /* ── HEADERS ── */
@@ -785,6 +789,10 @@ function getLocalAccessCodePayload(code){
       valid:true,role:'director',restricted:false,assignedBy:'director_office',
       context:'Right Signal Director NDA Test',partyB:{}
     },
+    'RS-DIR-2026':{
+      valid:true,role:'director',restricted:false,assignedBy:'director_office',
+      context:'Right Signal Directory NDA',partyB:{}
+    },
     'RS-MEMBER-SIGN-2026':{
       valid:true,role:'member',restricted:true,assignedBy:'community_admin',
       context:'Right Signal Contributor Onboarding',
@@ -807,7 +815,33 @@ function getLocalAccessCodePayload(code){
   return localCodes[code]||null;
 }
 
+function setPartyAIdentityFields(lock,defaults){
+  const fields=['id-name','id-email','id-org','id-country','id-role','id-phone'];
+  fields.forEach((id)=>{
+    const el=g(id);
+    if(!el) return;
+    if(lock&&defaults&&Object.prototype.hasOwnProperty.call(defaults,id)){
+      el.value=defaults[id];
+    }
+    if(lock) el.setAttribute('readonly','readonly');
+    else el.removeAttribute('readonly');
+  });
+}
+
 function applyValidatedAccess(code,res){
+  if(code==='RS-DIR-2026'){
+    setPartyAIdentityFields(true,{
+      'id-name':'Jacob Saji Modiyil',
+      'id-email':'Jacob@rightsignal.social',
+      'id-org':'Right Signal',
+      'id-country':'UAE',
+      'id-role':'Signal Directory',
+      'id-phone':'+91 97030 75247',
+    });
+  }else{
+    setPartyAIdentityFields(false);
+  }
+
   S.accessValidated=true;
   S.accessCode=code;
   S.accessRole=(res.role||'member').toLowerCase();
@@ -1957,6 +1991,7 @@ function viewRec(i){
    START NEW
 ════════════════════════════════════════════════════ */
 function startNew(){
+  setPartyAIdentityFields(false);
   S={...S,signer:{name:'',email:'',org:'',country:'',role:'',phone:''},otpV:false,
      pA:{role:'',name:'',org:'',email:''},pB:{role:'',name:'',org:'',email:''},
      ctx:'',agreed:false,sigA:null,sigB:null,locked:false,cDate:null,id:null,isPartyB:false};
