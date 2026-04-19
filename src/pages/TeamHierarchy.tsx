@@ -172,7 +172,7 @@ const TeamHierarchy = () => {
                 Team Hierarchy
               </h1>
               <Link
-                to="/nda"
+                to="/team-hierarchy/nda"
                 className="inline-flex w-fit items-center justify-center rounded-lg border border-foreground/25 bg-background px-5 py-2.5 font-display text-[11px] tracking-[0.18em] uppercase text-foreground transition-colors duration-300 hover:bg-foreground hover:text-background hover:border-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 Sign NDA
